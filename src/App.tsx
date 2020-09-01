@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Header from './components/header';
 import Game from './services/game';
@@ -27,6 +27,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <Header game={game} />
         {routes.map(route => <Route key={route.path} path={route.path} exact render={() => <route.component game={game} />} />)}
+        <Route render={() => <Redirect to="/" />} />
       </ThemeProvider>
     </Router>
   );

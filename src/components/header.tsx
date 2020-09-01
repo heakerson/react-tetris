@@ -64,8 +64,8 @@ function getHamburgerMenu(displayType: DisplayType, styles: any, anchorEl: any, 
   if (displayType === DisplayType.Mobile) {
     return  (
       <div>
-        <IconButton color="inherit" aria-label="menu" aria-controls="header-menu" aria-haspopup="true" onClick={handleClick}>
-          <MenuRoundedIcon fontSize="large" className={styles.hamburger}/>
+        <IconButton color="inherit" className={styles.hamburger} aria-label="menu" aria-controls="header-menu" aria-haspopup="true" onClick={handleClick}>
+          <MenuRoundedIcon fontSize="large"/>
         </IconButton>
         <Menu id="header-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
           {routes.map(route => <MenuItem key={route.path} onClick={() => { history.push(route.path); handleClose(); }}>{route.title}</MenuItem>)}

@@ -1,30 +1,24 @@
 import React from "react";
 import { AppBar, Toolbar, Typography, IconButton, makeStyles, Menu, MenuItem } from "@material-ui/core";
 import { NavLink, useHistory } from "react-router-dom";
-import SettingsIcon from '@material-ui/icons/Settings';
 import MenuRoundedIcon from '@material-ui/icons/MenuRounded';
-import classNames from "classnames";
 import './header.css';
 import { DisplayType } from "../models/display-type";
 import Game from "../services/game";
+import { RouteData } from "../models/route-data";
 
 function Header(props: { game: Game }) {
-  const routes = [
-    { title: 'GAME', path: '/', className: 'nav-link' },
-    { title: 'SCORES', path: '/scores', className: 'nav-link' },
-    { title: 'HOW TO', path: '/howto', className: 'nav-link' }, 
-    { title: 'SETTINGS', path: '/settings', isIcon: true, className: classNames('nav-link', 'settings-icon') }
-  ];
   const classes = getStyles();
   const { game } = props;
   const displayType = game.setGameStateListener(gameState => gameState.displayType);
   const history = useHistory();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [ anchorEl, setAnchorEl ] = React.useState<null | HTMLElement>(null);
+  const routes = game.setGameStateListener(gameState => gameState.routes);
 
-  const getLinkContent = (route: any) => {
-    return !route.isIcon ? route.title : (
+  const getLinkContent = (route: RouteData) => {
+    return !route.iconComponent ? route.title : (
       <IconButton color="inherit" aria-label="menu">
-        <SettingsIcon />
+        <route.iconComponent />
       </IconButton>
     );
   }
@@ -36,7 +30,7 @@ function Header(props: { game: Game }) {
         <Typography variant="h3"><span className='tetris-header-text'>TETRIS</span></Typography>
 
         <Typography variant="h5" className={classes.buttonRow}>
-          {routes.map(route => (
+          {routes.map((route: RouteData) => (
             displayType === DisplayType.Desktop &&
             <NavLink key={route.path} exact={true} className={route.className} activeClassName='active-nav' to={route.path}>
               {getLinkContent(route)}

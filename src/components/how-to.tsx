@@ -3,7 +3,7 @@ import Game from "../services/game";
 
 function HowTo(props: { game: Game }) {
   return (
-    <div>HowTo! Count: {'thing'}</div>
+    <div className="content-container">HowTo! Count: {'thing'}</div>
   );
 }
 

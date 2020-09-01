@@ -1,7 +1,8 @@
 import React from "react";
 import Game from "../services/game";
+import './game-container.css';
 
-function GameGrid(props: { game: Game }) {
+function GameContainer(props: { game: Game }) {
   const { game } = props;
   const tickCount1 = game.setGameStateListener(gameState => gameState.tickCount);
   const tickCount2 = game.setGameStateListener(gameState => gameState.tickCount2);
@@ -14,7 +15,7 @@ function GameGrid(props: { game: Game }) {
   });
 
   return (
-    <div>
+    <div className="content-container">
       <div>GAME GRID</div>
       <div>Tick Count: {tickCount1}</div>
       <div>Tick Count2: {tickCount2}</div>
@@ -24,4 +25,4 @@ function GameGrid(props: { game: Game }) {
   );
 }
 
-export default GameGrid;
+export default GameContainer;

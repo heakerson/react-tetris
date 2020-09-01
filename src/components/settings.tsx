@@ -4,7 +4,7 @@ import { ToggleDisplayType } from "../services/store/actions";
 
 function Settings(props: { game: Game }) {
   return (
-    <div>Settings!
+    <div className="content-container">Settings!
       <button onClick={() => props.game.dispatch(new ToggleDisplayType())}>Toggle Display Type Action</button>
     </div>
   );

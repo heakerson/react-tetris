@@ -3,14 +3,14 @@ import { GameStatus } from "../../models/game-status";
 import { RouteData } from "../../models/route-data";
 import classNames from "classnames";
 import SettingsIcon from '@material-ui/icons/Settings';
-import GameGrid from "../../components/game-grid";
+import GameContainer from "../../components/game-container";
 import Scores from "../../components/scores";
 import HowTo from "../../components/how-to";
 import Settings from "../../components/settings";
 
 export class GameState {
   routes: RouteData[] = [
-    { title: 'GAME', path: '/', component: GameGrid, className: 'nav-link' } as RouteData,
+    { title: 'GAME', path: '/', component: GameContainer, className: 'nav-link' } as RouteData,
     { title: 'SCORES', path: '/scores', component: Scores, className: 'nav-link' } as RouteData,
     { title: 'HOW TO', path: '/howto', component: HowTo, className: 'nav-link' } as RouteData, 
     { title: 'SETTINGS', path: '/settings', component: Settings, iconComponent: SettingsIcon, className: classNames('nav-link', 'settings-icon') }  as RouteData

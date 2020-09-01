@@ -4,17 +4,27 @@ import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Header from './components/header';
 import Game from './services/game';
+import { DisplayType } from './models/display-type';
+import { Paper, Theme, makeStyles, createStyles } from '@material-ui/core';
 
 const game = new Game();
 
 function App() {
-  const routes = game.setGameStateListener(state => state.routes);
+  const stateData = game.setGameStateListener(state => {
+    return {
+      routes: state.routes,
+      displayType: state.displayType
+    }
+  });
+
+  const contentClass = stateData.displayType === DisplayType.Mobile ? 'content-frame-mobile flex-column' : 'content-frame flex-column flex-fill';
 
   const theme = createMuiTheme({
     palette: {
       type: 'dark',
       primary: {
-        main: '#ff00e6',
+        // main: '#ff00e6',
+        main: '#ff0084'
       },
       secondary: {
         main: '#00dbe3'
@@ -22,12 +32,34 @@ function App() {
     },
   });
 
+  const paperStyles = makeStyles((theme: Theme) =>
+    createStyles({
+      paper: {
+        display: 'flex',
+        '& > *': {
+          margin: theme.spacing(1),
+          width: theme.spacing(16),
+          height: theme.spacing(16),
+        },
+        flexGrow: 1
+      },
+    }),
+  );
+
   return (
     <Router>
       <ThemeProvider theme={theme}>
-        <Header game={game} />
-        {routes.map(route => <Route key={route.path} path={route.path} exact render={() => <route.component game={game} />} />)}
-        <Route render={() => <Redirect to="/" />} />
+        <div className="app-container flex-column">
+          <Header game={game} />
+
+          <div className={contentClass}>
+            <Paper elevation={3} className={paperStyles().paper}>
+              {stateData.routes.map(route => <Route key={route.path} path={route.path} exact render={() => <route.component game={game} />} />)}
+              <Route render={() => <Redirect to="/" />} />
+            </Paper>
+          </div>
+        </div>
+
       </ThemeProvider>
     </Router>
   );

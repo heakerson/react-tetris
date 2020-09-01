@@ -1,0 +1,19 @@
+.nav-link {
+  color: #282c34;
+  text-decoration: none;
+  margin-left: 24px;
+  padding: 5px 5px;
+}
+
+.active-nav {
+  color: white;
+  font-weight: bold;
+}
+
+.settings-icon {
+  margin-left: auto;
+}
+
+.tetris-header-text {
+  color: #282c34;
+}

@@ -1,25 +1,40 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import GameGrid from './components/game-grid';
+import Settings from './components/settings';
+import Scores from './components/scores';
+import HowTo from './components/how-to';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import Header from './components/header';
+import Game from './services/game';
 
 function App() {
+  const game = new Game();
+
+  const theme = createMuiTheme({
+    palette: {
+      type: 'dark',
+      primary: {
+        main: '#ff00e6',
+      },
+      secondary: {
+        main: '#00dbe3'
+      },
+    },
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <ThemeProvider theme={theme}>
+        <Header game={game} />
+
+        <Route path="/" exact render={() => <GameGrid game={game} />} />
+        <Route path="/scores" exact render={() => <Scores game={game} />} />
+        <Route path="/howto" exact render={() => <HowTo game={game} />} />
+        <Route path="/settings" exact render={() => <Settings game={game} />} />
+      </ThemeProvider>
+    </Router>
   );
 }
 

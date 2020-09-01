@@ -7,6 +7,9 @@ import GameContainer from "../../components/game-container";
 import Scores from "../../components/scores";
 import HowTo from "../../components/how-to";
 import Settings from "../../components/settings";
+import { Grid } from "../../models/grid";
+import { Shape } from "../../models/shape";
+import { InputType } from "../../models/input-type";
 
 export class GameState {
   routes: RouteData[] = [
@@ -16,8 +19,17 @@ export class GameState {
     { title: 'SETTINGS', path: '/settings', component: Settings, iconComponent: SettingsIcon, className: classNames('nav-link', 'settings-icon') }  as RouteData
   ];
   displayType: DisplayType  = isMobile() ? DisplayType.Mobile : DisplayType.Desktop;
+  inputType: InputType = isMobile() ? InputType.Touch : InputType.Keyboard;
   gameStatus: GameStatus = GameStatus.Start;
-  tickCount: number = 10;
+  gridWidth: number = 10;
+  gridHeight: number = 20;
+  level: number = 1;
+  rowsCleared: number = 0;
+  score: number = 0;
+  grid: Grid = new Grid(this.gridWidth, this.gridHeight);
+  activeShape?: Shape;
+  nextShape?: Shape;
+  tickCount: number = 0;
   tickCount2: number = 25;
 }
 

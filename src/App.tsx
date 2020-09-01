@@ -1,16 +1,14 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import GameGrid from './components/game-grid';
-import Settings from './components/settings';
-import Scores from './components/scores';
-import HowTo from './components/how-to';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Header from './components/header';
 import Game from './services/game';
 
+const game = new Game();
+
 function App() {
-  const game = new Game();
+  const routes = game.setGameStateListener(state => state.routes);
 
   const theme = createMuiTheme({
     palette: {
@@ -28,11 +26,7 @@ function App() {
     <Router>
       <ThemeProvider theme={theme}>
         <Header game={game} />
-
-        <Route path="/" exact render={() => <GameGrid game={game} />} />
-        <Route path="/scores" exact render={() => <Scores game={game} />} />
-        <Route path="/howto" exact render={() => <HowTo game={game} />} />
-        <Route path="/settings" exact render={() => <Settings game={game} />} />
+        {routes.map(route => <Route key={route.path} path={route.path} exact render={() => <route.component game={game} />} />)}
       </ThemeProvider>
     </Router>
   );

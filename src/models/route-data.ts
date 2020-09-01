@@ -3,4 +3,5 @@ export class RouteData {
   path: string = '/';
   iconComponent: any;
   className: string = '';
+  component: any;
 }

@@ -68,9 +68,7 @@ function getHamburgerMenu(displayType: DisplayType, styles: any, anchorEl: any, 
           <MenuRoundedIcon fontSize="large" className={styles.hamburger}/>
         </IconButton>
         <Menu id="header-menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-          {routes.map(route => {
-            return <MenuItem key={route.path} onClick={() => { history.push(route.path); handleClose(); }}>{route.title}</MenuItem>
-          })}
+          {routes.map(route => <MenuItem key={route.path} onClick={() => { history.push(route.path); handleClose(); }}>{route.title}</MenuItem>)}
         </Menu>
       </div>
     )

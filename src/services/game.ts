@@ -1,5 +1,6 @@
-import { GameState } from "../models/game-state";
+import { GameState } from "./store/game-state";
 import StateManager from "./state-manager";
+import { IAction } from "./store/actions";
 
 
 export default class Game {
@@ -13,7 +14,11 @@ export default class Game {
     return this.stateManager.setGameStateListener(getStateFn);
   }
 
-  public updateGameState(setStateFn: (state: GameState) => GameState): void {
-    this.stateManager.updateGameState(setStateFn);
+  // public updateGameState(setStateFn: (state: GameState) => GameState): void {
+  //   this.stateManager.updateGameState(setStateFn);
+  // }
+
+  public dispatch(action: IAction): void {
+    this.stateManager.dispatch(action);
   }
 }

@@ -1,8 +1,9 @@
 import { Subject, Observable } from "rxjs";
-import { GameState } from "../models/game-state";
+import { GameState } from "./store/game-state";
 import { distinctUntilChanged, map, takeUntil } from "rxjs/operators";
 import { useState, useEffect } from "react";
-import _ from "lodash";
+import reducer from "./store/reducer";
+import { Action, IAction } from "./store/actions";
 
 export default class StateManager {
   private gameState$ = new Subject<GameState>();
@@ -51,7 +52,11 @@ export default class StateManager {
     return currentValue;
   }
 
-  public updateGameState(setStateFn: (state: GameState) => GameState): void {
-    this.gameState$.next(setStateFn(_.cloneDeep(this.currentState)));
+  // public updateGameState(setStateFn: (state: GameState) => GameState): void {
+  //   this.gameState$.next(setStateFn(_.cloneDeep(this.currentState)));
+  // }
+
+  public dispatch(action: IAction): void {
+    this.gameState$.next(reducer(this.currentState, action as Action));
   }
 }

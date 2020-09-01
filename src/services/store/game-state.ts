@@ -1,12 +1,12 @@
-import { DisplayType } from "./display-type";
-import { GameStatus } from "./game-status";
-import { RouteData } from "./route-data";
+import { DisplayType } from "../../models/display-type";
+import { GameStatus } from "../../models/game-status";
+import { RouteData } from "../../models/route-data";
 import classNames from "classnames";
 import SettingsIcon from '@material-ui/icons/Settings';
-import GameGrid from "../components/game-grid";
-import Scores from "../components/scores";
-import HowTo from "../components/how-to";
-import Settings from "../components/settings";
+import GameGrid from "../../components/game-grid";
+import Scores from "../../components/scores";
+import HowTo from "../../components/how-to";
+import Settings from "../../components/settings";
 
 export class GameState {
   routes: RouteData[] = [

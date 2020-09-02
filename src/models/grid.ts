@@ -1,9 +1,9 @@
-import { Shape } from "@material-ui/core/styles/shape";
 import { Cell } from "./cell";
+import { Shape } from "./shape";
 
 export class Grid {
   cellRows: Cell[][] = [];
-  shapes: Shape[] = [];
+  inactiveShapes: Shape[] = [];
   activeShape?: Shape;
 
   constructor(public width: number, public height: number) {
@@ -12,6 +12,10 @@ export class Grid {
 
   getRow(rowIndex: number): Cell[] {
     return this.cellRows[rowIndex];
+  }
+
+  getRowRange(rowIndex: number, colStart: number, colEnd: number): Cell[] {
+    return this.getRow(rowIndex).filter(cell => cell.column >= colStart && cell.column <= colEnd);
   }
 
   getColumn(columnIndex: number): Cell[] {
@@ -23,6 +27,10 @@ export class Grid {
     }
 
     return column;
+  }
+
+  getColRange(colIndex: number, rowStart: number, rowEnd: number): Cell[] {
+    return this.getColumn(colIndex).filter(cell => cell.row >= rowStart && cell.row <= rowEnd);
   }
 
   initCells(): void {

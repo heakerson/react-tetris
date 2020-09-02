@@ -5,7 +5,7 @@ import _ from "lodash";
 import Cell from "./cell";
 
 function Grid(props: { game: Game }) {
-  const dimensions = props.game.setGameStateListener(gameState => {
+  const dimensions = props.game.setComponentGameStateListener(gameState => {
     return {
       gridWidth: gameState.gridWidth,
       gridHeight: gameState.gridHeight

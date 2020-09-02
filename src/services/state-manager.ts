@@ -7,17 +7,13 @@ import { Action, IAction } from "./store/actions";
 
 export default class StateManager {
   private gameState$ = new Subject<GameState>();
-  private currentState: GameState = {} as GameState;
+  private currentState: GameState = new GameState();
 
   constructor() {
+    this.gameState$.next(this.currentState);
     this.gameState$.subscribe(state => {
       this.currentState = state;
     });
-    this.resetGame();
-  }
-
-  public resetGame(): void {
-    this.gameState$.next(new GameState());
   }
 
   public selectGameState<TStateType>(getStateFn: (state: GameState) => TStateType, areTheSame?: (x: TStateType, y: TStateType) => boolean): Observable<TStateType> {

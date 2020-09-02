@@ -10,7 +10,7 @@ import { Paper, Theme, makeStyles, createStyles } from '@material-ui/core';
 const game = new Game();
 
 function App() {
-  const stateData = game.setGameStateListener(state => {
+  const stateData = game.setComponentGameStateListener(state => {
     return {
       routes: state.routes,
       displayType: state.displayType

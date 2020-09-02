@@ -3,18 +3,16 @@ import Game from "../services/game";
 import './game-container.css';
 import Grid from "./grid";
 import { DisplayType } from "../models/display-type";
-import { ToggleDisplayType } from "../services/store/actions";
+import { ToggleDisplayType, StartGame, PauseGame, EndGame, ResetGame, IncrementLevel } from "../services/store/actions";
 
 function GameContainer(props: { game: Game }) {
   const { game } = props;
-  const tickCount1 = game.setGameStateListener(gameState => gameState.tickCount);
-  const tickCount2 = game.setGameStateListener(gameState => gameState.tickCount2);
 
-  const stateData = game.setGameStateListener(gameState => {
+  const stateData = game.setComponentGameStateListener(gameState => {
     return {
-      tickCount1: gameState.tickCount,
-      tickCount2: gameState.tickCount2,
-      displayType: gameState.displayType
+      tickCount: gameState.tickCount,
+      displayType: gameState.displayType,
+      level: gameState.level
     };
   });
 
@@ -33,11 +31,15 @@ function GameContainer(props: { game: Game }) {
         <div>
           User Controls Here
         </div>
-        <div>Tick Count: {tickCount1}</div>
-        <div>Tick Count2: {tickCount2}</div>
-        <div>Tick Count: {stateData.tickCount1}</div>
-        <div>Tick Count2: {stateData.tickCount2}</div>
+        <div>Tick Count: {stateData.tickCount}</div>
+        <div>Level: {stateData.level}</div>
+
         <button onClick={() => props.game.dispatch(new ToggleDisplayType())}>Toggle Display Type</button>
+        <button onClick={() => props.game.dispatch(new StartGame())}>Start</button>
+        <button onClick={() => props.game.dispatch(new PauseGame())}>Pause</button>
+        <button onClick={() => props.game.dispatch(new EndGame())}>End</button>
+        <button onClick={() => props.game.dispatch(new ResetGame())}>Reset Game</button>
+        <button onClick={() => props.game.dispatch(new IncrementLevel())}>Increment Level</button>
       </div>
     </div>
   );

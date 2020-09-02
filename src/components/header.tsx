@@ -10,10 +10,10 @@ import { RouteData } from "../models/route-data";
 function Header(props: { game: Game }) {
   const classes = getStyles();
   const { game } = props;
-  const displayType = game.setGameStateListener(gameState => gameState.displayType);
+  const displayType = game.setComponentGameStateListener(gameState => gameState.displayType);
   const history = useHistory();
   const [ anchorEl, setAnchorEl ] = React.useState<null | HTMLElement>(null);
-  const routes = game.setGameStateListener(gameState => gameState.routes);
+  const routes = game.setComponentGameStateListener(gameState => gameState.routes);
 
   const getLinkContent = (route: RouteData) => {
     return !route.iconComponent ? route.title : (

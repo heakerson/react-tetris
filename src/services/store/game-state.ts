@@ -29,7 +29,6 @@ export class GameState {
   grid: Grid = new Grid(this.gridWidth, this.gridHeight);
   nextShape?: Shape;
   tickCount: number = 0;
-  tickCount2: number = 25;
 }
 
 function isMobile() {

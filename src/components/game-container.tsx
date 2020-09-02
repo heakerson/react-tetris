@@ -3,6 +3,7 @@ import Game from "../services/game";
 import './game-container.css';
 import Grid from "./grid";
 import { DisplayType } from "../models/display-type";
+import { ToggleDisplayType } from "../services/store/actions";
 
 function GameContainer(props: { game: Game }) {
   const { game } = props;
@@ -36,6 +37,7 @@ function GameContainer(props: { game: Game }) {
         <div>Tick Count2: {tickCount2}</div>
         <div>Tick Count: {stateData.tickCount1}</div>
         <div>Tick Count2: {stateData.tickCount2}</div>
+        <button onClick={() => props.game.dispatch(new ToggleDisplayType())}>Toggle Display Type</button>
       </div>
     </div>
   );

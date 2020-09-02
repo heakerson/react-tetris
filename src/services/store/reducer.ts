@@ -42,6 +42,11 @@ const reducer = function(gameState: GameState, action: Action): GameState {
         ...gameState,
         level: gameState.level+1
       };
+    case ActionType.IncrementTick:
+      return {
+        ...gameState,
+        tickCount: gameState.tickCount + 1
+      };
     default:
       return gameState;
   }

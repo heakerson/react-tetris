@@ -3,7 +3,7 @@ import Game from "../services/game";
 
 function Scores(props: { game: Game }) {
   return (
-    <div className="content-container">Scores!</div>
+    <div className="content-container-fill-parent">Scores!</div>
   );
 }
 

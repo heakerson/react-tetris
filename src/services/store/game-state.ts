@@ -27,7 +27,6 @@ export class GameState {
   rowsCleared: number = 0;
   score: number = 0;
   grid: Grid = new Grid(this.gridWidth, this.gridHeight);
-  activeShape?: Shape;
   nextShape?: Shape;
   tickCount: number = 0;
   tickCount2: number = 25;

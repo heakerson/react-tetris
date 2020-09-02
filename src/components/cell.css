@@ -1,0 +1,13 @@
+.cell-size-1 {
+  width: 40px;
+  height: 40px;
+  border: solid 1px white;
+}
+
+.color-1 {
+  background-color: turquoise;
+}
+
+.color-2 {
+  background-color: orange;
+}

@@ -1,7 +1,34 @@
 import { Cell } from "./cell";
+import { Grid } from "./grid";
+import { MoveDirection } from "./move-direction";
+import { RotationDirection } from "./rotation-direction";
+import { ShapeType } from "./shape-type";
 
 export class Shape {
-  isActive: boolean = false;
+  get isActive(): boolean {
+    // TODO use grid, maybe create an equals method?
+    return false;
+  };
 
-  constructor(public cells: Cell[]) {}
+  constructor(public cells: Cell[], public shapeType: ShapeType, private grid: Grid) {}
+
+  canMove(direction: MoveDirection): boolean {
+    // TODO
+    return false;
+  }
+
+  canRotate(rotationDirection: RotationDirection): boolean {
+    // TODO
+    return false;
+  }
+
+  getNextMoveCells(direction: MoveDirection): Cell[] {
+    // TODO
+    return [];
+  }
+
+  getNextRotateCells(rotationDirection: RotationDirection): Cell[] {
+    // TODO
+    return [];
+  }
 }

@@ -2,6 +2,8 @@ import { GameState } from "./game-state"
 import { Action, ActionType } from "./actions";
 import { DisplayType } from "../../models/display-type";
 import { GameStatus } from "../../models/game-status";
+import { Grid } from "../../models/grid";
+import { Shape } from "../../models/shape";
 
 const reducer = function(gameState: GameState, action: Action): GameState {
   switch(action.type) {
@@ -47,6 +49,20 @@ const reducer = function(gameState: GameState, action: Action): GameState {
         ...gameState,
         tickCount: gameState.tickCount + 1
       };
+    case ActionType.RotateActiveAndNextShapes:
+      const grid = gameState.grid;
+      
+      if (grid.activeShape) {
+        grid.inactiveShapes.push(grid.activeShape as Shape);
+      }
+      if (gameState.nextShape) {
+        grid.activeShape = gameState.nextShape;
+      }
+
+      return {
+        ...gameState,
+        nextShape: action.newNextShape
+      }
     default:
       return gameState;
   }

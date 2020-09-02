@@ -1,4 +1,6 @@
 import { DisplayType } from "../../models/display-type";
+import { Shape } from "../../models/shape";
+import { Cell } from "../../models/cell";
 
 export interface IAction {
   type: ActionType;
@@ -12,7 +14,9 @@ enum ActionType {
   EndGame,
   ResetGame,
   IncrementLevel,
-  IncrementTick
+  IncrementTick,
+  RotateActiveAndNextShapes,
+  MoveActiveShape
 }
 
 class ToggleDisplayType implements IAction {
@@ -49,6 +53,18 @@ class IncrementTick implements IAction {
   type = ActionType.IncrementTick;
 }
 
+class RotateActiveAndNextShapes implements IAction {
+  type = ActionType.RotateActiveAndNextShapes;
+
+  constructor(public newNextShape: Shape) {}
+}
+
+class MoveActiveShape implements IAction {
+  type = ActionType.MoveActiveShape;
+
+  constructor(public nextCells: Cell[]) {}
+}
+
 export type Action = 
   { type: ActionType.ToggleDisplayType }
   | { type: ActionType.SetDisplayType, displayType: DisplayType }
@@ -57,7 +73,10 @@ export type Action =
   | { type: ActionType.EndGame }
   | { type: ActionType.ResetGame }
   | { type: ActionType.IncrementLevel }
-  | { type: ActionType.IncrementTick };
+  | { type: ActionType.IncrementTick }
+  | { type: ActionType.RotateActiveAndNextShapes, newNextShape: Shape }
+  | { type: ActionType.MoveActiveShape, nextCells: Cell[] }
+  ;
 
 export {
   ActionType,
@@ -68,5 +87,7 @@ export {
   EndGame,
   ResetGame,
   IncrementLevel,
-  IncrementTick
+  IncrementTick,
+  RotateActiveAndNextShapes,
+  MoveActiveShape
 };

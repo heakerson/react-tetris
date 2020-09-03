@@ -1,7 +1,7 @@
 import { Shape } from "./shape";
 
 export class Cell {
-  shape?: Shape;
+  inactiveShape?: Shape;
 
   constructor(public row: number, public column: number) { }
 }

@@ -16,7 +16,8 @@ enum ActionType {
   IncrementLevel,
   IncrementTick,
   RotateActiveAndNextShapes,
-  MoveActiveShape
+  MoveActiveShape,
+  InitActiveAndNextShape
 }
 
 class ToggleDisplayType implements IAction {
@@ -56,13 +57,19 @@ class IncrementTick implements IAction {
 class RotateActiveAndNextShapes implements IAction {
   type = ActionType.RotateActiveAndNextShapes;
 
-  constructor(public newNextShape: Shape) {}
+  constructor(public activeShapeStartCells: Cell[], public newNextShape: Shape) {}
 }
 
 class MoveActiveShape implements IAction {
   type = ActionType.MoveActiveShape;
 
   constructor(public nextCells: Cell[]) {}
+}
+
+class InitActiveAndNextShape implements IAction {
+  type = ActionType.InitActiveAndNextShape;
+
+  constructor(public activeShape: Shape, public nextShape: Shape) {}
 }
 
 export type Action = 
@@ -76,6 +83,7 @@ export type Action =
   | { type: ActionType.IncrementTick }
   | { type: ActionType.RotateActiveAndNextShapes, newNextShape: Shape }
   | { type: ActionType.MoveActiveShape, nextCells: Cell[] }
+  | { type: ActionType.InitActiveAndNextShape, activeShape: Shape, nextShape: Shape }
   ;
 
 export {
@@ -89,5 +97,6 @@ export {
   IncrementLevel,
   IncrementTick,
   RotateActiveAndNextShapes,
-  MoveActiveShape
+  MoveActiveShape,
+  InitActiveAndNextShape
 };

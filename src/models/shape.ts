@@ -10,9 +10,16 @@ export class Shape {
     return false;
   };
 
+  private counter = 0;
+
   constructor(public cells: Cell[], public shapeType: ShapeType, private grid: Grid) {}
 
   canMove(direction: MoveDirection): boolean {
+    this.counter++;
+
+    if (this.counter < 5) {
+      return true;
+    }
     // TODO
     return false;
   }

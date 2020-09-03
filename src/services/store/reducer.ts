@@ -2,7 +2,6 @@ import { GameState } from "./game-state"
 import { Action, ActionType } from "./actions";
 import { DisplayType } from "../../models/display-type";
 import { GameStatus } from "../../models/game-status";
-import { Grid } from "../../models/grid";
 import { Shape } from "../../models/shape";
 
 const reducer = function(gameState: GameState, action: Action): GameState {
@@ -33,11 +32,15 @@ const reducer = function(gameState: GameState, action: Action): GameState {
         gameStatus: GameStatus.End
       }
     case ActionType.ResetGame:
+      gameState.grid.activeShape = undefined;
+      gameState.grid.inactiveShapes = [];
+
       return {
         ...gameState,
         gameStatus: GameStatus.Start,
         level: 1,
-        tickCount: 0
+        tickCount: 0,
+        nextShape: undefined
       }
     case ActionType.IncrementLevel:
       return {
@@ -51,7 +54,7 @@ const reducer = function(gameState: GameState, action: Action): GameState {
       };
     case ActionType.RotateActiveAndNextShapes:
       const grid = gameState.grid;
-      
+
       if (grid.activeShape) {
         grid.inactiveShapes.push(grid.activeShape as Shape);
       }
@@ -62,6 +65,12 @@ const reducer = function(gameState: GameState, action: Action): GameState {
       return {
         ...gameState,
         nextShape: action.newNextShape
+      }
+    case ActionType.InitActiveAndNextShape:
+      gameState.grid.activeShape = action.activeShape;
+      return {
+        ...gameState,
+        nextShape: action.nextShape
       }
     default:
       return gameState;

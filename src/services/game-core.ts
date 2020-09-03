@@ -37,7 +37,7 @@ export class GameCore {
         break;
 
       case TickStep.MoveActiveShapeDown:
-        const nextCells = activeShape.getNextMoveCells(MoveDirection.Down);
+        const nextCells = activeShape.getNextMoveCells(MoveDirection.Down, grid);
         this.stateManager.dispatch(new MoveActiveShape(nextCells));
         break;
 
@@ -76,7 +76,7 @@ export class GameCore {
     else if (!activeShape) {
       return TickStep.InitActiveAndNextShape;
     }
-    else if (activeShape && activeShape.canMove(MoveDirection.Down)) {
+    else if (activeShape && activeShape.getNextMoveCells(MoveDirection.Down, grid).length > 0) {
       return TickStep.MoveActiveShapeDown;
     } else {
       return TickStep.SwapNextAndActiveShapes;

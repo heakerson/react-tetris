@@ -81,7 +81,7 @@ export type Action =
   | { type: ActionType.ResetGame }
   | { type: ActionType.IncrementLevel }
   | { type: ActionType.IncrementTick }
-  | { type: ActionType.RotateActiveAndNextShapes, newNextShape: Shape }
+  | { type: ActionType.RotateActiveAndNextShapes, newNextShape: Shape, activeShapeStartCells: Cell[] }
   | { type: ActionType.MoveActiveShape, nextCells: Cell[] }
   | { type: ActionType.InitActiveAndNextShape, activeShape: Shape, nextShape: Shape }
   ;

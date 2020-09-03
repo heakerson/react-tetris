@@ -15,24 +15,32 @@ export class Shape {
 
   constructor(public cells: Cell[], public shapeType: ShapeType, public rotationPoint: RotationPoint) {}
 
-  canMove(direction: MoveDirection): boolean {
-    this.counter++;
-
-    if (this.counter < 5) {
-      return true;
-    }
-    // TODO
-    return false;
-  }
-
   canRotate(rotationDirection: RotationDirection): boolean {
     // TODO
     return false;
   }
 
-  getNextMoveCells(direction: MoveDirection): Cell[] {
-    // TODO
-    return [];
+  getNextMoveCells(direction: MoveDirection, grid: Grid): Cell[] {
+    switch(direction) {
+      case MoveDirection.Down:
+        try {
+          return this.cells.map(cell => grid.getCell(cell.row-1, cell.column));
+        } catch {
+          return [];
+        }
+      case MoveDirection.Left:
+        try {
+          return this.cells.map(cell => grid.getCell(cell.row, cell.column-1));
+        } catch {
+          return [];
+        }
+      case MoveDirection.Right:
+        try {
+          return this.cells.map(cell => grid.getCell(cell.row, cell.column+1));
+        } catch {
+          return [];
+        }
+    }
   }
 
   getNextRotateCells(rotationDirection: RotationDirection): Cell[] {

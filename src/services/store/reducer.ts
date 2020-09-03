@@ -60,6 +60,7 @@ const reducer = function(gameState: GameState, action: Action): GameState {
       }
       if (gameState.nextShape) {
         grid.activeShape = gameState.nextShape;
+        grid.activeShape.cells = action.activeShapeStartCells;
       }
 
       return {
@@ -71,6 +72,11 @@ const reducer = function(gameState: GameState, action: Action): GameState {
       return {
         ...gameState,
         nextShape: action.nextShape
+      }
+    case ActionType.MoveActiveShape:
+      (gameState.grid.activeShape as any).cells = action.nextCells;
+      return {
+        ...gameState
       }
     default:
       return gameState;

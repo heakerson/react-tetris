@@ -6,6 +6,7 @@ import StateManager from "./state-manager";
 import { EndGame, MoveActiveShape, RotateActiveAndNextShapes, InitActiveAndNextShape } from "./store/actions";
 import { MoveDirection } from "../models/move-direction";
 import { TickStep } from "../models/tick-step";
+import { RotationPoint } from "../models/rotation-point";
 
 export class GameCore {
   private gameState: any;
@@ -49,17 +50,17 @@ export class GameCore {
   }
 
   private initActiveAndNextShape(grid: Grid): void {
-    const activeShapeType = this.getRandomShapeType();
-    const activeShapePosition: Cell[] = this.getCellsToPlaceNextShape(activeShapeType, grid);
-    const activeShape: Shape = new Shape(activeShapePosition, activeShapeType, grid);
-    const nextShape: Shape = this.generateRandomShape(grid);
+    const activeShape: Shape = this.generateRandomShape();
+    const nextShape: Shape = this.generateRandomShape();
+    activeShape.cells = this.getCellsToPlaceNextShape(activeShape.shapeType, grid);
+
     this.stateManager.dispatch(new InitActiveAndNextShape(activeShape, nextShape));
   }
 
   private swapNextAndActiveShapes(grid: Grid): void {
     let nextShape: Shape = this.gameState.nextShape;
     const cellsToPlaceNewActiveShape = this.getCellsToPlaceNextShape(nextShape.shapeType, grid);
-    const newNextShape = this.generateRandomShape(grid);
+    const newNextShape = this.generateRandomShape();
     // console.log('newNextShape', newNextShape);
     this.stateManager.dispatch(new RotateActiveAndNextShapes(cellsToPlaceNewActiveShape, newNextShape));
   }
@@ -80,9 +81,10 @@ export class GameCore {
     }
   }
 
-  public generateRandomShape(grid: Grid): Shape {
+  public generateRandomShape(): Shape {
     const shapeType = this.getRandomShapeType();
-    return new Shape([], shapeType, grid);
+    const rotation = this.getRandomShapeRotation();
+    return new Shape([], shapeType, rotation);
   }
 
   public getCellsToPlaceNextShape(shapeType: ShapeType, grid: Grid): Cell[] {
@@ -93,6 +95,12 @@ export class GameCore {
     const enumValues = Object.keys(ShapeType);
     const randomIndex = Math.floor(Math.random() * enumValues.length)
     return enumValues[randomIndex] as ShapeType;
+  }
+
+  public getRandomShapeRotation(): RotationPoint {
+    const enumValues = Object.keys(RotationPoint);
+    const randomIndex = Math.floor(Math.random() * enumValues.length)
+    return enumValues[randomIndex] as RotationPoint;
   }
 
   public activeShapePositionInvalid(grid: Grid): boolean {

@@ -7,11 +7,13 @@ import { EndGame, MoveActiveShape, RotateActiveAndNextShapes, InitActiveAndNextS
 import { MoveDirection } from "../models/move-direction";
 import { TickStep } from "../models/tick-step";
 import { RotationPoint } from "../models/rotation-point";
+import { ShapeConfigManager } from "./shape-config-manager";
+import { ShapePositionConfig } from "../models/shape-position-config";
 
 export class GameCore {
   private gameState: any;
   
-  constructor(private stateManager: StateManager) {
+  constructor(private stateManager: StateManager, private shapeManager: ShapeConfigManager) {
     this.stateManager.selectGameState(gameState => {
       return {
         grid: gameState.grid,
@@ -28,7 +30,7 @@ export class GameCore {
     const grid: Grid = this.gameState.grid;
     const activeShape: Shape = grid.activeShape as Shape;
     const nextStep: TickStep = this.determineNextStep(grid);
-    console.log(`Tick: ${tickCount}, Next Step: ${nextStep}, grid:`, grid);
+    // console.log(`Tick: ${tickCount}, Next Step: ${nextStep}, grid:`, grid);
     switch(nextStep) {
       case TickStep.InitActiveAndNextShape:
         this.initActiveAndNextShape(grid);
@@ -52,14 +54,14 @@ export class GameCore {
   private initActiveAndNextShape(grid: Grid): void {
     const activeShape: Shape = this.generateRandomShape();
     const nextShape: Shape = this.generateRandomShape();
-    activeShape.cells = this.getCellsToPlaceNextShape(activeShape.shapeType, grid);
+    activeShape.cells = this.getCellsToPlaceNextShape(activeShape.shapeType, activeShape.rotationPoint, grid);
 
     this.stateManager.dispatch(new InitActiveAndNextShape(activeShape, nextShape));
   }
 
   private swapNextAndActiveShapes(grid: Grid): void {
     let nextShape: Shape = this.gameState.nextShape;
-    const cellsToPlaceNewActiveShape = this.getCellsToPlaceNextShape(nextShape.shapeType, grid);
+    const cellsToPlaceNewActiveShape = this.getCellsToPlaceNextShape(nextShape.shapeType, nextShape.rotationPoint, grid);
     const newNextShape = this.generateRandomShape();
     // console.log('newNextShape', newNextShape);
     this.stateManager.dispatch(new RotateActiveAndNextShapes(cellsToPlaceNewActiveShape, newNextShape));
@@ -87,8 +89,32 @@ export class GameCore {
     return new Shape([], shapeType, rotation);
   }
 
-  public getCellsToPlaceNextShape(shapeType: ShapeType, grid: Grid): Cell[] {
-    return [];
+  public getCellsToPlaceNextShape(shapeType: ShapeType, rotationDirection: RotationPoint, grid: Grid): Cell[] {
+    const shapeConfig = this.shapeManager.getConfigFor(shapeType, rotationDirection);
+    const potentionStartPoints: number[] = this.getPotentionStartColumnsFor(shapeConfig, grid);
+
+    let randomColumnPosition = -1;
+    let position: Cell[] = [];
+    let foundValidPosition = false;
+    while (potentionStartPoints.length > 0 && !foundValidPosition) {
+      randomColumnPosition = Math.floor(Math.random() * Math.floor(potentionStartPoints.length));
+      const cell = grid.getCell(grid.height-1, randomColumnPosition);
+      position = shapeConfig.getPositionGivenRectangleCorner(cell, grid);
+      if (this.positionValid(position, grid)) {
+        foundValidPosition = true;
+      }
+    }
+    return position;
+  }
+
+  private positionValid(cells: Cell[], grid: Grid): boolean {
+    return true; // TODO
+  }
+
+  private getPotentionStartColumnsFor(shapeConfig: ShapePositionConfig, grid: Grid): number[] {
+    const shapeWidth = shapeConfig.width;
+    const range = Array.from(Array(grid.width - shapeWidth + 1).keys())
+    return range;
   }
 
   public getRandomShapeType(): ShapeType {

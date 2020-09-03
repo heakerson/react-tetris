@@ -10,6 +10,11 @@ export class Grid {
     this.initCells();
   }
 
+  getCell(rowIndex: number, colIndex: number): Cell {
+    const row = this.getRow(rowIndex);
+    return row[colIndex];
+  }
+
   getRow(rowIndex: number): Cell[] {
     return this.cellRows[rowIndex];
   }

@@ -34,6 +34,7 @@ const reducer = function(gameState: GameState, action: Action): GameState {
     case ActionType.ResetGame:
       gameState.grid.activeShape = undefined;
       gameState.grid.inactiveShapes = [];
+      gameState.grid.cellRows.forEach(row => row.forEach(cell => cell.inactiveShape = undefined));
 
       return {
         ...gameState,
@@ -56,6 +57,7 @@ const reducer = function(gameState: GameState, action: Action): GameState {
       const grid = gameState.grid;
 
       if (grid.activeShape) {
+        grid.activeShape.cells.forEach(cell => cell.inactiveShape = grid.activeShape);
         grid.inactiveShapes.push(grid.activeShape as Shape);
       }
       if (gameState.nextShape) {

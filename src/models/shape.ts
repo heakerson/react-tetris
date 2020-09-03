@@ -47,4 +47,9 @@ export class Shape {
     // TODO
     return [];
   }
+
+  containsCellAt(rowIndex: number, columnIndex: number): boolean {
+    const found = this.cells.find(cell => cell.row === rowIndex && cell.column === columnIndex);
+    return !!found;
+  }
 }

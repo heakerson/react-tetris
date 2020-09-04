@@ -1,21 +1,42 @@
 .cell-size-1 {
   width: 40px;
   height: 40px;
+  border: solid 1px transparent;
+}
+
+.active-cell {
   border: solid 1px white;
 }
 
-.color-1 {
+.inactive-occupied-cell {
+  opacity: .5;
+  border: solid 1px white;
+}
+
+.Bar {
   background-color: turquoise;
 }
 
-.color-2 {
+.ReverseL {
+  background-color: blue;
+}
+
+.L {
   background-color: orange;
 }
 
-.pink {
-  background-color: fuchsia;
+.Box {
+  background-color: yellow;
 }
 
-.dark-pink {
-  background-color: indigo;
+.S {
+  background-color: green;
+}
+
+.Z {
+  background-color: red;
+}
+
+.T {
+  background-color: purple;
 }

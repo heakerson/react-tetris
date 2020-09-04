@@ -26,11 +26,11 @@ const getCellColor = (rowIndex: number, columnIndex: number, containingShape: Sh
   const colEven = columnIndex % 2 === 0;
 
   if (!!containingShape) {
-    return 'pink';
+    return `${containingShape.shapeType} active-cell`;
   } else if (!!cellModel.inactiveShape) {
-    return 'dark-pink';
+    return `${cellModel.inactiveShape.shapeType} inactive-occupied-cell`;
   }
-  return rowEven ? (colEven ? 'color-1' : 'color-2') : (colEven ? 'color-2' : 'color-1');
+  return ''
 }
 
 const getCellSizeClass = (): string => {

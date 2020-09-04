@@ -25,7 +25,9 @@ function Grid(props: { game: Game }) {
 
   return (
     <div className="flex-column">
+      <div className="top-bar"></div>
       {rowCounter.map(rowIndex => buildRow(rowIndex))}
+      <div className="bottom-bar"></div>
     </div>
   );
 }

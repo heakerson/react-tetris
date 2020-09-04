@@ -222,7 +222,7 @@ export class ShapeConfigManager {
         height: 3,
         getPositionGivenRectangleCorner: (upperLeftRectangleCell: Cell, grid: Grid): Cell[] => {
           const { row, column } = upperLeftRectangleCell;
-          return [grid.getCell(row-2, column+1), ...grid.getColRange(column+1, row-2, row)];
+          return [grid.getCell(row-2, column), ...grid.getColRange(column+1, row-2, row)];
         },
         getRotatedPosition: (shape: Shape, grid: Grid, direction: RotationDirection): Cell[] => {
           return [];  // TODO

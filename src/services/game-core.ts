@@ -9,6 +9,8 @@ import { TickStep } from "../models/tick-step";
 import { RotationPoint } from "../models/rotation-point";
 import { ShapeConfigManager } from "./shape-config-manager";
 import { ShapePositionConfig } from "../models/shape-position-config";
+import { GameStatus } from "../models/game-status";
+import _ from "lodash";
 
 export class GameCore {
   private gameState: any;
@@ -17,10 +19,12 @@ export class GameCore {
     this.stateManager.selectGameState(gameState => {
       return {
         grid: gameState.grid,
-        nextShape: gameState.nextShape
+        nextShape: gameState.nextShape,
+        gameStatus: gameState.gameStatus,
+        activeCells: gameState.grid.activeShape?.cells
       }
     })
-      .subscribe(gameState => this.gameState = gameState);
+    .subscribe(gameState => this.gameState = gameState);
 
     this.stateManager.selectGameState(gameState => gameState.tickCount)
       .subscribe((tickCount: number) => this.tickGame(tickCount))
@@ -29,8 +33,9 @@ export class GameCore {
   private tickGame(tickCount: number): void {
     const grid: Grid = this.gameState.grid;
     const activeShape: Shape = grid.activeShape as Shape;
-    const nextStep: TickStep = this.determineNextStep(grid);
-    // console.log(`Tick: ${tickCount}, Next Step: ${nextStep}, grid:`, grid);
+    const nextStep: TickStep = this.determineNextStep(this.gameState.gameStatus, grid);
+// console.log(`Tick: ${tickCount}, Next Step: ${nextStep}, grid:`, grid);
+
     switch(nextStep) {
       case TickStep.InitActiveAndNextShape:
         this.initActiveAndNextShape(grid);
@@ -55,7 +60,6 @@ export class GameCore {
     const activeShape: Shape = this.generateRandomShape();
     const nextShape: Shape = this.generateRandomShape();
     activeShape.cells = this.getCellsToPlaceNextShape(activeShape.shapeType, activeShape.rotationPoint, grid);
-
     this.stateManager.dispatch(new InitActiveAndNextShape(activeShape, nextShape));
   }
 
@@ -63,24 +67,38 @@ export class GameCore {
     let nextShape: Shape = this.gameState.nextShape;
     const cellsToPlaceNewActiveShape = this.getCellsToPlaceNextShape(nextShape.shapeType, nextShape.rotationPoint, grid);
     const newNextShape = this.generateRandomShape();
-    // console.log('newNextShape', newNextShape);
     this.stateManager.dispatch(new RotateActiveAndNextShapes(cellsToPlaceNewActiveShape, newNextShape));
   }
 
-  private determineNextStep(grid: Grid): TickStep {
+  private determineNextStep(gameStatus: GameStatus, grid: Grid): TickStep {
     const activeShape: Shape = grid.activeShape as Shape;
 
     if (this.activeShapePositionInvalid(grid)) {
       return TickStep.EndGame;
     }
+    else if (!activeShape && gameStatus === GameStatus.Start) {
+      return TickStep.None;
+    }
     else if (!activeShape) {
       return TickStep.InitActiveAndNextShape;
     }
-    else if (activeShape && activeShape.getNextMoveCells(MoveDirection.Down, grid).length > 0) {
+    else if (this.canMoveShapeDown(activeShape, grid)) {
       return TickStep.MoveActiveShapeDown;
     } else {
       return TickStep.SwapNextAndActiveShapes;
     }
+  }
+
+  private canMoveShapeDown(activeShape: Shape, grid: Grid): boolean {
+    if (activeShape) {
+      const nextMoveCells = activeShape.getNextMoveCells(MoveDirection.Down, grid);
+
+      if (nextMoveCells && nextMoveCells.length > 0) {
+        return !this.positionOverlapsOtherShapes(nextMoveCells);
+      }
+    }
+
+    return false;
   }
 
   public generateRandomShape(): Shape {
@@ -91,24 +109,33 @@ export class GameCore {
 
   public getCellsToPlaceNextShape(shapeType: ShapeType, rotationDirection: RotationPoint, grid: Grid): Cell[] {
     const shapeConfig = this.shapeManager.getConfigFor(shapeType, rotationDirection);
-    const potentionStartPoints: number[] = this.getPotentionStartColumnsFor(shapeConfig, grid);
-
+    const potentionStartPoints: number[] = this.getPotentionStartColumnsFor(shapeConfig, grid).sort(() => Math.random() - .5);
     let randomColumnPosition = -1;
     let position: Cell[] = [];
     let foundValidPosition = false;
-    while (potentionStartPoints.length > 0 && !foundValidPosition) {
-      randomColumnPosition = Math.floor(Math.random() * Math.floor(potentionStartPoints.length));
-      const cell = grid.getCell(grid.height-1, randomColumnPosition);
-      position = shapeConfig.getPositionGivenRectangleCorner(cell, grid);
-      if (this.positionValid(position, grid)) {
+
+    for (let i = 0; i < potentionStartPoints.length; i++) {
+      randomColumnPosition = potentionStartPoints[i];
+      const cell = this.gameState.grid.getCell(grid.height-1, randomColumnPosition);
+      position = shapeConfig.getPositionGivenRectangleCorner(cell, this.gameState.grid);
+      const overlap = this.positionOverlapsOtherShapes(position);
+
+      if (!overlap) {
         foundValidPosition = true;
+        break;
       }
     }
+
     return position;
   }
 
-  private positionValid(cells: Cell[], grid: Grid): boolean {
-    return true; // TODO
+  private positionOverlapsOtherShapes(cells: Cell[]): boolean {
+    const foundOverlap = cells.find(cell => !!cell.inactiveShape);
+    if (foundOverlap) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   private getPotentionStartColumnsFor(shapeConfig: ShapePositionConfig, grid: Grid): number[] {
@@ -130,6 +157,9 @@ export class GameCore {
   }
 
   public activeShapePositionInvalid(grid: Grid): boolean {
+    if (grid.activeShape) {
+      return this.positionOverlapsOtherShapes(grid.activeShape.cells);
+    }
     return false;
   }
 }

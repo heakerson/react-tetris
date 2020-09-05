@@ -35,6 +35,7 @@ const reducer = function(gameState: GameState, action: Action): GameState {
       gameState.grid.activeShape = undefined;
       gameState.grid.inactiveShapes = [];
       gameState.grid.cellRows.forEach(row => row.forEach(cell => cell.inactiveShape = undefined));
+      gameState.grid.occupiedCellsByColumn = {};
 
       return {
         ...gameState,
@@ -57,6 +58,15 @@ const reducer = function(gameState: GameState, action: Action): GameState {
       const grid = gameState.grid;
 
       if (grid.activeShape) {
+        grid.activeShape.cells.forEach(activeCell => {
+          const columnData: number[] = grid.occupiedCellsByColumn[activeCell.column];
+          if (columnData) {
+            columnData.push(activeCell.row);
+          } else {
+            grid.occupiedCellsByColumn[activeCell.column] = [ activeCell.row ];
+          }
+        });
+
         grid.activeShape.cells.forEach(cell => cell.inactiveShape = grid.activeShape);
         grid.inactiveShapes.push(grid.activeShape as Shape);
       }
@@ -76,7 +86,9 @@ const reducer = function(gameState: GameState, action: Action): GameState {
         nextShape: action.nextShape
       }
     case ActionType.MoveActiveShape:
-      (gameState.grid.activeShape as any).cells = action.nextCells;
+      if (gameState.grid.activeShape) {
+        gameState.grid.activeShape.cells = action.nextCells;
+      }
       return {
         ...gameState
       }

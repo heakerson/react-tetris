@@ -2,9 +2,10 @@ import { Cell } from "./cell";
 import { Shape } from "./shape";
 
 export class Grid {
-  cellRows: Cell[][] = [];
+   cellRows: Cell[][] = [];
   inactiveShapes: Shape[] = [];
   activeShape?: Shape;
+  occupiedCellsByColumn: any = {};
 
   constructor(public width: number, public height: number) {
     this.initCells();

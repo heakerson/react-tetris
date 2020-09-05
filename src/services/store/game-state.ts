@@ -18,6 +18,14 @@ export class GameState {
     { title: 'HOW TO', path: '/howto', component: HowTo, className: 'nav-link' } as RouteData, 
     { title: 'SETTINGS', path: '/settings', component: Settings, iconComponent: SettingsIcon, className: classNames('nav-link', 'settings-icon') }  as RouteData
   ];
+  keyboardInputKeys: any = {
+    leftKey: 'ArrowLeft',
+    rightKey: 'ArrowRight',
+    downKey: 'ArrowDown',
+    rotateClockwise: null,
+    rotateCounterClockwise: 'ArrowUp',
+    moveToBottomKey: ' '
+  };
   displayType: DisplayType  = isMobile() ? DisplayType.Mobile : DisplayType.Desktop;
   inputType: InputType = isMobile() ? InputType.Touch : InputType.Keyboard;
   gameStatus: GameStatus = GameStatus.Start;

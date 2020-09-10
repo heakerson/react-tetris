@@ -36,9 +36,6 @@ function Header(props: { game: Game }) {
               {getLinkContent(route)}
             </NavLink>
           ))}
-
-          {/* <button onClick={() => {props.game.updateGameState(gameState => {gameState.tickCount++; return gameState})}}>Update State</button>
-          <button onClick={() => {props.game.updateGameState(gameState => {gameState.tickCount2++; return gameState})}}>Update State 2</button> */}
         </Typography>
       </Toolbar>
     </AppBar>

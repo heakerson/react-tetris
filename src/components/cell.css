@@ -4,6 +4,10 @@
   border: solid 1px transparent;
 }
 
+.cell {
+  border-radius: 4px;
+}
+
 .active-cell {
   border: solid 1px white;
 }

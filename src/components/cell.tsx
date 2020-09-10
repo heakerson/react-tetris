@@ -7,28 +7,26 @@ import { Cell as CellModel } from "../models/cell";
 function Cell(props: { game: Game, rowIndex: number, columnIndex: number }) {
   const { rowIndex, columnIndex, game } = props;
 
-  const containingActiveShape = game.setComponentGameStateListener(gameState => {
+  const cellData = game.setComponentGameStateListener(gameState => {
     const { activeShape } = gameState.grid;
-    return activeShape && activeShape.containsCellAt(rowIndex, columnIndex) ? activeShape : null;
+
+    return {
+      cell: gameState.grid.getCell(rowIndex, columnIndex),
+      gameStatus: gameState.gameStatus,
+      containingActiveShape: activeShape && activeShape.containsCellAt(rowIndex, columnIndex) ? activeShape : null
+    }
   });
 
-  const cellModel = game.setComponentGameStateListener(gameState => gameState.grid.getCell(rowIndex, columnIndex));
+  const classes = `${getCellStyling(cellData.containingActiveShape, cellData.cell)} ${getCellSizeClass()}`
 
-  const classes = `${getCellColor(rowIndex, columnIndex, containingActiveShape, cellModel)} ${getCellSizeClass()}`
-
-  return (
-    <div className={classes}></div>
-  );
+  return (<div className={classes}></div>);
 }
 
-const getCellColor = (rowIndex: number, columnIndex: number, containingShape: Shape | null, cellModel: CellModel): string => {
-  const rowEven = rowIndex % 2 === 0;
-  const colEven = columnIndex % 2 === 0;
-
+const getCellStyling = (containingShape: Shape | null, cellModel: CellModel): string => {
   if (!!containingShape) {
-    return `${containingShape.shapeType} active-cell`;
+    return `${containingShape.shapeType} cell active-cell shadow`;
   } else if (!!cellModel.inactiveShape) {
-    return `${cellModel.inactiveShape.shapeType} inactive-occupied-cell`;
+    return `${cellModel.inactiveShape.shapeType} cell inactive-occupied-cell`;
   }
   return ''
 }

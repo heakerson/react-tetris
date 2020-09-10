@@ -11,9 +11,13 @@ import { ShapeConfigManager } from "./shape-config-manager";
 import { ShapePositionConfig } from "../models/shape-position-config";
 import { GameStatus } from "../models/game-status";
 import _ from "lodash";
+import { InputType } from "../models/input-type";
+import { fromEvent, Subject } from "rxjs";
+import { takeUntil, filter } from "rxjs/operators";
 
 export class GameCore {
   private gameState: any;
+  private takeUserInputUntil$ = new Subject();
   
   constructor(private stateManager: StateManager, private shapeManager: ShapeConfigManager) {
     this.stateManager.selectGameState(gameState => {
@@ -21,20 +25,27 @@ export class GameCore {
         grid: gameState.grid,
         nextShape: gameState.nextShape,
         gameStatus: gameState.gameStatus,
-        activeCells: gameState.grid.activeShape?.cells
+        activeCells: gameState.grid.activeShape?.cells,
+        keyboardInputKeys: gameState.keyboardInputKeys
       }
     })
     .subscribe(gameState => this.gameState = gameState);
 
+    this.stateManager.selectGameState(gameState => {
+      return {
+        inputType: gameState.inputType,
+        grid: gameState.grid
+      }
+    })
+      .subscribe(inputData => this.setUserInputEventListeners(inputData.inputType, inputData.grid));
+
     this.stateManager.selectGameState(gameState => gameState.tickCount)
-      .subscribe((tickCount: number) => this.tickGame(tickCount))
+      .subscribe(() => this.tickGame())
   }
 
-  private tickGame(tickCount: number): void {
+  private tickGame(): void {
     const grid: Grid = this.gameState.grid;
-    const activeShape: Shape = grid.activeShape as Shape;
     const nextStep: TickStep = this.determineNextStep(this.gameState.gameStatus, grid);
-// console.log(`Tick: ${tickCount}, Next Step: ${nextStep}, grid:`, grid);
 
     switch(nextStep) {
       case TickStep.InitActiveAndNextShape:
@@ -42,8 +53,7 @@ export class GameCore {
         break;
 
       case TickStep.MoveActiveShapeDown:
-        const nextCells = activeShape.getNextMoveCells(MoveDirection.Down, grid);
-        this.stateManager.dispatch(new MoveActiveShape(nextCells));
+        this.moveShape(MoveDirection.Down, grid);
         break;
 
       case TickStep.SwapNextAndActiveShapes:
@@ -82,23 +92,29 @@ export class GameCore {
     else if (!activeShape) {
       return TickStep.InitActiveAndNextShape;
     }
-    else if (this.canMoveShapeDown(activeShape, grid)) {
+    else if (this.canMoveShape(MoveDirection.Down, grid)) {
       return TickStep.MoveActiveShapeDown;
     } else {
       return TickStep.SwapNextAndActiveShapes;
     }
   }
 
-  private canMoveShapeDown(activeShape: Shape, grid: Grid): boolean {
-    if (activeShape) {
-      const nextMoveCells = activeShape.getNextMoveCells(MoveDirection.Down, grid);
+  private canMoveShape(direction: MoveDirection, grid: Grid): boolean {
+    if (grid.activeShape) {
+      const nextMoveCells = grid.activeShape.getNextMoveCells(direction, grid);
+      const nextMoveCellsExist = nextMoveCells && nextMoveCells.length > 0 && (nextMoveCells.findIndex(c => !c) === -1);
 
-      if (nextMoveCells && nextMoveCells.length > 0) {
+      if (nextMoveCellsExist) {
         return !this.positionOverlapsOtherShapes(nextMoveCells);
       }
     }
 
     return false;
+  }
+
+  private moveShape(direction: MoveDirection, grid: Grid): void {
+    const nextCells = (grid as any).activeShape.getNextMoveCells(direction, grid);
+    this.stateManager.dispatch(new MoveActiveShape(nextCells));
   }
 
   public generateRandomShape(): Shape {
@@ -161,5 +177,57 @@ export class GameCore {
       return this.positionOverlapsOtherShapes(grid.activeShape.cells);
     }
     return false;
+  }
+
+  public setUserInputEventListeners(inputType: InputType, grid: Grid): void {
+    this.resetTakeUntilObservable();
+    const keyboardKeys = this.gameState.keyboardInputKeys;
+
+    if (inputType === InputType.Keyboard) {
+      fromEvent(window, 'keydown')
+        .pipe(
+          takeUntil(this.takeUserInputUntil$),
+          filter((event: any) => Object.values(keyboardKeys).includes(event.key))
+        )
+        .subscribe(event => {
+    
+          switch(event.key) {
+            case keyboardKeys.downKey:
+              if (this.canMoveShape(MoveDirection.Down, grid)) {
+                this.moveShape(MoveDirection.Down, grid);
+              }
+              break;
+            case keyboardKeys.rotateKey:
+              break;
+            case keyboardKeys.leftKey:
+              if (this.canMoveShape(MoveDirection.Left, grid)) {
+                this.moveShape(MoveDirection.Left, grid);
+              }
+              break;
+            case keyboardKeys.rightKey:
+              if (this.canMoveShape(MoveDirection.Right, grid)) {
+                this.moveShape(MoveDirection.Right, grid);
+              }
+              break;
+            case keyboardKeys.moveToBottomKey:
+              break;
+          }
+        });
+    } else {
+      alert('setting touch event!');
+      fromEvent(window, 'touchstart')
+        .pipe(
+          takeUntil(this.takeUserInputUntil$),
+        )
+        .subscribe(event => {
+        
+        });
+    }
+  }
+
+  private resetTakeUntilObservable(): void {
+    this.takeUserInputUntil$.next();
+    this.takeUserInputUntil$.complete();
+    this.takeUserInputUntil$ = new Subject();
   }
 }

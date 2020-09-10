@@ -214,13 +214,24 @@ export class GameCore {
           }
         });
     } else {
-      alert('setting touch event!');
       fromEvent(window, 'touchstart')
         .pipe(
           takeUntil(this.takeUserInputUntil$),
         )
-        .subscribe(event => {
-        
+        .subscribe((event: any) => {
+          const midpoint = window.innerWidth / 2;
+          const x = event.touches[0].clientX;
+          const isLeft = x < midpoint;
+
+          if (isLeft) {
+            if (this.canMoveShape(MoveDirection.Left, grid)) {
+              this.moveShape(MoveDirection.Left, grid);
+            }
+          } else {
+            if (this.canMoveShape(MoveDirection.Right, grid)) {
+              this.moveShape(MoveDirection.Right, grid);
+            }
+          }
         });
     }
   }

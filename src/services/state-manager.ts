@@ -34,17 +34,21 @@ export default class StateManager {
     const takeUntil$ = new Subject();
 
     useEffect(() => {
+      let changed: boolean = false;
       const sub = this.selectGameState(getStateFn)
         .pipe(takeUntil(takeUntil$))
-        .subscribe((count: TStateType) => {
-          if (count !== stateValue) {
+        .subscribe((pieceOfState: TStateType) => {
+
+          changed = !_.isEqual(pieceOfState, stateValue);
+
+          if (changed) {
             sub.unsubscribe();
-            setNewValue(count);
+            setNewValue(pieceOfState);
           }
         });
 
-      return () => { takeUntil$.next(); takeUntil$.complete(); }
-    });
+      return changed ? () => { takeUntil$.next(); takeUntil$.complete(); } : () => {};
+    }, [ stateValue ]);
     
     return currentValue;
   }

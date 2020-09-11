@@ -30,6 +30,36 @@ export class ShapeConfigManager {
     return this[shapeType][rotationPosition];
   }
 
+  public getNextRotationPoint(currentRotationPoint: RotationPoint, rotationDirection: RotationDirection): RotationPoint {
+    if (rotationDirection === RotationDirection.Clockwise) {
+      switch(currentRotationPoint) {
+        case RotationPoint.A:
+          return RotationPoint.B;
+        case RotationPoint.B:
+          return RotationPoint.C;
+        case RotationPoint.C:
+          return RotationPoint.D;
+        case RotationPoint.D:
+          return RotationPoint.A;
+      }
+    } else {
+      switch(currentRotationPoint) {
+        case RotationPoint.A:
+          return RotationPoint.D;
+        case RotationPoint.B:
+          return RotationPoint.A;
+        case RotationPoint.C:
+          return RotationPoint.B;
+        case RotationPoint.D:
+          return RotationPoint.C;
+      }
+    }
+  }
+
+  private getShiftedCell(blockIndex: number, shape: Shape, grid: Grid, colShift: number, rowShift: number): Cell {
+    return grid.getCell(shape.cells[blockIndex].row+rowShift, shape.cells[blockIndex].column+colShift);
+  }
+
   private initBarConfig(): void {
     this.Bar = {
       A: {
@@ -43,7 +73,21 @@ export class ShapeConfigManager {
           return grid.getRowRange(row, column, column + 3);
         },
         getRotatedPosition: (shape: Shape, grid: Grid, direction: RotationDirection): Cell[] => {
-          return [];  // TODO
+          if (direction === RotationDirection.Clockwise) {
+            return [
+              this.getShiftedCell(0, shape, grid, 2, -2),
+              this.getShiftedCell(1, shape, grid, 1, -1),
+              this.getShiftedCell(2, shape, grid, 0, 0),
+              this.getShiftedCell(3, shape, grid, -1, 1),
+            ];
+          } else {
+            return [
+              this.getShiftedCell(0, shape, grid, 1, -2),
+              this.getShiftedCell(1, shape, grid, 0, -1),
+              this.getShiftedCell(2, shape, grid, -1, 0),
+              this.getShiftedCell(3, shape, grid, -2, 1),
+            ];
+          }
         }
       } as ShapePositionConfig,
       B: {
@@ -60,7 +104,21 @@ export class ShapeConfigManager {
           return grid.getColRange(column, row-3 , row);
         },
         getRotatedPosition: (shape: Shape, grid: Grid, direction: RotationDirection): Cell[] => {
-          return [];  // TODO
+          if (direction === RotationDirection.Clockwise) {
+            return [
+              this.getShiftedCell(0, shape, grid, -2, 1),
+              this.getShiftedCell(1, shape, grid, -1, 0),
+              this.getShiftedCell(2, shape, grid, 0, -1),
+              this.getShiftedCell(3, shape, grid, 1, -2),
+            ]
+          } else {
+            return [
+              this.getShiftedCell(0, shape, grid, -2, 2),
+              this.getShiftedCell(1, shape, grid, -1, 1),
+              this.getShiftedCell(2, shape, grid, 0, 0),
+              this.getShiftedCell(3, shape, grid, 1, -1),
+            ];
+          }
         }
       } as ShapePositionConfig,
       C: {
@@ -74,7 +132,21 @@ export class ShapeConfigManager {
           return grid.getRowRange(row, column, column + 3);
         },
         getRotatedPosition: (shape: Shape, grid: Grid, direction: RotationDirection): Cell[] => {
-          return [];  // TODO
+          if (direction === RotationDirection.Clockwise) {
+            return [
+              this.getShiftedCell(0, shape, grid, 1, -1),
+              this.getShiftedCell(1, shape, grid, 0, 0),
+              this.getShiftedCell(2, shape, grid, -1, 1),
+              this.getShiftedCell(3, shape, grid, -2, 2),
+            ]
+          } else {
+            return [
+              this.getShiftedCell(0, shape, grid, 2, -1),
+              this.getShiftedCell(1, shape, grid, 1, 0),
+              this.getShiftedCell(2, shape, grid, 0, 1),
+              this.getShiftedCell(3, shape, grid, -1, 2),
+            ]
+          }
         }
       } as ShapePositionConfig,
       D: {
@@ -91,7 +163,21 @@ export class ShapeConfigManager {
           return grid.getColRange(column, row-3 , row);
         },
         getRotatedPosition: (shape: Shape, grid: Grid, direction: RotationDirection): Cell[] => {
-          return [];  // TODO
+          if (direction === RotationDirection.Clockwise) {
+            return [
+              this.getShiftedCell(0, shape, grid, -1, 2),
+              this.getShiftedCell(1, shape, grid, 0, 1),
+              this.getShiftedCell(2, shape, grid, 1, 0),
+              this.getShiftedCell(3, shape, grid, 2, -1),
+            ];
+          } else {
+            return [
+              this.getShiftedCell(0, shape, grid, -1, 1),
+              this.getShiftedCell(1, shape, grid, 0, 0),
+              this.getShiftedCell(2, shape, grid, 1, -1),
+              this.getShiftedCell(3, shape, grid, 2, -2),
+            ]
+          }
         }
       } as ShapePositionConfig,
     } as ShapeConfig;

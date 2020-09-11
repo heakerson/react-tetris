@@ -14,6 +14,7 @@ import _ from "lodash";
 import { InputType } from "../models/input-type";
 import { fromEvent, Subject } from "rxjs";
 import { takeUntil, filter } from "rxjs/operators";
+import { RotationDirection } from "../models/rotation-direction";
 
 export class GameCore {
   private gameState: any;
@@ -112,9 +113,38 @@ export class GameCore {
     return false;
   }
 
+  private canRotateShape(direction: RotationDirection, grid: Grid): boolean {
+    const { activeShape } = grid;
+
+    if (activeShape) {
+      const shapeConfig = this.shapeManager.getConfigFor(activeShape.shapeType, activeShape.rotationPoint);
+      const nextRotationPosition = shapeConfig.getRotatedPosition(activeShape, grid, direction);
+      const nextRotationPositionExists = nextRotationPosition && nextRotationPosition.length > 0 && (nextRotationPosition.findIndex(c => !c) === -1);
+
+      if (nextRotationPositionExists) {
+        return !this.positionOverlapsOtherShapes(nextRotationPosition);
+      }
+    }
+
+    return false;
+  }
+
   private moveShape(direction: MoveDirection, grid: Grid): void {
-    const nextCells = (grid as any).activeShape.getNextMoveCells(direction, grid);
-    this.stateManager.dispatch(new MoveActiveShape(nextCells));
+    const nextPosition = (grid as any).activeShape.getNextMoveCells(direction, grid);
+    this.stateManager.dispatch(new MoveActiveShape(nextPosition));
+  }
+
+  private rotateShape(direction: RotationDirection, grid: Grid): void {
+    if (grid.activeShape) {
+      const { shapeType, rotationPoint } = grid.activeShape;
+      const shapeConfig = this.shapeManager.getConfigFor(shapeType, rotationPoint);
+      //TODO: Get rid of console logs
+      console.log('rotating shape type', shapeType, 'rotationPoint', rotationPoint);
+      const nextPosition = shapeConfig.getRotatedPosition(grid.activeShape, grid, direction);
+      const nextRotationPoint = this.shapeManager.getNextRotationPoint(rotationPoint, direction);
+      console.log('next position', nextPosition);
+      this.stateManager.dispatch(new MoveActiveShape(nextPosition, nextRotationPoint));
+    }
   }
 
   private generateRandomShape(): Shape {
@@ -197,7 +227,15 @@ export class GameCore {
                 this.moveShape(MoveDirection.Down, grid);
               }
               break;
-            case keyboardKeys.rotateKey:
+            case keyboardKeys.rotateClockwise:
+              if (this.canRotateShape(RotationDirection.Clockwise, grid)) {
+                this.rotateShape(RotationDirection.Clockwise, grid);
+              }
+              break;
+            case keyboardKeys.rotateCounterClockwise:
+              if (this.canRotateShape(RotationDirection.CounterClockwise, grid)) {
+                this.rotateShape(RotationDirection.CounterClockwise, grid);
+              }
               break;
             case keyboardKeys.leftKey:
               if (this.canMoveShape(MoveDirection.Left, grid)) {

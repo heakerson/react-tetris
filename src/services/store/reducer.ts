@@ -88,6 +88,10 @@ const reducer = function(gameState: GameState, action: Action): GameState {
     case ActionType.MoveActiveShape:
       if (gameState.grid.activeShape) {
         gameState.grid.activeShape.cells = action.nextCells;
+
+        if (action.nextRotationPoint) {
+          gameState.grid.activeShape.rotationPoint = action.nextRotationPoint;
+        }
       }
       return {
         ...gameState

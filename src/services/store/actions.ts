@@ -1,6 +1,7 @@
 import { DisplayType } from "../../models/display-type";
 import { Shape } from "../../models/shape";
 import { Cell } from "../../models/cell";
+import { RotationPoint } from "../../models/rotation-point";
 
 export interface IAction {
   type: ActionType;
@@ -63,7 +64,7 @@ class RotateActiveAndNextShapes implements IAction {
 class MoveActiveShape implements IAction {
   type = ActionType.MoveActiveShape;
 
-  constructor(public nextCells: Cell[]) {}
+  constructor(public nextCells: Cell[], public nextRotationPoint?: RotationPoint) {}
 }
 
 class InitActiveAndNextShape implements IAction {
@@ -82,7 +83,7 @@ export type Action =
   | { type: ActionType.IncrementLevel }
   | { type: ActionType.IncrementTick }
   | { type: ActionType.RotateActiveAndNextShapes, newNextShape: Shape, activeShapeStartCells: Cell[] }
-  | { type: ActionType.MoveActiveShape, nextCells: Cell[] }
+  | { type: ActionType.MoveActiveShape, nextCells: Cell[], nextRotationPoint?: RotationPoint }
   | { type: ActionType.InitActiveAndNextShape, activeShape: Shape, nextShape: Shape }
   ;
 

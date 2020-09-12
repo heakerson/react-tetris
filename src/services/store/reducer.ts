@@ -32,6 +32,11 @@ const reducer = function(gameState: GameState, action: Action): GameState {
         ...gameState,
         gameStatus: GameStatus.Playing
       };
+    case ActionType.ClearingRows:
+      return {
+        ...gameState,
+        gameStatus: GameStatus.ClearingRows
+      };
     case ActionType.PauseGame:
       return {
         ...gameState,

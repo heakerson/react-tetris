@@ -3,5 +3,6 @@ export enum TickStep {
   InitActiveAndNextShape = 'InitActiveAndNextShape',
   MoveActiveShapeDown = 'MoveActiveShapeDown',
   SwapNextAndActiveShapes = 'SwapNextAndActiveShapes',
-  None = 'None'
+  ClearRows = 'ClearRows',
+  None = 'None',
 }

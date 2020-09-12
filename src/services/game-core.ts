@@ -138,11 +138,8 @@ export class GameCore {
     if (grid.activeShape) {
       const { shapeType, rotationPoint } = grid.activeShape;
       const shapeConfig = this.shapeManager.getConfigFor(shapeType, rotationPoint);
-      //TODO: Get rid of console logs
-      console.log('rotating shape type', shapeType, 'rotationPoint', rotationPoint);
       const nextPosition = shapeConfig.getRotatedPosition(grid.activeShape, grid, direction);
       const nextRotationPoint = this.shapeManager.getNextRotationPoint(rotationPoint, direction);
-      console.log('next position', nextPosition);
       this.stateManager.dispatch(new MoveActiveShape(nextPosition, nextRotationPoint));
     }
   }

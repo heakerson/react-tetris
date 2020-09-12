@@ -14,7 +14,7 @@ enum ActionType {
   SetDisplayType,
   SetInputType,
   StartGame,
-  ClearingRows,
+  SetClearingRowsStatus,
   PauseGame,
   EndGame,
   ResetGame,
@@ -50,8 +50,8 @@ class StartGame implements IAction {
   type = ActionType.StartGame;
 }
 
-class ClearingRows implements IAction {
-  type = ActionType.ClearingRows;
+class SetClearingRowsStatus implements IAction {
+  type = ActionType.SetClearingRowsStatus;
 }
 
 class PauseGame implements IAction {
@@ -102,7 +102,7 @@ export type Action =
   | { type: ActionType.SetDisplayType, displayType: DisplayType }
   | { type: ActionType.SetInputType, inputType: InputType }
   | { type: ActionType.StartGame }
-  | { type: ActionType.ClearingRows }
+  | { type: ActionType.SetClearingRowsStatus }
   | { type: ActionType.PauseGame }
   | { type: ActionType.EndGame }
   | { type: ActionType.ResetGame }
@@ -121,7 +121,7 @@ export {
   SetDisplayType,
   SetInputType,
   StartGame,
-  ClearingRows,
+  SetClearingRowsStatus,
   PauseGame,
   EndGame,
   ResetGame,

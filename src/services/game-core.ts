@@ -3,7 +3,7 @@ import { Grid } from "../models/grid";
 import { ShapeType } from "../models/shape-type";
 import { Cell } from "../models/cell";
 import StateManager from "./state-manager";
-import { EndGame, MoveActiveShape, RotateActiveAndNextShapes, InitActiveAndNextShape, ClearingRows, ClearActiveShape } from "./store/actions";
+import { EndGame, MoveActiveShape, RotateActiveAndNextShapes, InitActiveAndNextShape, SetClearingRowsStatus, ClearActiveShape } from "./store/actions";
 import { MoveDirection } from "../models/move-direction";
 import { TickStep } from "../models/tick-step";
 import { RotationPoint } from "../models/rotation-point";
@@ -59,7 +59,7 @@ export class GameCore {
     
       case TickStep.ClearRows:
         this.stateManager.dispatch(new ClearActiveShape());
-        this.clearRows();
+        this.clearRows(grid);
         break;
 
       case TickStep.SwapNextAndActiveShapes:
@@ -97,12 +97,12 @@ export class GameCore {
 
   checkClearingRows(grid: Grid): void {
     if (grid.containsCompleteRow()){
-      this.clearRows();
+      this.clearRows(grid);
     }
   }
 
-  clearRows(): void {
-    this.stateManager.dispatch(new ClearingRows());
+  clearRows(grid: Grid): void {
+    this.stateManager.dispatch(new SetClearingRowsStatus());
   }
 
   private initActiveAndNextShape(grid: Grid): void {

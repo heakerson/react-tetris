@@ -2,13 +2,29 @@ import { Cell } from "./cell";
 import { Shape } from "./shape";
 
 export class Grid {
-   cellRows: Cell[][] = [];
+  cellRows: Cell[][] = [];
   inactiveShapes: Shape[] = [];
   activeShape?: Shape;
   occupiedCellsByColumn: any = {};
 
   constructor(public width: number, public height: number) {
     this.initCells();
+  }
+
+  containsCompleteRow(): boolean {
+    let containsCompleteRow = false;
+
+    for (let i = 0; i < this.cellRows.length; i++) {
+      const row = this.cellRows[i];
+      const emptyCell = row.find(cell => !cell.inactiveShape && !this.activeShape?.containsCellAt(i, cell.column));
+
+      if (!emptyCell) {
+        containsCompleteRow = true;
+        break;
+      }
+    }
+
+    return containsCompleteRow;
   }
 
   getTopInactiveColumnPosition(columnIndex: number): Cell | undefined {

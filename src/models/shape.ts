@@ -48,6 +48,10 @@ export class Shape {
     return _.uniq(this.cells.map(cell => cell.column));
   }
 
+  getAllRows(): number[] {
+    return _.uniq(this.cells.map(cell => cell.row));
+  }
+
   containsCellAt(rowIndex: number, columnIndex: number): boolean {
     const found = this.cells.find(cell => cell.row === rowIndex && cell.column === columnIndex);
     return !!found;

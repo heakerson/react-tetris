@@ -95,6 +95,30 @@ const reducer = function(gameState: GameState, action: Action): GameState {
         ...gameState,
         nextShape: action.newNextShape
       }
+    
+    case ActionType.ClearActiveShape:
+      const theGrid = gameState.grid;
+
+      if (theGrid.activeShape) {
+        theGrid.activeShape.cells.forEach(activeCell => {
+          const columnData: number[] = theGrid.occupiedCellsByColumn[activeCell.column];
+          if (columnData) {
+            columnData.push(activeCell.row);
+          } else {
+            theGrid.occupiedCellsByColumn[activeCell.column] = [ activeCell.row ];
+          }
+        });
+
+        theGrid.activeShape.cells.forEach(cell => cell.inactiveShape = theGrid.activeShape);
+        theGrid.inactiveShapes.push(theGrid.activeShape as Shape);
+
+        theGrid.activeShape = undefined;
+      }
+
+      return {
+        ...gameState
+      };
+
     case ActionType.InitActiveAndNextShape:
       gameState.grid.activeShape = action.activeShape;
       return {

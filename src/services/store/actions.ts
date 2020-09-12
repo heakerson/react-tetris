@@ -22,7 +22,8 @@ enum ActionType {
   IncrementTick,
   RotateActiveAndNextShapes,
   MoveActiveShape,
-  InitActiveAndNextShape
+  InitActiveAndNextShape,
+  ClearActiveShape
 }
 
 class ToggleDisplayType implements IAction {
@@ -91,6 +92,10 @@ class InitActiveAndNextShape implements IAction {
   constructor(public activeShape: Shape, public nextShape: Shape) {}
 }
 
+class ClearActiveShape implements IAction {
+  type = ActionType.ClearActiveShape;
+}
+
 export type Action = 
   { type: ActionType.ToggleDisplayType }
   | { type: ActionType.ToggleInputType }
@@ -106,6 +111,7 @@ export type Action =
   | { type: ActionType.RotateActiveAndNextShapes, newNextShape: Shape, activeShapeStartCells: Cell[] }
   | { type: ActionType.MoveActiveShape, nextCells: Cell[], nextRotationPoint?: RotationPoint }
   | { type: ActionType.InitActiveAndNextShape, activeShape: Shape, nextShape: Shape }
+  | { type: ActionType.ClearActiveShape }
   ;
 
 export {
@@ -124,4 +130,5 @@ export {
   RotateActiveAndNextShapes,
   MoveActiveShape,
   InitActiveAndNextShape,
+  ClearActiveShape
 };

@@ -3,7 +3,7 @@ import { Grid } from "../models/grid";
 import { ShapeType } from "../models/shape-type";
 import { Cell } from "../models/cell";
 import StateManager from "./state-manager";
-import { EndGame, MoveActiveShape, RotateActiveAndNextShapes, InitActiveAndNextShape } from "./store/actions";
+import { EndGame, MoveActiveShape, RotateActiveAndNextShapes, InitActiveAndNextShape, ClearingRows, ClearActiveShape } from "./store/actions";
 import { MoveDirection } from "../models/move-direction";
 import { TickStep } from "../models/tick-step";
 import { RotationPoint } from "../models/rotation-point";
@@ -40,10 +40,11 @@ export class GameCore {
       .subscribe(inputData => this.setUserInputEventListeners(inputData.inputType, inputData.grid));
 
     this.stateManager.selectGameState(gameState => gameState.tickCount)
-      .subscribe(() => this.tickGame())
+      .subscribe((tickCount) => this.tickGame(tickCount))
   }
 
-  private tickGame(): void {
+  private tickGame(tickCount: number): void {
+    // console.log('TICK', tickCount);
     const grid: Grid = this.gameState.grid;
     const nextStep: TickStep = this.determineNextStep(this.gameState.gameStatus, grid);
 
@@ -54,6 +55,11 @@ export class GameCore {
 
       case TickStep.MoveActiveShapeDown:
         this.shiftShape(MoveDirection.Down, grid);
+        break;
+    
+      case TickStep.ClearRows:
+        this.stateManager.dispatch(new ClearActiveShape());
+        this.clearRows();
         break;
 
       case TickStep.SwapNextAndActiveShapes:
@@ -80,9 +86,23 @@ export class GameCore {
     }
     else if (this.canShiftShape(MoveDirection.Down, grid)) {
       return TickStep.MoveActiveShapeDown;
-    } else {
+    }
+    else if (grid.containsCompleteRow()) {
+      return TickStep.ClearRows;
+    }
+    else {
       return TickStep.SwapNextAndActiveShapes;
     }
+  }
+
+  checkClearingRows(grid: Grid): void {
+    if (grid.containsCompleteRow()){
+      this.clearRows();
+    }
+  }
+
+  clearRows(): void {
+    this.stateManager.dispatch(new ClearingRows());
   }
 
   private initActiveAndNextShape(grid: Grid): void {
@@ -137,6 +157,8 @@ export class GameCore {
     if (this.gameState.gameStatus === GameStatus.Playing && !!grid && !!grid.activeShape) {
       const bottomPosition = this.getMoveShapeToBottomPosition(grid);
       this.stateManager.dispatch(new MoveActiveShape(bottomPosition));
+      this.stateManager.dispatch(new ClearActiveShape());
+      this.checkClearingRows(grid);
     }
   }
 

@@ -10,7 +10,6 @@ import { RotationPoint } from "../models/rotation-point";
 import { ShapeConfigManager } from "./shape-config-manager";
 import { ShapePositionConfig } from "../models/shape-position-config";
 import { GameStatus } from "../models/game-status";
-import _ from "lodash";
 import { InputType } from "../models/input-type";
 import { fromEvent, Subject } from "rxjs";
 import { takeUntil, filter } from "rxjs/operators";
@@ -54,7 +53,7 @@ export class GameCore {
         break;
 
       case TickStep.MoveActiveShapeDown:
-        this.moveShape(MoveDirection.Down, grid);
+        this.shiftShape(MoveDirection.Down, grid);
         break;
 
       case TickStep.SwapNextAndActiveShapes:
@@ -79,7 +78,7 @@ export class GameCore {
     else if (!activeShape) {
       return TickStep.InitActiveAndNextShape;
     }
-    else if (this.canMoveShape(MoveDirection.Down, grid)) {
+    else if (this.canShiftShape(MoveDirection.Down, grid)) {
       return TickStep.MoveActiveShapeDown;
     } else {
       return TickStep.SwapNextAndActiveShapes;
@@ -100,7 +99,7 @@ export class GameCore {
     this.stateManager.dispatch(new RotateActiveAndNextShapes(cellsToPlaceNewActiveShape, newNextShape));
   }
 
-  private canMoveShape(direction: MoveDirection, grid: Grid): boolean {
+  private canShiftShape(direction: MoveDirection, grid: Grid): boolean {
     if (grid.activeShape) {
       const nextMoveCells = grid.activeShape.getNextMoveCells(direction, grid);
       const nextMoveCellsExist = nextMoveCells && nextMoveCells.length > 0 && (nextMoveCells.findIndex(c => !c) === -1);
@@ -129,9 +128,36 @@ export class GameCore {
     return false;
   }
 
-  private moveShape(direction: MoveDirection, grid: Grid): void {
+  private shiftShape(direction: MoveDirection, grid: Grid): void {
     const nextPosition = (grid as any).activeShape.getNextMoveCells(direction, grid);
     this.stateManager.dispatch(new MoveActiveShape(nextPosition));
+  }
+
+  private moveShapeToBottom(grid: Grid): void {
+    if (this.gameState.gameStatus === GameStatus.Playing && !!grid && !!grid.activeShape) {
+      const bottomPosition = this.getMoveShapeToBottomPosition(grid);
+      this.stateManager.dispatch(new MoveActiveShape(bottomPosition));
+    }
+  }
+
+  private getMoveShapeToBottomPosition(grid: Grid): Cell[] {
+    if (grid.activeShape) {
+      const bottomCells = grid.activeShape.getBottomCells();
+
+      const shiftDownValues = bottomCells.map(bottomShapeCell => {
+        const topColumnCell = grid.getTopInactiveColumnPosition(bottomShapeCell.column);
+
+        if (topColumnCell) {
+          return bottomShapeCell.row - topColumnCell.row-1;
+        } else {
+          return bottomShapeCell.row;
+        }
+      });
+
+      const smallestShift = shiftDownValues.sort()[0];
+      return grid.activeShape.getNextMoveCells(MoveDirection.Down, grid, smallestShift);      
+    }
+    return [];
   }
 
   private rotateShape(direction: RotationDirection, grid: Grid): void {
@@ -155,7 +181,6 @@ export class GameCore {
     const potentionStartPoints: number[] = this.getPotentionStartColumnsFor(shapeConfig, grid).sort(() => Math.random() - .5);
     let randomColumnPosition = -1;
     let position: Cell[] = [];
-    let foundValidPosition = false;
 
     for (let i = 0; i < potentionStartPoints.length; i++) {
       randomColumnPosition = potentionStartPoints[i];
@@ -164,7 +189,6 @@ export class GameCore {
       const overlap = this.positionOverlapsOtherShapes(position);
 
       if (!overlap) {
-        foundValidPosition = true;
         break;
       }
     }
@@ -220,8 +244,8 @@ export class GameCore {
     
           switch(event.key) {
             case keyboardKeys.downKey:
-              if (this.canMoveShape(MoveDirection.Down, grid)) {
-                this.moveShape(MoveDirection.Down, grid);
+              if (this.canShiftShape(MoveDirection.Down, grid)) {
+                this.shiftShape(MoveDirection.Down, grid);
               }
               break;
             case keyboardKeys.rotateClockwise:
@@ -235,16 +259,17 @@ export class GameCore {
               }
               break;
             case keyboardKeys.leftKey:
-              if (this.canMoveShape(MoveDirection.Left, grid)) {
-                this.moveShape(MoveDirection.Left, grid);
+              if (this.canShiftShape(MoveDirection.Left, grid)) {
+                this.shiftShape(MoveDirection.Left, grid);
               }
               break;
             case keyboardKeys.rightKey:
-              if (this.canMoveShape(MoveDirection.Right, grid)) {
-                this.moveShape(MoveDirection.Right, grid);
+              if (this.canShiftShape(MoveDirection.Right, grid)) {
+                this.shiftShape(MoveDirection.Right, grid);
               }
               break;
             case keyboardKeys.moveToBottomKey:
+              this.moveShapeToBottom(grid);
               break;
           }
         });
@@ -259,12 +284,12 @@ export class GameCore {
           const isLeft = x < midpoint;
 
           if (isLeft) {
-            if (this.canMoveShape(MoveDirection.Left, grid)) {
-              this.moveShape(MoveDirection.Left, grid);
+            if (this.canShiftShape(MoveDirection.Left, grid)) {
+              this.shiftShape(MoveDirection.Left, grid);
             }
           } else {
-            if (this.canMoveShape(MoveDirection.Right, grid)) {
-              this.moveShape(MoveDirection.Right, grid);
+            if (this.canShiftShape(MoveDirection.Right, grid)) {
+              this.shiftShape(MoveDirection.Right, grid);
             }
           }
         });

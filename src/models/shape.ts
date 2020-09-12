@@ -1,51 +1,51 @@
 import { Cell } from "./cell";
 import { Grid } from "./grid";
 import { MoveDirection } from "./move-direction";
-import { RotationDirection } from "./rotation-direction";
 import { ShapeType } from "./shape-type";
 import { RotationPoint } from "./rotation-point";
+import _ from "lodash";
 
 export class Shape {
-  get isActive(): boolean {
-    // TODO use grid, maybe create an equals method?
-    return false;
-  };
-
-  private counter = 0;
 
   constructor(public cells: Cell[], public shapeType: ShapeType, public rotationPoint: RotationPoint) {}
 
-  canRotate(rotationDirection: RotationDirection): boolean {
-    // TODO
-    return false;
-  }
-
-  getNextMoveCells(direction: MoveDirection, grid: Grid): Cell[] {
+  getNextMoveCells(direction: MoveDirection, grid: Grid, shiftAmount: number = 1): Cell[] {
     switch(direction) {
       case MoveDirection.Down:
         try {
-          return this.cells.map(cell => grid.getCell(cell.row-1, cell.column));
+          return this.cells.map(cell => grid.getCell(cell.row-shiftAmount, cell.column));
         } catch {
           return [];
         }
       case MoveDirection.Left:
         try {
-          return this.cells.map(cell => grid.getCell(cell.row, cell.column-1));
+          return this.cells.map(cell => grid.getCell(cell.row, cell.column-shiftAmount));
         } catch {
           return [];
         }
       case MoveDirection.Right:
         try {
-          return this.cells.map(cell => grid.getCell(cell.row, cell.column+1));
+          return this.cells.map(cell => grid.getCell(cell.row, cell.column+shiftAmount));
         } catch {
           return [];
         }
     }
   }
 
-  getNextRotateCells(rotationDirection: RotationDirection): Cell[] {
-    // TODO
-    return [];
+  getBottomCells(): Cell[] {
+    const columnIndices = this.getAllColumns();
+    return columnIndices.map(columnIndex => {
+      const orderedCellsInColumn = _.orderBy(this.getCellsInColumn(columnIndex), 'row');
+      return orderedCellsInColumn[0];
+    });
+  }
+
+  getCellsInColumn(columnIndex: number): Cell[] {
+    return this.cells.filter(cell => cell.column === columnIndex);
+  }
+
+  getAllColumns(): number[] {
+    return _.uniq(this.cells.map(cell => cell.column));
   }
 
   containsCellAt(rowIndex: number, columnIndex: number): boolean {

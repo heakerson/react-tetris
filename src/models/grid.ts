@@ -11,6 +11,11 @@ export class Grid {
     this.initCells();
   }
 
+  getTopInactiveColumnPosition(columnIndex: number): Cell | undefined {
+    const column: Cell[] = this.getColumn(columnIndex);
+    return column.reverse().find(cell => !!cell.inactiveShape);
+  }
+
   getCell(rowIndex: number, colIndex: number): Cell {
     const row = this.getRow(rowIndex);
     return row[colIndex];

@@ -3,6 +3,7 @@ import { Action, ActionType } from "./actions";
 import { DisplayType } from "../../models/display-type";
 import { GameStatus } from "../../models/game-status";
 import { Shape } from "../../models/shape";
+import { InputType } from "../../models/input-type";
 
 const reducer = function(gameState: GameState, action: Action): GameState {
   switch(action.type) {
@@ -11,10 +12,20 @@ const reducer = function(gameState: GameState, action: Action): GameState {
         ...gameState,
         displayType: gameState.displayType === DisplayType.Mobile ? DisplayType.Desktop : DisplayType.Mobile
       };
+    case ActionType.ToggleInputType:
+      return {
+        ...gameState,
+        inputType: gameState.inputType === InputType.Keyboard ? InputType.Touch : InputType.Keyboard
+      };
     case ActionType.SetDisplayType:
       return {
         ...gameState,
         displayType: action.displayType
+      };
+    case ActionType.SetInputType:
+      return {
+        ...gameState,
+        inputType: action.inputType
       };
     case ActionType.StartGame:
       return {

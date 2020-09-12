@@ -1,4 +1,4 @@
 export enum InputType {
-  Keyboard,
-  Touch
+  Keyboard = 'Keyboard',
+  Touch = 'Touch'
 }

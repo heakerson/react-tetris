@@ -2,6 +2,7 @@ import { DisplayType } from "../../models/display-type";
 import { Shape } from "../../models/shape";
 import { Cell } from "../../models/cell";
 import { RotationPoint } from "../../models/rotation-point";
+import { InputType } from "../../models/input-type";
 
 export interface IAction {
   type: ActionType;
@@ -9,7 +10,9 @@ export interface IAction {
 
 enum ActionType {
   ToggleDisplayType,
+  ToggleInputType,
   SetDisplayType,
+  SetInputType,
   StartGame,
   PauseGame,
   EndGame,
@@ -25,10 +28,20 @@ class ToggleDisplayType implements IAction {
   type = ActionType.ToggleDisplayType;
 }
 
+class ToggleInputType implements IAction {
+  type = ActionType.ToggleInputType;
+}
+
 class SetDisplayType implements IAction {
   type = ActionType.SetDisplayType;
 
   constructor(public displayType: DisplayType) {}
+}
+
+class SetInputType implements IAction {
+  type = ActionType.SetInputType;
+
+  constructor(public inputType: InputType) {}
 }
 
 class StartGame implements IAction {
@@ -75,7 +88,9 @@ class InitActiveAndNextShape implements IAction {
 
 export type Action = 
   { type: ActionType.ToggleDisplayType }
+  | { type: ActionType.ToggleInputType }
   | { type: ActionType.SetDisplayType, displayType: DisplayType }
+  | { type: ActionType.SetInputType, inputType: InputType }
   | { type: ActionType.StartGame }
   | { type: ActionType.PauseGame }
   | { type: ActionType.EndGame }
@@ -90,7 +105,9 @@ export type Action =
 export {
   ActionType,
   ToggleDisplayType,
+  ToggleInputType,
   SetDisplayType,
+  SetInputType,
   StartGame,
   PauseGame,
   EndGame,
@@ -99,5 +116,5 @@ export {
   IncrementTick,
   RotateActiveAndNextShapes,
   MoveActiveShape,
-  InitActiveAndNextShape
+  InitActiveAndNextShape,
 };

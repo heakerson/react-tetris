@@ -22,8 +22,8 @@ export class GameState {
     leftKey: 'ArrowLeft',
     rightKey: 'ArrowRight',
     downKey: 'ArrowDown',
-    rotateClockwise: null,
-    rotateCounterClockwise: 'ArrowUp',
+    rotateClockwise: 'ArrowUp',
+    rotateCounterClockwise: null,
     moveToBottomKey: ' '
   };
   displayType: DisplayType  = isMobile() ? DisplayType.Mobile : DisplayType.Desktop;

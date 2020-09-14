@@ -9,13 +9,22 @@ function Cell(props: { game: Game, rowIndex: number, columnIndex: number }) {
 
   const cellData = game.setComponentGameStateListener(gameState => {
     const { activeShape } = gameState.grid;
+    const cell = gameState.grid.getCell(rowIndex, columnIndex);
 
     return {
-      cell: gameState.grid.getCell(rowIndex, columnIndex),
+      cell: cell,
       gameStatus: gameState.gameStatus,
-      containingActiveShape: activeShape && activeShape.containsCellAt(rowIndex, columnIndex) ? activeShape : null
+      containingActiveShape: activeShape && activeShape.containsCellAt(rowIndex, columnIndex) ? activeShape : null,
+      clearing$: cell.clearing$,
     }
   });
+
+  if (cellData.clearing$) {
+    setTimeout(() => {
+      cellData.clearing$?.next();
+      cellData.clearing$?.complete();
+    }, 1000);
+  }
 
   const classes = `${getCellStyling(cellData.containingActiveShape, cellData.cell)} ${getCellSizeClass()}`
 
@@ -24,10 +33,11 @@ function Cell(props: { game: Game, rowIndex: number, columnIndex: number }) {
 
 const getCellStyling = (containingShape: Shape | null, cellModel: CellModel): string => {
   if (!!containingShape) {
-    return `${containingShape.shapeType} cell active-cell shadow`;
+    return `${containingShape.shapeType} cell active-cell shadow ${cellModel.clearing$ ? 'clearing': ''}`;
   } else if (!!cellModel.inactiveShape) {
-    return `${cellModel.inactiveShape.shapeType} cell inactive-occupied-cell`;
+    return `${cellModel.inactiveShape.shapeType} cell inactive-occupied-cell ${cellModel.clearing$ ? 'clearing': ''}`;
   }
+
   return ''
 }
 

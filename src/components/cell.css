@@ -15,6 +15,31 @@
 .inactive-occupied-cell {
   opacity: .5;
   border: solid 1px white;
+  transition: opacity 2s, box-shadow 2s;
+}
+
+.clearing {
+  animation: clearing-cell 1s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes clearing-cell {
+  5% {
+    background-color: white;
+  }
+  10% {
+    background-color: yellow;
+  }
+  25% {
+    background-color: red;
+    opacity: 1;
+  }
+  50% {
+    background-color: black;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 .Bar {

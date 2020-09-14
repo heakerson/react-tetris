@@ -48,6 +48,7 @@ const reducer = function(gameState: GameState, action: Action): GameState {
         gameStatus: GameStatus.End
       }
     case ActionType.ResetGame:
+      gameState.grid.clearAllAnimations();
       gameState.grid.activeShape = undefined;
       gameState.grid.inactiveShapes = [];
       gameState.grid.cellRows.forEach(row => row.forEach(cell => cell.inactiveShape = undefined));
@@ -136,6 +137,23 @@ const reducer = function(gameState: GameState, action: Action): GameState {
       return {
         ...gameState
       }
+
+    case ActionType.AnimateCell:
+      const cellToAnimate = gameState.grid.getCell(action.rowIndex, action.columnIndex);
+      cellToAnimate.clearing$ = action.clearing$
+
+      return {
+        ...gameState
+      };
+
+    case ActionType.SettleGridRows:
+      gameState.grid.settleRows(action.rowIndexes);
+      gameState.grid.clearAllAnimations();
+
+      return {
+        ...gameState
+      }
+
     default:
       return gameState;
   }

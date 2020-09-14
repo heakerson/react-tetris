@@ -3,6 +3,7 @@ import { Shape } from "../../models/shape";
 import { Cell } from "../../models/cell";
 import { RotationPoint } from "../../models/rotation-point";
 import { InputType } from "../../models/input-type";
+import { Subject } from "rxjs";
 
 export interface IAction {
   type: ActionType;
@@ -23,7 +24,9 @@ enum ActionType {
   RotateActiveAndNextShapes,
   MoveActiveShape,
   InitActiveAndNextShape,
-  ClearActiveShape
+  ClearActiveShape,
+  AnimateCell,
+  SettleGridRows
 }
 
 class ToggleDisplayType implements IAction {
@@ -96,6 +99,18 @@ class ClearActiveShape implements IAction {
   type = ActionType.ClearActiveShape;
 }
 
+class AnimateCell implements IAction {
+  type = ActionType.AnimateCell;
+
+  constructor(public columnIndex: number, public rowIndex: number, public clearing$: Subject<any>) {}
+}
+
+class SettleGridRows implements IAction {
+  type = ActionType.SettleGridRows;
+
+  constructor(public rowIndexes: number[]) { }
+}
+
 export type Action = 
   { type: ActionType.ToggleDisplayType }
   | { type: ActionType.ToggleInputType }
@@ -112,6 +127,8 @@ export type Action =
   | { type: ActionType.MoveActiveShape, nextCells: Cell[], nextRotationPoint?: RotationPoint }
   | { type: ActionType.InitActiveAndNextShape, activeShape: Shape, nextShape: Shape }
   | { type: ActionType.ClearActiveShape }
+  | { type: ActionType.AnimateCell, columnIndex: number, rowIndex: number, clearing$: Subject<any> }
+  | { type: ActionType.SettleGridRows, rowIndexes: number[] }
   ;
 
 export {
@@ -130,5 +147,7 @@ export {
   RotateActiveAndNextShapes,
   MoveActiveShape,
   InitActiveAndNextShape,
-  ClearActiveShape
+  ClearActiveShape,
+  AnimateCell,
+  SettleGridRows
 };

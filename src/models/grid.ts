@@ -84,7 +84,11 @@ export class Grid {
   }
 
   getRow(rowIndex: number): Cell[] {
-    return this.cellRows[rowIndex];
+    if (rowIndex < this.cellRows.length) {
+      return this.cellRows[rowIndex];
+    } else {
+      return [];
+    }
   }
 
   getRowRange(rowIndex: number, colStart: number, colEnd: number): Cell[] {

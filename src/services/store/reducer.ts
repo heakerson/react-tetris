@@ -59,7 +59,8 @@ const reducer = function(gameState: GameState, action: Action): GameState {
         gameStatus: GameStatus.Start,
         level: 1,
         tickCount: 0,
-        nextShape: undefined
+        nextShape: undefined,
+        rowsCleared: 0
       }
     case ActionType.IncrementLevel:
       return {
@@ -154,6 +155,12 @@ const reducer = function(gameState: GameState, action: Action): GameState {
         ...gameState
       }
 
+    case ActionType.IncrementRowCount:
+      return {
+        ...gameState,
+        rowsCleared: gameState.rowsCleared + action.incrementBy
+      };
+    
     default:
       return gameState;
   }

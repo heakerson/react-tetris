@@ -26,7 +26,8 @@ enum ActionType {
   InitActiveAndNextShape,
   ClearActiveShape,
   AnimateCell,
-  SettleGridRows
+  SettleGridRows,
+  IncrementRowCount
 }
 
 class ToggleDisplayType implements IAction {
@@ -111,6 +112,12 @@ class SettleGridRows implements IAction {
   constructor(public rowIndexes: number[]) { }
 }
 
+class IncrementRowCount implements IAction {
+  type = ActionType.IncrementRowCount;
+
+  constructor(public incrementBy: number) { }
+}
+
 export type Action = 
   { type: ActionType.ToggleDisplayType }
   | { type: ActionType.ToggleInputType }
@@ -129,6 +136,7 @@ export type Action =
   | { type: ActionType.ClearActiveShape }
   | { type: ActionType.AnimateCell, columnIndex: number, rowIndex: number, clearing$: Subject<any> }
   | { type: ActionType.SettleGridRows, rowIndexes: number[] }
+  | { type: ActionType.IncrementRowCount, incrementBy: number }
   ;
 
 export {
@@ -149,5 +157,6 @@ export {
   InitActiveAndNextShape,
   ClearActiveShape,
   AnimateCell,
-  SettleGridRows
+  SettleGridRows,
+  IncrementRowCount
 };

@@ -3,7 +3,7 @@ import { Grid } from "../models/grid";
 import { ShapeType } from "../models/shape-type";
 import { Cell } from "../models/cell";
 import StateManager from "./state-manager";
-import { EndGame, MoveActiveShape, RotateActiveAndNextShapes, InitActiveAndNextShape, SetClearingRowsStatus, ClearActiveShape, AnimateCell, IAction, SettleGridRows, StartGame } from "./store/actions";
+import { EndGame, MoveActiveShape, RotateActiveAndNextShapes, InitActiveAndNextShape, SetClearingRowsStatus, ClearActiveShape, AnimateCell, IAction, SettleGridRows, StartGame, IncrementRowCount } from "./store/actions";
 import { MoveDirection } from "../models/move-direction";
 import { TickStep } from "../models/tick-step";
 import { RotationPoint } from "../models/rotation-point";
@@ -130,6 +130,7 @@ export class GameCore {
 
     forkJoin(rowClearedObservables).subscribe(() => {
       this.stateManager.dispatch(new SettleGridRows(completeRows.map(row => row.rowIndex)));
+      this.stateManager.dispatch(new IncrementRowCount(completeRows.length));
       this.stateManager.dispatch(new StartGame());
     });
   }

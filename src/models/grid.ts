@@ -27,6 +27,52 @@ export class Grid {
     return containsCompleteRow;
   }
 
+  getCompleteRows(): { rowIndex: number, cells: Cell[] }[] {
+    const completeRows: { rowIndex: number, cells: Cell[] }[] = [];
+
+    for (let i = 0; i < this.cellRows.length; i++) {
+      const row = this.cellRows[i];
+      const emptyCell = row.find(cell => !cell.inactiveShape && !this.activeShape?.containsCellAt(i, cell.column));
+
+      if (!emptyCell) {
+        completeRows.push({ rowIndex: i, cells: row});
+      }
+    }
+
+    return completeRows;
+  }
+
+  settleRows(rowIndices: number[]): void {
+    rowIndices = rowIndices.sort();
+
+    rowIndices.forEach(rowIndex => {
+      for (let i = rowIndex; i < this.cellRows.length; i++) {
+        const row = this.getRow(i);
+        row.forEach(cell => {
+          if (i + 1 < this.cellRows.length) {
+            const cellAbove = this.getCell(i + 1, cell.column);
+            if (cellAbove) {
+              cell.inactiveShape = cellAbove.inactiveShape;
+            }
+          }
+          else {
+            cell.inactiveShape = undefined;
+          }
+        });
+      }
+    });
+  }
+
+  clearAllAnimations(): void {
+    this.cellRows.forEach((r, i) => this.clearAnimationsFromRow(i));
+  }
+
+  clearAnimationsFromRow(rowIndex: number): void {
+    this.getRow(rowIndex).forEach(cell => {
+      cell.clearing$ = undefined;
+    });
+  }
+
   getTopInactiveColumnPosition(columnIndex: number): Cell | undefined {
     const column: Cell[] = this.getColumn(columnIndex);
     return column.reverse().find(cell => !!cell.inactiveShape);

@@ -3,7 +3,7 @@ import { Grid } from "../models/grid";
 import { ShapeType } from "../models/shape-type";
 import { Cell } from "../models/cell";
 import StateManager from "./state-manager";
-import { EndGame, MoveActiveShape, RotateActiveAndNextShapes, InitActiveAndNextShape, SetClearingRowsStatus, ClearActiveShape } from "./store/actions";
+import { EndGame, MoveActiveShape, RotateActiveAndNextShapes, InitActiveAndNextShape, SetClearingRowsStatus, ClearActiveShape, AnimateCell, IAction, SettleGridRows, StartGame } from "./store/actions";
 import { MoveDirection } from "../models/move-direction";
 import { TickStep } from "../models/tick-step";
 import { RotationPoint } from "../models/rotation-point";
@@ -11,8 +11,8 @@ import { ShapeConfigManager } from "./shape-config-manager";
 import { ShapePositionConfig } from "../models/shape-position-config";
 import { GameStatus } from "../models/game-status";
 import { InputType } from "../models/input-type";
-import { fromEvent, Subject } from "rxjs";
-import { takeUntil, filter } from "rxjs/operators";
+import { forkJoin, fromEvent, interval, Subject } from "rxjs";
+import { takeUntil, filter, take } from "rxjs/operators";
 import { RotationDirection } from "../models/rotation-direction";
 
 export class GameCore {
@@ -103,6 +103,39 @@ export class GameCore {
 
   clearRows(grid: Grid): void {
     this.stateManager.dispatch(new SetClearingRowsStatus());
+    const completeRows = grid.getCompleteRows();
+    const rowClearedObservables: Subject<any>[] = [];
+
+    completeRows.forEach(completeRow => {
+      const cellClearedObservables: Subject<any>[] = [];
+      const actions: IAction[] = [];
+      const rowCleared$ = new Subject();
+      rowClearedObservables.push(rowCleared$);
+
+      completeRow.cells.forEach(cell => {
+        const cellClearing$ = new Subject();
+        cellClearedObservables.push(cellClearing$);
+        actions.push(new AnimateCell(cell.column, cell.row, cellClearing$));
+      });
+
+      forkJoin(cellClearedObservables).subscribe(() => {
+        rowCleared$.next();
+        rowCleared$.complete();
+      });
+
+      interval(25)
+        .pipe(take(actions.length))
+        .subscribe(i => this.stateManager.dispatch(actions[i]));
+    })
+
+    forkJoin(rowClearedObservables).subscribe(() => {
+      this.stateManager.dispatch(new SettleGridRows(completeRows.map(row => row.rowIndex)));
+      this.stateManager.dispatch(new StartGame());
+    });
+  }
+
+  settleGrid(grid: Grid): void {
+
   }
 
   private initActiveAndNextShape(grid: Grid): void {

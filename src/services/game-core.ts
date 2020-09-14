@@ -134,10 +134,6 @@ export class GameCore {
     });
   }
 
-  settleGrid(grid: Grid): void {
-
-  }
-
   private initActiveAndNextShape(grid: Grid): void {
     const activeShape: Shape = this.generateRandomShape();
     const nextShape: Shape = this.generateRandomShape();

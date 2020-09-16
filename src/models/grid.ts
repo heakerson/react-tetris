@@ -43,11 +43,13 @@ export class Grid {
   }
 
   settleRows(rowIndices: number[]): void {
-    rowIndices = rowIndices.sort();
+    rowIndices = rowIndices.sort().reverse();
 
     rowIndices.forEach(rowIndex => {
+      
       for (let i = rowIndex; i < this.cellRows.length; i++) {
         const row = this.getRow(i);
+
         row.forEach(cell => {
           if (i + 1 < this.cellRows.length) {
             const cellAbove = this.getCell(i + 1, cell.column);

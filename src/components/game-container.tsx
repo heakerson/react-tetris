@@ -14,7 +14,8 @@ function GameContainer(props: { game: Game }) {
       displayType: gameState.displayType,
       level: gameState.level,
       inputType: gameState.inputType,
-      rowsCleared: gameState.rowsCleared
+      rowsCleared: gameState.rowsCleared,
+      grid: gameState.grid
     };
   });
 
@@ -45,6 +46,7 @@ function GameContainer(props: { game: Game }) {
         <button onClick={() => props.game.dispatch(new EndGame())}>End</button>
         <button onClick={() => props.game.dispatch(new ResetGame())}>Reset Game</button>
         <button onClick={() => props.game.dispatch(new IncrementLevel())}>Increment Level</button>
+        <button onClick={() => console.log(stateData.grid)}>Print Grid</button>
       </div>
     </div>
   );

@@ -206,7 +206,7 @@ export class GameCore {
         }
       });
 
-      const smallestShift = shiftDownValues.sort()[0];
+      const smallestShift = shiftDownValues.sort((a, b) => a - b)[0];
       return grid.activeShape.getNextMoveCells(MoveDirection.Down, grid, smallestShift);      
     }
     return [];

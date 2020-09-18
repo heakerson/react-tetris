@@ -5,7 +5,6 @@ export class Grid {
   cellRows: Cell[][] = [];
   inactiveShapes: Shape[] = [];
   activeShape?: Shape;
-  occupiedCellsByColumn: any = {};
 
   constructor(public width: number, public height: number) {
     this.initCells();

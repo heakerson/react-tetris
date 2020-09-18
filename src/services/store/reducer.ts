@@ -52,7 +52,6 @@ const reducer = function(gameState: GameState, action: Action): GameState {
       gameState.grid.activeShape = undefined;
       gameState.grid.inactiveShapes = [];
       gameState.grid.cellRows.forEach(row => row.forEach(cell => cell.inactiveShape = undefined));
-      gameState.grid.occupiedCellsByColumn = {};
 
       return {
         ...gameState,
@@ -76,15 +75,6 @@ const reducer = function(gameState: GameState, action: Action): GameState {
       const grid = gameState.grid;
 
       if (grid.activeShape) {
-        grid.activeShape.cells.forEach(activeCell => {
-          const columnData: number[] = grid.occupiedCellsByColumn[activeCell.column];
-          if (columnData) {
-            columnData.push(activeCell.row);
-          } else {
-            grid.occupiedCellsByColumn[activeCell.column] = [ activeCell.row ];
-          }
-        });
-
         grid.activeShape.cells.forEach(cell => cell.inactiveShape = grid.activeShape);
         grid.inactiveShapes.push(grid.activeShape as Shape);
       }
@@ -102,18 +92,8 @@ const reducer = function(gameState: GameState, action: Action): GameState {
       const theGrid = gameState.grid;
 
       if (theGrid.activeShape) {
-        theGrid.activeShape.cells.forEach(activeCell => {
-          const columnData: number[] = theGrid.occupiedCellsByColumn[activeCell.column];
-          if (columnData) {
-            columnData.push(activeCell.row);
-          } else {
-            theGrid.occupiedCellsByColumn[activeCell.column] = [ activeCell.row ];
-          }
-        });
-
         theGrid.activeShape.cells.forEach(cell => cell.inactiveShape = theGrid.activeShape);
         theGrid.inactiveShapes.push(theGrid.activeShape as Shape);
-
         theGrid.activeShape = undefined;
       }
 

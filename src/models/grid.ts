@@ -43,7 +43,7 @@ export class Grid {
   }
 
   settleRows(rowIndices: number[]): void {
-    rowIndices = rowIndices.sort().reverse();
+    rowIndices = rowIndices.sort((a, b) => a - b).reverse();
 
     rowIndices.forEach(rowIndex => {
       

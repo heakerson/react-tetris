@@ -58,8 +58,10 @@ export class ShapeConfigManager {
   }
 
   private getShiftedCell(blockIndex: number, shape: Shape, grid: Grid, colShift: number, rowShift: number): Cell {
-    const orderedCells = shape.cells.map(cell => [cell.column, cell.row]).sort();
-    return grid.getCell(orderedCells[blockIndex][1]+rowShift, orderedCells[blockIndex][0]+colShift);
+    const shapeCoordinates = shape.cells.map(cell => [cell.column, cell.row]);
+    const orderedCoordinates = _.sortBy(shapeCoordinates, coordinate => coordinate[0], coordinate => coordinate[1]);
+
+    return grid.getCell(orderedCoordinates[blockIndex][1]+rowShift, orderedCoordinates[blockIndex][0]+colShift);
   }
 
   private getRotatePosition(shapeGrid: string[][], rotationDirection: RotationDirection, shape: Shape, grid: Grid): Cell[] {

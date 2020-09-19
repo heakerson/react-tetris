@@ -3,7 +3,7 @@ import { Grid } from "../models/grid";
 import { ShapeType } from "../models/shape-type";
 import { Cell } from "../models/cell";
 import StateManager from "./state-manager";
-import { EndGame, MoveActiveShape, RotateActiveAndNextShapes, InitActiveAndNextShape, SetClearingRowsStatus, ClearActiveShape, AnimateCell, IAction, SettleGridRows, StartGame, IncrementRowCount } from "./store/actions";
+import { EndGame, MoveActiveShape, RotateActiveAndNextShapes, InitActiveAndNextShape, SetClearingRowsStatus, ClearActiveShape, AnimateCell, IAction, SettleGridRows, StartGame, IncrementRowCount, IncrementLevel } from "./store/actions";
 import { MoveDirection } from "../models/move-direction";
 import { TickStep } from "../models/tick-step";
 import { RotationPoint } from "../models/rotation-point";
@@ -26,7 +26,9 @@ export class GameCore {
         nextShape: gameState.nextShape,
         gameStatus: gameState.gameStatus,
         activeCells: gameState.grid.activeShape?.cells,
-        keyboardInputKeys: gameState.keyboardInputKeys
+        keyboardInputKeys: gameState.keyboardInputKeys,
+        startLevel: gameState.startLevel,
+        rowsCleared: gameState.rowsCleared
       }
     })
     .subscribe(gameState => this.gameState = gameState);
@@ -59,7 +61,7 @@ export class GameCore {
     
       case TickStep.ClearRows:
         this.stateManager.dispatch(new ClearActiveShape());
-        this.clearRows(grid);
+        this.clearRowsAndUpdateStats(grid);
         break;
 
       case TickStep.SwapNextAndActiveShapes:
@@ -97,11 +99,11 @@ export class GameCore {
 
   checkClearingRows(grid: Grid): void {
     if (grid.containsCompleteRow()){
-      this.clearRows(grid);
+      this.clearRowsAndUpdateStats(grid);
     }
   }
 
-  clearRows(grid: Grid): void {
+  clearRowsAndUpdateStats(grid: Grid): void {
     this.stateManager.dispatch(new SetClearingRowsStatus());
     const completeRows = grid.getCompleteRows();
     const rowClearedObservables: Subject<any>[] = [];
@@ -129,10 +131,27 @@ export class GameCore {
     })
 
     forkJoin(rowClearedObservables).subscribe(() => {
+      this.checkLevelIncrement(this.gameState.rowsCleared + completeRows.length);
       this.stateManager.dispatch(new SettleGridRows(completeRows.map(row => row.rowIndex)));
       this.stateManager.dispatch(new IncrementRowCount(completeRows.length));
       this.stateManager.dispatch(new StartGame());
     });
+  }
+
+  private checkLevelIncrement(rowsCleared: number): void {
+    const initialIncrementCount1 = this.gameState.startLevel * 10 + 10;
+    const initialIncrementCount2 = Math.max(100, this.gameState.startLevel * 10 - 50);
+    const initialIncrementLineCount = Math.min(initialIncrementCount1, initialIncrementCount2);
+
+    if (rowsCleared > initialIncrementLineCount) {
+      const rowsAfterInitialIncrement = rowsCleared - initialIncrementLineCount;
+      if (rowsAfterInitialIncrement % 10 === 0) {
+        this.stateManager.dispatch(new IncrementLevel());  
+      }
+    } 
+    else if (rowsCleared === initialIncrementLineCount) {
+      this.stateManager.dispatch(new IncrementLevel());
+    }
   }
 
   private initActiveAndNextShape(grid: Grid): void {

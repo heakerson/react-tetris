@@ -12,7 +12,7 @@ function GameContainer(props: { game: Game }) {
     return {
       tickCount: gameState.tickCount,
       displayType: gameState.displayType,
-      level: gameState.level,
+      currentLevel: gameState.currentLevel,
       inputType: gameState.inputType,
       rowsCleared: gameState.rowsCleared,
       grid: gameState.grid
@@ -35,7 +35,7 @@ function GameContainer(props: { game: Game }) {
           User Controls Here
         </div>
         <div>Tick Count: {stateData.tickCount}</div>
-        <div>Level: {stateData.level}</div>
+        <div>Level: {stateData.currentLevel}</div>
         <div>InputType: {stateData.inputType}</div>
         <div>ROWS: {stateData.rowsCleared}</div>
 

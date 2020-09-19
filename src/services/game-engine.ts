@@ -11,24 +11,24 @@ export class GameEngine {
     this.stateManager.selectGameState(gameState => {
       return {
         gameStatus: gameState.gameStatus,
-        level: gameState.level
+        currentLevel: gameState.currentLevel
       };
     })
-    .subscribe((engineData) => this.setEngineState(engineData.gameStatus, engineData.level));
+    .subscribe((engineData) => this.setEngineState(engineData.gameStatus, engineData.currentLevel));
   }
 
-  private setEngineState(gameStatus: GameStatus, level: number): void {
+  private setEngineState(gameStatus: GameStatus, currentLevel: number): void {
     this.stopEngine();
 
     if (gameStatus === GameStatus.Playing) {
-      this.runEngine(level);
+      this.runEngine(currentLevel);
     }
   }
 
-  private runEngine(gameLevel: number): void {
+  private runEngine(currentLevel: number): void {
     this.stopEngine$ = new Subject();
 
-    interval(this.calculateTickInterval(gameLevel))
+    interval(this.getTickRate(currentLevel))
       .pipe(takeUntil(this.stopEngine$))
       .subscribe(() => this.stateManager.dispatch(new IncrementTick()));
   }
@@ -38,8 +38,24 @@ export class GameEngine {
     this.stopEngine$.complete();
   }
 
-  private calculateTickInterval(gameLevel: number): number {
-    // TODO
-    return 300 * gameLevel;
+  private getTickRate(currentLevel: number): number {
+    if (currentLevel < 10) {
+      const tickRates = [ 800, 716, 633, 550, 466, 383, 300, 216, 133, 100 ];
+      return tickRates[currentLevel];
+    }
+    else if (currentLevel >= 10 || currentLevel <= 12) {
+      return 83;
+    }
+    else if (currentLevel >= 13 || currentLevel <= 15) {
+      return 66;
+    }
+    else if (currentLevel >= 16 || currentLevel <= 18) {
+      return 50;
+    }
+    else if (currentLevel >= 19 || currentLevel <= 28) {
+      return 33;
+    } else {
+      return 16;
+    }
   }
 }

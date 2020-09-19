@@ -31,7 +31,8 @@ export class GameState {
   gameStatus: GameStatus = GameStatus.Start;
   gridWidth: number = 10;
   gridHeight: number = 20;
-  level: number = 1;
+  startLevel: number = 0;
+  currentLevel: number = 0;
   rowsCleared: number = 0;
   score: number = 0;
   grid: Grid = new Grid(this.gridWidth, this.gridHeight);

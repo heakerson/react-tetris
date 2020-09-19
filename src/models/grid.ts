@@ -74,9 +74,9 @@ export class Grid {
     });
   }
 
-  getTopInactiveColumnPosition(columnIndex: number): Cell | undefined {
+  getTopInactiveColumnPosition(columnIndex: number, startingPoint: number): Cell | undefined {
     const column: Cell[] = this.getColumn(columnIndex);
-    return column.reverse().find(cell => !!cell.inactiveShape);
+    return column.reverse().find(cell => !!cell.inactiveShape && cell.row < startingPoint);
   }
 
   getCell(rowIndex: number, colIndex: number): Cell {

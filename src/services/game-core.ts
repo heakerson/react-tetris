@@ -197,7 +197,7 @@ export class GameCore {
       const bottomCells = grid.activeShape.getBottomCells();
 
       const shiftDownValues = bottomCells.map(bottomShapeCell => {
-        const topColumnCell = grid.getTopInactiveColumnPosition(bottomShapeCell.column);
+        const topColumnCell = grid.getTopInactiveColumnPosition(bottomShapeCell.column, bottomShapeCell.row);
 
         if (topColumnCell) {
           return bottomShapeCell.row - topColumnCell.row-1;

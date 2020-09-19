@@ -15,7 +15,8 @@ function GameContainer(props: { game: Game }) {
       currentLevel: gameState.currentLevel,
       inputType: gameState.inputType,
       rowsCleared: gameState.rowsCleared,
-      grid: gameState.grid
+      grid: gameState.grid,
+      score: gameState.score
     };
   });
 
@@ -37,7 +38,8 @@ function GameContainer(props: { game: Game }) {
         <div>Tick Count: {stateData.tickCount}</div>
         <div>Level: {stateData.currentLevel}</div>
         <div>InputType: {stateData.inputType}</div>
-        <div>ROWS: {stateData.rowsCleared}</div>
+        <div>Rows: {stateData.rowsCleared}</div>
+        <div>SCORE: {stateData.score}</div>
 
         <button onClick={() => props.game.dispatch(new ToggleInputType())}>Toggle Input Type</button>
         <button onClick={() => props.game.dispatch(new ToggleDisplayType())}>Toggle Display Type</button>

@@ -21,6 +21,7 @@ enum ActionType {
   ResetGame,
   IncrementLevel,
   IncrementTick,
+  IncrementScore,
   RotateActiveAndNextShapes,
   MoveActiveShape,
   InitActiveAndNextShape,
@@ -118,6 +119,12 @@ class IncrementRowCount implements IAction {
   constructor(public incrementBy: number) { }
 }
 
+class IncrementScore implements IAction {
+  type = ActionType.IncrementScore;
+
+  constructor(public incrementAmount: number) { }
+}
+
 export type Action = 
   { type: ActionType.ToggleDisplayType }
   | { type: ActionType.ToggleInputType }
@@ -137,6 +144,7 @@ export type Action =
   | { type: ActionType.AnimateCell, columnIndex: number, rowIndex: number, clearing$: Subject<any> }
   | { type: ActionType.SettleGridRows, rowIndexes: number[] }
   | { type: ActionType.IncrementRowCount, incrementBy: number }
+  | { type: ActionType.IncrementScore, incrementAmount: number }
   ;
 
 export {
@@ -152,6 +160,7 @@ export {
   ResetGame,
   IncrementLevel,
   IncrementTick,
+  IncrementScore,
   RotateActiveAndNextShapes,
   MoveActiveShape,
   InitActiveAndNextShape,

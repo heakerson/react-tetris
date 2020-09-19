@@ -59,7 +59,8 @@ const reducer = function(gameState: GameState, action: Action): GameState {
         currentLevel: gameState.startLevel,
         tickCount: 0,
         nextShape: undefined,
-        rowsCleared: 0
+        rowsCleared: 0,
+        score: 0
       }
     case ActionType.IncrementLevel:
       return {
@@ -107,6 +108,7 @@ const reducer = function(gameState: GameState, action: Action): GameState {
         ...gameState,
         nextShape: action.nextShape
       }
+
     case ActionType.MoveActiveShape:
       if (gameState.grid.activeShape) {
         gameState.grid.activeShape.cells = action.nextCells;
@@ -140,6 +142,12 @@ const reducer = function(gameState: GameState, action: Action): GameState {
         ...gameState,
         rowsCleared: gameState.rowsCleared + action.incrementBy
       };
+
+    case ActionType.IncrementScore:
+      return {
+        ...gameState,
+        score: gameState.score + action.incrementAmount
+      }
     
     default:
       return gameState;

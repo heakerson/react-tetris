@@ -3,7 +3,7 @@ import { Grid } from "../models/grid";
 import { ShapeType } from "../models/shape-type";
 import { Cell } from "../models/cell";
 import StateManager from "./state-manager";
-import { EndGame, MoveActiveShape, RotateActiveAndNextShapes, InitActiveAndNextShape, SetClearingRowsStatus, ClearActiveShape, AnimateCell, IAction, SettleGridRows, StartGame, IncrementRowCount, IncrementLevel } from "./store/actions";
+import { EndGame, MoveActiveShape, RotateActiveAndNextShapes, InitActiveAndNextShape, SetClearingRowsStatus, ClearActiveShape, AnimateCell, IAction, SettleGridRows, StartGame, IncrementRowCount, IncrementLevel, IncrementScore } from "./store/actions";
 import { MoveDirection } from "../models/move-direction";
 import { TickStep } from "../models/tick-step";
 import { RotationPoint } from "../models/rotation-point";
@@ -28,7 +28,8 @@ export class GameCore {
         activeCells: gameState.grid.activeShape?.cells,
         keyboardInputKeys: gameState.keyboardInputKeys,
         startLevel: gameState.startLevel,
-        rowsCleared: gameState.rowsCleared
+        rowsCleared: gameState.rowsCleared,
+        currentLevel: gameState.currentLevel
       }
     })
     .subscribe(gameState => this.gameState = gameState);
@@ -132,10 +133,25 @@ export class GameCore {
 
     forkJoin(rowClearedObservables).subscribe(() => {
       this.checkLevelIncrement(this.gameState.rowsCleared + completeRows.length);
-      this.stateManager.dispatch(new SettleGridRows(completeRows.map(row => row.rowIndex)));
+      this.stateManager.dispatch(new IncrementScore(this.getScoreIncrement(completeRows.length)));
       this.stateManager.dispatch(new IncrementRowCount(completeRows.length));
+      this.stateManager.dispatch(new SettleGridRows(completeRows.map(row => row.rowIndex)));
       this.stateManager.dispatch(new StartGame());
     });
+  }
+
+  private getScoreIncrement(linesCleared: number): number {
+    switch(linesCleared) {
+      case 1:
+        return 40 * (this.gameState.currentLevel + 1);
+      case 2:
+        return 100 * (this.gameState.currentLevel + 1);
+      case 3:
+        return 300 * (this.gameState.currentLevel + 1);
+      case 4:
+        return 1200 * (this.gameState.currentLevel + 1);
+    }
+    return 0;
   }
 
   private checkLevelIncrement(rowsCleared: number): void {
@@ -146,7 +162,7 @@ export class GameCore {
     if (rowsCleared > initialIncrementLineCount) {
       const rowsAfterInitialIncrement = rowsCleared - initialIncrementLineCount;
       if (rowsAfterInitialIncrement % 10 === 0) {
-        this.stateManager.dispatch(new IncrementLevel());  
+        this.stateManager.dispatch(new IncrementLevel());
       }
     } 
     else if (rowsCleared === initialIncrementLineCount) {

@@ -41,7 +41,7 @@ function GameContainer(props: { game: Game }) {
 
         <button onClick={() => props.game.dispatch(new ToggleInputType())}>Toggle Input Type</button>
         <button onClick={() => props.game.dispatch(new ToggleDisplayType())}>Toggle Display Type</button>
-        <button onClick={() => props.game.dispatch(new StartGame())}>Start</button>
+        <button onClick={(event: any) => { event.currentTarget.blur(); props.game.dispatch(new StartGame()); }}>Start</button>
         <button onClick={() => props.game.dispatch(new PauseGame())}>Pause</button>
         <button onClick={() => props.game.dispatch(new EndGame())}>End</button>
         <button onClick={() => props.game.dispatch(new ResetGame())}>Reset Game</button>

@@ -4,19 +4,16 @@ import './game-container.css';
 import Grid from "./grid";
 import { DisplayType } from "../models/display-type";
 import { ToggleDisplayType, StartGame, PauseGame, EndGame, ResetGame, IncrementLevel, ToggleInputType } from "../services/store/actions";
+import Scoreboard from "./scoreboard";
 
 function GameContainer(props: { game: Game }) {
   const { game } = props;
 
   const stateData = game.setComponentGameStateListener(gameState => {
     return {
-      tickCount: gameState.tickCount,
       displayType: gameState.displayType,
-      currentLevel: gameState.currentLevel,
       inputType: gameState.inputType,
-      rowsCleared: gameState.rowsCleared,
       grid: gameState.grid,
-      score: gameState.score
     };
   });
 
@@ -30,16 +27,12 @@ function GameContainer(props: { game: Game }) {
           Next shape Here
         </div>
         <div>
-          Scoreboard here
+          <Scoreboard game={game} />
         </div>
         <div>
           User Controls Here
         </div>
-        <div>Tick Count: {stateData.tickCount}</div>
-        <div>Level: {stateData.currentLevel}</div>
         <div>InputType: {stateData.inputType}</div>
-        <div>Rows: {stateData.rowsCleared}</div>
-        <div>SCORE: {stateData.score}</div>
 
         <button onClick={() => props.game.dispatch(new ToggleInputType())}>Toggle Input Type</button>
         <button onClick={() => props.game.dispatch(new ToggleDisplayType())}>Toggle Display Type</button>

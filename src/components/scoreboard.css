@@ -1,0 +1,91 @@
+.scoreboard-container {
+  padding: 15px;
+  background-color: #282c34;
+  border-radius: 5px;
+  -moz-box-shadow:    inset 1px 1px 6px 0px #000000;
+  -webkit-box-shadow: inset 1px 1px 6px 0px #000000;
+  box-shadow:         inset 1px 1px 6px 0px #000000;
+}
+
+.label { 
+  text-shadow:
+    0 0 3px #fff,
+    0 0 5px #fff,
+    0 0 7px #0073e6,
+    0 0 10px #0073e6,
+    0 0 12px #0073e6,
+    0 0 15px #0073e6,
+    0 0 17px #0073e6;
+}
+
+.data {
+  margin-left: 5px;
+  font-size: 1.5em;
+
+  text-shadow:
+    0 0 3px #fff,
+    0 0 5px #fff,
+    0 0 7px #ff0084,
+    0 0 10px #ff0084,
+    0 0 12px #ff0084,
+    0 0 15px #ff0084,
+    0 0 17px #ff0084;
+}
+
+.stat-spacer {
+  margin-top: 5px;
+}
+
+.glow-score {
+  animation: glow-score-once-animation .75s 3;
+}
+
+.glow-label {
+  animation: glow-label-once-animation .75s 3;
+}
+
+@keyframes glow-score-once-animation {
+  50% {
+    text-shadow:
+      0 0 6px #fff,
+      0 0 10px #fff,
+      0 0 14px lime,
+      0 0 20px lime,
+      0 0 24px lime,
+      0 0 30px lime,
+      0 0 34px lime;
+  }
+  100% {
+    text-shadow:
+      0 0 3px #fff,
+      0 0 5px #fff,
+      0 0 7px #ff0084,
+      0 0 10px #ff0084,
+      0 0 12px #ff0084,
+      0 0 15px #ff0084,
+      0 0 17px #ff0084;
+  }
+}
+
+@keyframes glow-label-once-animation {
+  50% {
+    text-shadow:
+      0 0 6px #fff,
+      0 0 10px #fff,
+      0 0 14px lime,
+      0 0 20px lime,
+      0 0 24px lime,
+      0 0 30px lime,
+      0 0 34px lime;
+  }
+  100% {
+    text-shadow:
+      0 0 3px #fff,
+      0 0 5px #fff,
+      0 0 7px #0073e6,
+      0 0 10px #0073e6,
+      0 0 12px #0073e6,
+      0 0 15px #0073e6,
+      0 0 17px #0073e6;
+  }
+}

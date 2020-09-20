@@ -14,7 +14,7 @@ function NextShapeDisplay(props: { game: Game }) {
     const { shapeType, rotationPoint } = nextShape;
     const shapeConfig = game.shapeManager.getConfigFor(shapeType, rotationPoint);
     const columnCounter = _.range(shapeConfig.grid[0].length);
-    const rowCounter = _.range(shapeConfig.grid.length).reverse();
+    const rowCounter = _.range(shapeConfig.grid.length);
 
     let buildRow = (rowIndex: number, shapeType: ShapeType, shapeConfig: ShapePositionConfig) => {
       return (

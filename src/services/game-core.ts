@@ -84,7 +84,7 @@ export class GameCore {
     else if (!activeShape && gameStatus === GameStatus.Start) {
       return TickStep.None;
     }
-    else if (!activeShape) {
+    else if (!activeShape && !this.gameState.nextShape) {
       return TickStep.InitActiveAndNextShape;
     }
     else if (this.canShiftShape(MoveDirection.Down, grid)) {

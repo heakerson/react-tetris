@@ -29,17 +29,17 @@ function Scoreboard(props: { game: Game }) {
     }, 3000);
   }
 
-  const levelLabelClasses = `label ${levelUpdated ? 'glow-label' : ''}`;
-  const levelClasses = `data ${levelUpdated ? 'glow-score' : ''}`;
+  const levelLabelClasses = `glow-text-white ${levelUpdated ? 'glow-text-green-animation' : ''}`;
+  const levelClasses = `data glow-text-fuschia ${levelUpdated ? 'glow-text-green-animation' : ''}`;
 
   return (
-    <div className="content-container-fill-parent scoreboard-container flex-column">
+    <div className="content-container-fill-parent scoreboard-container inset-shadow flex-column">
       <div className={levelLabelClasses}>LEVEL: </div>
       <div className={levelClasses}>{scoreboardData.level + 1}</div>
-      <div className="label stat-spacer">SCORE: </div>
-      <div className="data">{scoreboardData.score}</div>
-      <div className="label stat-spacer">ROWS CLEARED: </div>
-      <div className="data">{scoreboardData.rowsCleared}</div>
+      <div className="glow-text-white stat-spacer">SCORE: </div>
+      <div className="data glow-text-fuschia">{scoreboardData.score}</div>
+      <div className="glow-text-white stat-spacer">ROWS CLEARED: </div>
+      <div className="data glow-text-fuschia">{scoreboardData.rowsCleared}</div>
     </div>
   );
 }

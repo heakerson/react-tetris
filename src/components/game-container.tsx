@@ -3,7 +3,7 @@ import Game from "../services/game";
 import './game-container.css';
 import Grid from "./grid";
 import { DisplayType } from "../models/display-type";
-import { ToggleDisplayType, StartGame, PauseGame, EndGame, ResetGame, IncrementLevel, ToggleInputType } from "../services/store/actions";
+import { ToggleDisplayType, EndGame, IncrementLevel, ToggleInputType } from "../services/store/actions";
 import DisplayPanel from "./display-panel";
 
 function GameContainer(props: { game: Game }) {
@@ -26,16 +26,13 @@ function GameContainer(props: { game: Game }) {
         <div>
           <DisplayPanel game={game} />
         </div>
-        <div>InputType: {stateData.inputType}</div>
+        {/* <div>InputType: {stateData.inputType}</div>
 
         <button onClick={() => props.game.dispatch(new ToggleInputType())}>Toggle Input Type</button>
         <button onClick={() => props.game.dispatch(new ToggleDisplayType())}>Toggle Display Type</button>
-        <button onClick={(event: any) => { event.currentTarget.blur(); props.game.dispatch(new StartGame()); }}>Start</button>
-        <button onClick={() => props.game.dispatch(new PauseGame())}>Pause</button>
         <button onClick={() => props.game.dispatch(new EndGame())}>End</button>
-        <button onClick={() => props.game.dispatch(new ResetGame())}>Reset Game</button>
         <button onClick={() => props.game.dispatch(new IncrementLevel())}>Increment Level</button>
-        <button onClick={() => console.log(stateData.grid)}>Print Grid</button>
+        <button onClick={() => console.log(stateData.grid)}>Print Grid</button> */}
       </div>
     </div>
   );

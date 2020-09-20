@@ -20,6 +20,14 @@
   font-size: 1.5em;
 }
 
+.display-panel-button:focus {
+  outline: none;
+}
+
+.display-panel-button:active {
+  filter: brightness(75%);
+}
+
 .display-panel-button:disabled {
   opacity: .4;
   cursor: not-allowed;

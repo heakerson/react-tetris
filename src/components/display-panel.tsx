@@ -3,6 +3,7 @@ import Game from "../services/game";
 import NextShapeDisplay from "./next-shape-display";
 import './display-panel.css';
 import { GameStatus } from "../models/game-status";
+import { PauseGame, ResetGame, StartGame } from "../services/store/actions";
 
 function DisplayPanel(props: { game: Game }) {
   const displayData = props.game.setComponentGameStateListener(state => {
@@ -40,7 +41,19 @@ function DisplayPanel(props: { game: Game }) {
         return 'CONTINUE';
       default:
         return 'PAUSE';
+    }
+  }
 
+  const mainButtonClicked = (gameStatus: GameStatus, event: any) => {
+    event.currentTarget.blur();
+
+    switch(gameStatus) {
+      case GameStatus.Playing:
+        props.game.dispatch(new PauseGame());
+        break;
+      default:
+        props.game.dispatch(new StartGame());
+        break;
     }
   }
 
@@ -56,8 +69,18 @@ function DisplayPanel(props: { game: Game }) {
       <div className="data glow-text-fuschia">{displayData.score}</div>
       <div className="glow-text-white stat-spacer">ROWS CLEARED: </div>
       <div className="data glow-text-fuschia">{displayData.rowsCleared}</div>
-      <button disabled={displayData.gameStatus === GameStatus.End} className="glow-border-green display-panel-button hover-cursor bg-green"><span className="glow-text-green">{getMainButtonText(displayData.gameStatus)}</span></button>
-      <button className="glow-border-fuschia display-panel-button hover-cursor bg-fuschia"><span className="glow-text-fuschia">RESET</span></button>
+
+      <button onClick={(event: any) => mainButtonClicked(displayData.gameStatus, event)} 
+        disabled={displayData.gameStatus === GameStatus.End} 
+        className="glow-border-green display-panel-button hover-cursor bg-green">
+          <span className="glow-text-green">{getMainButtonText(displayData.gameStatus)}</span>
+      </button>
+
+      <button onClick={(event: any) => { event.currentTarget.blur(); props.game.dispatch(new ResetGame())}} 
+        disabled={displayData.gameStatus === GameStatus.Start} 
+        className="glow-border-fuschia display-panel-button hover-cursor bg-fuschia">
+          <span className="glow-text-fuschia">RESET</span>
+      </button>
     </div>
   );
 }

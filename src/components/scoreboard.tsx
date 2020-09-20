@@ -26,7 +26,7 @@ function Scoreboard(props: { game: Game }) {
         previousLevel: scoreboardData.level,
         updated: false
       });
-    }, 2250);
+    }, 3000);
   }
 
   const levelLabelClasses = `label ${levelUpdated ? 'glow-label' : ''}`;

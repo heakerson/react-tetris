@@ -37,11 +37,11 @@
 }
 
 .glow-score {
-  animation: glow-score-once-animation .75s 3;
+  animation: glow-score-once-animation .75s 4;
 }
 
 .glow-label {
-  animation: glow-label-once-animation .75s 3;
+  animation: glow-label-once-animation .75s 4;
 }
 
 @keyframes glow-score-once-animation {

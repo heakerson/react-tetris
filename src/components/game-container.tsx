@@ -24,13 +24,7 @@ function GameContainer(props: { game: Game }) {
       <Grid game={game} />
       <div className="flex-column flex-fill">
         <div>
-          Next shape Here
-        </div>
-        <div>
           <DisplayPanel game={game} />
-        </div>
-        <div>
-          User Controls Here
         </div>
         <div>InputType: {stateData.inputType}</div>
 

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Game from "../services/game";
+import NextShapeDisplay from "./next-shape-display";
 import './scoreboard.css';
 
 function Scoreboard(props: { game: Game }) {
@@ -29,11 +30,12 @@ function Scoreboard(props: { game: Game }) {
     }, 3000);
   }
 
-  const levelLabelClasses = `glow-text-white ${levelUpdated ? 'glow-text-green-animation' : ''}`;
+  const levelLabelClasses = `glow-text-white stat-spacer ${levelUpdated ? 'glow-text-green-animation' : ''}`;
   const levelClasses = `data glow-text-fuschia ${levelUpdated ? 'glow-text-green-animation' : ''}`;
 
   return (
     <div className="content-container-fill-parent scoreboard-container inset-shadow flex-column">
+      <NextShapeDisplay game={props.game} />
       <div className={levelLabelClasses}>LEVEL: </div>
       <div className={levelClasses}>{scoreboardData.level + 1}</div>
       <div className="glow-text-white stat-spacer">SCORE: </div>

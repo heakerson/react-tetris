@@ -1,0 +1,17 @@
+.next-shape-display-container {
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+.next-shape-container {
+  padding: 10px;
+}
+
+.next-shape-cell {
+  width: 20px;
+  height: 20px;
+}
+
+.transparent {
+  border: 1px solid transparent;
+}

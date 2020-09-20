@@ -92,6 +92,110 @@ body {
   box-shadow:         inset 1px 1px 6px 0px #000000;
 }
 
+.glow-border-white {
+  border: white 1px solid;
+  box-shadow:
+    0 0 3px #fff,
+    0 0 5px #fff,
+    0 0 7px #0073e6,
+    0 0 10px #0073e6,
+    inset 0 0 3px #fff,
+    inset 0 0 5px #fff,
+    inset 0 0 7px #0073e6,  
+    inset 0 0 10px #0073e6;
+}
+
+.glow-border-Z {
+  border: white 1px solid;
+  box-shadow:
+    0 0 3px #fff,
+    0 0 5px #fff,
+    0 0 7px red,
+    0 0 10px red,
+    inset 0 0 3px #fff,
+    inset 0 0 5px #fff,
+    inset 0 0 7px red,  
+    inset 0 0 10px red;
+}
+
+.glow-border-S {
+  border: white 1px solid;
+  box-shadow:
+    0 0 3px #fff,
+    0 0 5px #fff,
+    0 0 7px lime,
+    0 0 10px lime,
+    inset 0 0 3px #fff,
+    inset 0 0 5px #fff,
+    inset 0 0 7px lime,  
+    inset 0 0 10px lime;
+}
+
+.glow-border-T {
+  border: white 1px solid;
+  box-shadow:
+    0 0 3px #fff,
+    0 0 5px #fff,
+    0 0 7px purple,
+    0 0 10px purple,
+    inset 0 0 3px #fff,
+    inset 0 0 5px #fff,
+    inset 0 0 7px purple,  
+    inset 0 0 10px purple;
+}
+
+.glow-border-L {
+  border: white 1px solid;
+  box-shadow:
+    0 0 3px #fff,
+    0 0 5px #fff,
+    0 0 7px orange,
+    0 0 10px orange,
+    inset 0 0 3px #fff,
+    inset 0 0 5px #fff,
+    inset 0 0 7px orange,  
+    inset 0 0 10px orange;
+}
+
+.glow-border-ReverseL {
+  border: white 1px solid;
+  box-shadow:
+    0 0 3px #fff,
+    0 0 5px #fff,
+    0 0 7px blue,
+    0 0 10px blue,
+    inset 0 0 3px #fff,
+    inset 0 0 5px #fff,
+    inset 0 0 7px blue,  
+    inset 0 0 10px blue;
+}
+
+.glow-border-Box {
+  border: white 1px solid;
+  box-shadow:
+    0 0 3px #fff,
+    0 0 5px #fff,
+    0 0 7px yellow,
+    0 0 10px yellow,
+    inset 0 0 3px #fff,
+    inset 0 0 5px #fff,
+    inset 0 0 7px yellow,  
+    inset 0 0 10px yellow;
+}
+
+.glow-border-Bar {
+  border: white 1px solid;
+  box-shadow:
+    0 0 3px #fff,
+    0 0 5px #fff,
+    0 0 7px skyblue,
+    0 0 10px skyblue,
+    inset 0 0 3px #fff,
+    inset 0 0 5px #fff,
+    inset 0 0 7px skyblue,  
+    inset 0 0 10px skyblue;
+}
+
 .glow-text-white { 
   text-shadow:
     0 0 3px #fff,

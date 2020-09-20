@@ -9,4 +9,7 @@ export class ShapePositionConfig {
   height: number = 0;
   getPositionGivenRectangleCorner: (upperLeftRectangleCell: Cell, grid: Grid) => Cell[] = () => [];
   getRotatedPosition: (shape: Shape, grid: Grid, direction: RotationDirection) => Cell[] = () => [];
+  miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]) => boolean = (row: number, column: number, miniGrid: string[][]) => {
+    return miniGrid[row][column] !== '_';
+  }
 }

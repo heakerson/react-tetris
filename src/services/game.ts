@@ -8,9 +8,9 @@ import { ShapeConfigManager } from "./shape-config-manager";
 
 export default class Game {
   stateManager: StateManager = new StateManager();
-  shapeManagner: ShapeConfigManager = new ShapeConfigManager();
+  shapeManager: ShapeConfigManager = new ShapeConfigManager();
   gameEngine: GameEngine = new GameEngine(this.stateManager);
-  gameCore: GameCore = new GameCore(this.stateManager, this.shapeManagner);
+  gameCore: GameCore = new GameCore(this.stateManager, this.shapeManager);
 
   public setComponentGameStateListener<TStateType>(getStateFn: (state: GameState) => TStateType): TStateType {
     return this.stateManager.setComponentGameStateListener(getStateFn);

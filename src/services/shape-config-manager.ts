@@ -152,6 +152,9 @@ export class ShapeConfigManager {
               this.getShiftedCell(3, shape, grid, -2, 1),
             ];
           }
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
       B: {
@@ -183,6 +186,9 @@ export class ShapeConfigManager {
               this.getShiftedCell(3, shape, grid, 1, -1),
             ];
           }
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
       C: {
@@ -211,6 +217,9 @@ export class ShapeConfigManager {
               this.getShiftedCell(3, shape, grid, -1, 2),
             ]
           }
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
       D: {
@@ -242,6 +251,9 @@ export class ShapeConfigManager {
               this.getShiftedCell(3, shape, grid, 2, -2),
             ]
           }
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
     } as ShapeConfig;
@@ -267,6 +279,9 @@ export class ShapeConfigManager {
             ['0', '1', '2'],
             ['_', '_', '_'],
           ], direction, shape, grid);
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
       B: {
@@ -287,6 +302,9 @@ export class ShapeConfigManager {
             ['_', '1', '_'],
             ['_', '0', '3'],
           ], direction, shape, grid);
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
       C: {
@@ -307,6 +325,9 @@ export class ShapeConfigManager {
             ['1', '2', '3'],
             ['0', '_', '_']
           ], direction, shape, grid);
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
       D: {
@@ -327,6 +348,9 @@ export class ShapeConfigManager {
             ['_', '2', '_'],
             ['_', '3', '_'],
           ], direction, shape, grid);
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
     } as ShapeConfig;
@@ -352,6 +376,9 @@ export class ShapeConfigManager {
             ['0', '1', '2'],
             ['_', '_', '_'],
           ], direction, shape, grid);
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
       B: {
@@ -372,6 +399,9 @@ export class ShapeConfigManager {
             ['_', '1', '_'],
             ['_', '0', '_'],
           ], direction, shape, grid);
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
       C: {
@@ -392,6 +422,9 @@ export class ShapeConfigManager {
             ['1', '2', '3'],
             ['_', '_', '0']
           ], direction, shape, grid);
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
       D: {
@@ -412,6 +445,9 @@ export class ShapeConfigManager {
             ['_', '2', '_'],
             ['0', '1', '_'],
           ], direction, shape, grid);
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
     } as ShapeConfig;
@@ -432,6 +468,9 @@ export class ShapeConfigManager {
         },
         getRotatedPosition: (shape: Shape, grid: Grid, direction: RotationDirection): Cell[] => {
           return shape.cells;
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
       B: {
@@ -447,6 +486,9 @@ export class ShapeConfigManager {
         },
         getRotatedPosition: (shape: Shape, grid: Grid, direction: RotationDirection): Cell[] => {
           return shape.cells;
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
       C: {
@@ -462,6 +504,9 @@ export class ShapeConfigManager {
         },
         getRotatedPosition: (shape: Shape, grid: Grid, direction: RotationDirection): Cell[] => {
           return shape.cells;
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
       D: {
@@ -477,6 +522,9 @@ export class ShapeConfigManager {
         },
         getRotatedPosition: (shape: Shape, grid: Grid, direction: RotationDirection): Cell[] => {
           return shape.cells;
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
     } as ShapeConfig;
@@ -491,7 +539,7 @@ export class ShapeConfigManager {
           ['_', '_', '_'],
         ],
         width: 3,
-        height: 2,
+        height: 3,
         getPositionGivenRectangleCorner: (upperLeftRectangleCell: Cell, grid: Grid): Cell[] => {
           const { row, column } = upperLeftRectangleCell;
           return [...grid.getRowRange(row, column + 1, column + 2), ...grid.getRowRange(row-1, column, column + 1)];
@@ -502,6 +550,9 @@ export class ShapeConfigManager {
             ['2', '3', '_'],
             ['_', '_', '_'],
           ], direction, shape, grid);
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
       B: {
@@ -510,7 +561,7 @@ export class ShapeConfigManager {
           ['_', '0', '3'],
           ['_', '_', '2'],
         ],
-        width: 2,
+        width: 3,
         height: 3,
         getPositionGivenRectangleCorner: (upperLeftRectangleCell: Cell, grid: Grid): Cell[] => {
           const { row, column } = upperLeftRectangleCell;
@@ -522,6 +573,9 @@ export class ShapeConfigManager {
             ['_', '0', '3'],
             ['_', '_', '2'],
           ], direction, shape, grid);
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
       C: {
@@ -531,7 +585,7 @@ export class ShapeConfigManager {
           ['2', '3', '_'],
         ],
         width: 3,
-        height: 2,
+        height: 3,
         getPositionGivenRectangleCorner: (upperLeftRectangleCell: Cell, grid: Grid): Cell[] => {
           const { row, column } = upperLeftRectangleCell;
           return [...grid.getRowRange(row, column + 1, column + 2), ...grid.getRowRange(row-1, column, column + 1)];
@@ -542,6 +596,9 @@ export class ShapeConfigManager {
             ['_', '0', '1'],
             ['2', '3', '_'],
           ], direction, shape, grid);
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
       D: {
@@ -550,7 +607,7 @@ export class ShapeConfigManager {
           ['0', '3', '_'],
           ['_', '2', '_'],
         ],
-        width: 2,
+        width: 3,
         height: 3,
         getPositionGivenRectangleCorner: (upperLeftRectangleCell: Cell, grid: Grid): Cell[] => {
           const { row, column } = upperLeftRectangleCell;
@@ -562,6 +619,9 @@ export class ShapeConfigManager {
             ['0', '3', '_'],
             ['_', '2', '_'],
           ], direction, shape, grid);
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
     } as ShapeConfig;
@@ -587,6 +647,9 @@ export class ShapeConfigManager {
             ['_', '2', '3'],
             ['_', '_', '_'],
           ], direction, shape, grid);
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
       B: {
@@ -607,6 +670,9 @@ export class ShapeConfigManager {
             ['_', '1', '2'],
             ['_', '0', '_'],
           ], direction, shape, grid);
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
       C: {
@@ -627,6 +693,9 @@ export class ShapeConfigManager {
             ['0', '1', '_'],
             ['_', '2', '3'],
           ], direction, shape, grid);
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
       D: {
@@ -647,6 +716,9 @@ export class ShapeConfigManager {
             ['1', '2', '_'],
             ['0', '_', '_'],
           ], direction, shape, grid);
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
     } as ShapeConfig;
@@ -672,6 +744,9 @@ export class ShapeConfigManager {
             ['0', '1', '2'],
             ['_', '_', '_'],
           ], direction, shape, grid);
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
       B: {
@@ -692,6 +767,9 @@ export class ShapeConfigManager {
             ['_', '1', '3'],
             ['_', '0', '_'],
           ], direction, shape, grid);
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
       C: {
@@ -712,6 +790,9 @@ export class ShapeConfigManager {
             ['1', '2', '3'],
             ['_', '0', '_']
           ], direction, shape, grid);
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
       D: {
@@ -732,6 +813,9 @@ export class ShapeConfigManager {
             ['0', '2', '_'],
             ['_', '1', '_'],
           ], direction, shape, grid);
+        },
+        miniGridOccupiedAt: (row: number, column: number, miniGrid: string[][]): boolean => {
+          return miniGrid[row][column] !== '_';
         }
       } as ShapePositionConfig,
     } as ShapeConfig;

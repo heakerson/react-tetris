@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Game from "../services/game";
 import NextShapeDisplay from "./next-shape-display";
-import './scoreboard.css';
+import './display-panel.css';
 
-function Scoreboard(props: { game: Game }) {
+function DisplayPanel(props: { game: Game }) {
   const scoreboardData = props.game.setComponentGameStateListener(state => {
     return {
       level: state.currentLevel,
@@ -46,4 +46,4 @@ function Scoreboard(props: { game: Game }) {
   );
 }
 
-export default Scoreboard;
+export default DisplayPanel;

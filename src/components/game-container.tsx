@@ -4,7 +4,7 @@ import './game-container.css';
 import Grid from "./grid";
 import { DisplayType } from "../models/display-type";
 import { ToggleDisplayType, StartGame, PauseGame, EndGame, ResetGame, IncrementLevel, ToggleInputType } from "../services/store/actions";
-import Scoreboard from "./scoreboard";
+import DisplayPanel from "./display-panel";
 
 function GameContainer(props: { game: Game }) {
   const { game } = props;
@@ -27,7 +27,7 @@ function GameContainer(props: { game: Game }) {
           Next shape Here
         </div>
         <div>
-          <Scoreboard game={game} />
+          <DisplayPanel game={game} />
         </div>
         <div>
           User Controls Here

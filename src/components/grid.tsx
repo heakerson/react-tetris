@@ -24,10 +24,10 @@ const Grid = React.memo((props: { game: Game }) => {
   }
 
   return (
-    <div className="flex-column">
-      <div className="top-bar shadow"></div>
+    <div className="flex-column grid-container inset-shadow">
+      <div className="glow-border-red"></div>
       {rowCounter.map(rowIndex => buildRow(rowIndex))}
-      <div className="bottom-bar shadow"></div>
+      <div className="glow-border-green"></div>
     </div>
   );
 });

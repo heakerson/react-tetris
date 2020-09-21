@@ -15,7 +15,7 @@ body {
 
 /* These manage placing the tab content */
 .content-frame {
-  padding: 10% 10%;
+  margin: auto;
 }
 
 .content-frame-mobile {
@@ -102,6 +102,19 @@ body {
 
 .bg-green {
   background-color: lime;
+}
+
+.glow-border-red {
+  border: white 1px solid;
+  box-shadow:
+    0 0 3px #fff,
+    0 0 5px #fff,
+    0 0 7px red,
+    0 0 10px red,
+    inset 0 0 3px #fff,
+    inset 0 0 5px #fff,
+    inset 0 0 7px red,  
+    inset 0 0 10px red;
 }
 
 .glow-border-white {

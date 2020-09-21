@@ -17,7 +17,7 @@ function App() {
     }
   });
 
-  const contentClass = stateData.displayType === DisplayType.Mobile ? 'content-frame-mobile flex-column' : 'content-frame flex-column flex-fill';
+  const contentClass = stateData.displayType === DisplayType.Mobile ? 'content-frame-mobile flex-column' : 'content-frame flex-column';
 
   const theme = createMuiTheme({
     palette: {

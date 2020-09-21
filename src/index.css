@@ -5,10 +5,17 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100%;
+  overflow: auto;
+  overscroll-behavior-y: none;
 }
 
-body, html, #root {
+html, #root {
   height: 100%;
+}
+
+html {
+  overflow: hidden;
 }
 
 code {

@@ -16,6 +16,8 @@ function Cell(props: { game: Game, rowIndex: number, columnIndex: number }) {
       gameStatus: gameState.gameStatus,
       containingActiveShape: activeShape && activeShape.containsCellAt(rowIndex, columnIndex) ? activeShape : null,
       clearing$: cell.clearing$,
+      gridColumnCount: gameState.gridWidth,
+      gridRowCount: gameState.gridHeight
     }
   });
 
@@ -26,7 +28,7 @@ function Cell(props: { game: Game, rowIndex: number, columnIndex: number }) {
     }, 1000);
   }
 
-  const classes = `${getCellStyling(cellData.containingActiveShape, cellData.cell)} ${getCellSizeClass()}`
+  const classes = `${getCellStyling(cellData.containingActiveShape, cellData.cell)} ${getCellSizeClass(cellData.gridColumnCount, cellData.gridRowCount)}`
 
   return (<div className={classes}></div>);
 }
@@ -41,8 +43,29 @@ const getCellStyling = (containingShape: Shape | null, cellModel: CellModel): st
   return ''
 }
 
-const getCellSizeClass = (): string => {
-  return 'cell-size-1';
+const getCellSizeClass = (gridColumnCount: number, gridRowCount: number): string => {
+  const size1 = 40;
+  const size2 = 35;
+  const size3 = 30;
+  const size4 = 25;
+  const cellHeightThreshhold: number = (window.innerHeight * .7) / gridRowCount;
+  const cellWidthThreshhold: number = (window.innerWidth * .5) / gridColumnCount;
+  const dimensionThreshhold = Math.min(cellHeightThreshhold, cellWidthThreshhold);
+
+  if (dimensionThreshhold > size1) {
+    return 'cell-size-1';
+  }
+  else if (dimensionThreshhold > size2) {
+    return 'cell-size-2';
+  }
+  else if (dimensionThreshhold > size3) {
+    return 'cell-size-3';
+  }
+  else if (dimensionThreshhold > size4) {
+    return 'cell-size-4';
+  }
+
+  return 'cell-size-5';
 }
 
 export default Cell;

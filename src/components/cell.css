@@ -4,6 +4,30 @@
   border: solid 1px transparent;
 }
 
+.cell-size-2 {
+  width: 35px;
+  height: 35px;
+  border: solid 1px transparent;
+}
+
+.cell-size-3 {
+  width: 30px;
+  height: 30px;
+  border: solid 1px transparent;
+}
+
+.cell-size-4 {
+  width: 25px;
+  height: 25px;
+  border: solid 1px transparent;
+}
+
+.cell-size-5 {
+  width: 20px;
+  height: 20px;
+  border: solid 1px transparent;
+}
+
 .cell {
   border-radius: 4px;
 }

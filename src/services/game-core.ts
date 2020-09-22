@@ -132,7 +132,7 @@ export class GameCore {
     })
 
     forkJoin(rowClearedObservables).subscribe(() => {
-      this.checkLevelIncrement(this.gameState.rowsCleared + completeRows.length);
+      this.checkLevelIncrement(this.gameState.rowsCleared, this.gameState.rowsCleared + completeRows.length);
       this.stateManager.dispatch(new IncrementScore(this.getScoreIncrement(completeRows.length)));
       this.stateManager.dispatch(new IncrementRowCount(completeRows.length));
       this.stateManager.dispatch(new SettleGridRows(completeRows.map(row => row.rowIndex)));
@@ -154,18 +154,20 @@ export class GameCore {
     return 0;
   }
 
-  private checkLevelIncrement(rowsCleared: number): void {
+  private checkLevelIncrement(previousTotalRowsCleared: number, newTotalRowsCleared: number): void {
     const initialIncrementCount1 = this.gameState.startLevel * 10 + 10;
     const initialIncrementCount2 = Math.max(100, this.gameState.startLevel * 10 - 50);
     const initialIncrementLineCount = Math.min(initialIncrementCount1, initialIncrementCount2);
 
-    if (rowsCleared > initialIncrementLineCount) {
-      const rowsAfterInitialIncrement = rowsCleared - initialIncrementLineCount;
-      if (rowsAfterInitialIncrement % 10 === 0) {
+    if (newTotalRowsCleared > initialIncrementLineCount) {
+      const rowsAfterInitialIncrement = newTotalRowsCleared - initialIncrementLineCount;
+      const previousRowsAfterInitialIncrement = previousTotalRowsCleared - initialIncrementLineCount;
+
+      if (Math.floor(rowsAfterInitialIncrement / 10) > Math.floor(previousRowsAfterInitialIncrement / 10)) {
         this.stateManager.dispatch(new IncrementLevel());
       }
     } 
-    else if (rowsCleared === initialIncrementLineCount) {
+    else if (newTotalRowsCleared === initialIncrementLineCount) {
       this.stateManager.dispatch(new IncrementLevel());
     }
   }

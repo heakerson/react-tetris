@@ -5,6 +5,7 @@
 
 .next-shape-container {
   padding: 10px;
+  justify-content: center;
 }
 
 .next-shape-cell {

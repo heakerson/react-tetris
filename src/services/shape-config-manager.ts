@@ -195,4 +195,40 @@ export class ShapeConfigManager {
       }
     }
   }
+
+  public getGreatestShapeWidth(): number {
+    const shapeTypes = Object.keys(ShapeType);
+    const rotationPoints = Object.keys(RotationPoint);
+    let greatestWidth = 0;
+
+    shapeTypes.forEach((shapeType) => {
+      rotationPoints.forEach(rotation => {
+        const config = this.getConfigFor(shapeType as ShapeType, rotation as RotationPoint);
+
+        if (config.widthMiniGrid > greatestWidth) {
+          greatestWidth = config.widthMiniGrid;
+        }
+      })
+    });
+
+    return greatestWidth;
+  }
+
+  public getGreatestShapeHeight(): number {
+    const shapeTypes = Object.keys(ShapeType);
+    const rotationPoints = Object.keys(RotationPoint);
+    let greatestHeight = 0;
+
+    shapeTypes.forEach((shapeType) => {
+      rotationPoints.forEach(rotation => {
+        const config = this.getConfigFor(shapeType as ShapeType, rotation as RotationPoint);
+
+        if (config.heightMiniGrid > greatestHeight) {
+          greatestHeight = config.heightMiniGrid;
+        }
+      })
+    });
+
+    return greatestHeight;
+  }
 }

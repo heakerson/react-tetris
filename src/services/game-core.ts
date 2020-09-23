@@ -295,7 +295,7 @@ export class GameCore {
   }
 
   private getPotentionStartColumnsFor(shapeConfig: ShapePositionConfig, grid: Grid): number[] {
-    const shapeWidth = shapeConfig.width;
+    const shapeWidth = shapeConfig.widthMiniGrid;
     const range = Array.from(Array(grid.width - shapeWidth + 1).keys())
     return range;
   }

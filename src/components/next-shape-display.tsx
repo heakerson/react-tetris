@@ -13,14 +13,14 @@ function NextShapeDisplay(props: { game: Game }) {
   if (nextShape) {
     const { shapeType, rotationPoint } = nextShape;
     const shapeConfig = game.shapeManager.getConfigFor(shapeType, rotationPoint);
-    const columnCounter = _.range(shapeConfig.grid[0].length);
-    const rowCounter = _.range(shapeConfig.grid.length);
+    const columnCounter = _.range(shapeConfig.widthMiniGrid);
+    const rowCounter = _.range(shapeConfig.heightMiniGrid);
 
     let buildRow = (rowIndex: number, shapeType: ShapeType, shapeConfig: ShapePositionConfig) => {
       return (
         <div className="flex-row" key={`row-${rowIndex}`}>
           {columnCounter.map(colIndex => {
-            const isOccupied = shapeConfig.miniGridOccupiedAt(rowIndex, colIndex, shapeConfig.grid);
+            const isOccupied = shapeConfig.miniGridOccupiedAt(rowIndex, colIndex);
             return <div key={`${rowIndex} ${colIndex}`} className={`next-shape-cell ${isOccupied ? `glow-border-${shapeType}` : 'transparent'}`}></div>
           })}
         </div>

@@ -48,6 +48,100 @@
   transition: opacity 2s, box-shadow 2s, background-color 2s;
 }
 
+.pause-cell-0, .pause-cell-5, .pause-cell-6 {
+  border: solid 1px gray;
+  background-color: rgb(61, 61, 61);
+  box-shadow: none;
+}
+
+/* Blackish Gray One */
+.pause-cell-1 {
+  border: solid 1px gray;
+  box-shadow: none;
+  /* Make Sure background color matches the start and end of the animation */
+  background-color: rgb(28, 28, 28);
+  animation: pausing-cell-1 6s infinite;
+}
+
+/* Dark Blue */
+.pause-cell-2 {
+  border: solid 1px gray;
+  box-shadow: none;
+  /* Make Sure background color matches the start and end of the animation */
+  background-color: rgb(61, 61, 61);
+  animation: pausing-cell-2 5s infinite;
+}
+
+/* Pinkish */
+.pause-cell-3 {
+  border: solid 1px gray;
+  box-shadow: none;
+  /* Make Sure background color matches the start and end of the animation */
+  background-color: rgb(100, 58, 100);
+  animation: pausing-cell-3 4s infinite;
+}
+
+/* Dark green */
+.pause-cell-4 {
+  border: solid 1px gray;
+  box-shadow: none;
+  /* Make Sure background color matches the start and end of the animation */
+  background-color: rgb(61, 61, 61);
+  animation: pausing-cell-4 3s infinite;
+}
+
+/* Blackish Gray One */
+@keyframes pausing-cell-1 {
+  0% {
+    background-color: rgb(28, 28, 28);
+  }
+  50% {
+    background-color: rgb(61, 61, 61);
+  }
+  0% {
+    background-color: rgb(28, 28, 28);
+  }
+}
+
+/* Dark Blue */
+@keyframes pausing-cell-2 {
+  0% {
+    background-color: rgb(61, 61, 61);
+  }
+  50% {
+    background-color: rgb(36, 36, 55);
+  }
+  0% {
+    background-color: rgb(61, 61, 61);
+  }
+}
+
+/* Pinkish */
+@keyframes pausing-cell-3 {
+  0% {
+    background-color: rgb(100, 58, 100);
+  }
+  50% {
+    background-color: rgb(61, 61, 61);
+  }
+  0% {
+    background-color: rgb(100, 58, 100);
+  }
+}
+
+/* Dark green */
+@keyframes pausing-cell-4 {
+  0% {
+    background-color: rgb(61, 61, 61);
+  }
+  50% {
+    background-color: rgb(72, 92, 72);
+  }
+  0% {
+    background-color: rgb(61, 61, 61);
+  }
+}
+
 .clearing {
   animation: clearing-cell 1s;
   animation-fill-mode: forwards;

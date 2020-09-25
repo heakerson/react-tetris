@@ -3,6 +3,7 @@ import Game from "../services/game";
 import './cell.css';
 import { Shape } from "../models/shape";
 import { Cell as CellModel } from "../models/cell";
+import { GameStatus } from "../models/game-status";
 
 function Cell(props: { game: Game, rowIndex: number, columnIndex: number }) {
   const { rowIndex, columnIndex, game } = props;
@@ -28,15 +29,19 @@ function Cell(props: { game: Game, rowIndex: number, columnIndex: number }) {
     }, 1000);
   }
 
-  const classes = `${getCellStyling(cellData.containingActiveShape, cellData.cell)} ${getCellSizeClass(cellData.gridColumnCount, cellData.gridRowCount)}`
+  const classes = `${getCellStyling(cellData.containingActiveShape, cellData.cell, cellData.gameStatus)} ${getCellSizeClass(cellData.gridColumnCount, cellData.gridRowCount)}`
 
   return (<div className={classes}></div>);
 }
 
-const getCellStyling = (containingShape: Shape | null, cellModel: CellModel): string => {
-  if (!!containingShape) {
+const getCellStyling = (containingShape: Shape | null, cellModel: CellModel, gameStatus: GameStatus): string => {
+  if (gameStatus === GameStatus.Paused) {
+    return `cell pause-cell-${Math.floor(Math.random() * Math.floor(7))}`;
+  }
+  else if (!!containingShape) {
     return `cell active-cell shadow glow-border-${containingShape.shapeType} ${cellModel.clearing$ ? 'clearing': ''}`;
-  } else if (!!cellModel.inactiveShape) {
+  }
+  else if (!!cellModel.inactiveShape) {
     return `${cellModel.inactiveShape.shapeType} cell inactive-occupied-cell ${cellModel.clearing$ ? 'clearing': ''}`;
   }
 

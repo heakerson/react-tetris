@@ -45,7 +45,7 @@ const reducer = function(gameState: GameState, action: Action): GameState {
 
     case ActionType.PauseGame:
       gameState.grid.gridMessageJSX = (
-        <div className="grid-message glow-border-blue glow-text-blue">
+        <div className="grid-message shadow glow-border-blue glow-text-blue">
           PAUSED
         </div>
       )

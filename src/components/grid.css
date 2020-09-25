@@ -9,3 +9,9 @@
   width: 100%;
   position: absolute;
 }
+
+.grid-message {
+  padding: 20px;
+  font-size: 32px;
+  background-color: #282c34;
+}

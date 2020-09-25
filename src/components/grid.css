@@ -1,4 +1,11 @@
 .grid-container {
   margin-right: 40px;
   background-color: #282c34;
+  position: relative;
+}
+
+.grid-message-overlay {
+  height: 100%;
+  width: 100%;
+  position: absolute;
 }

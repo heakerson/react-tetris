@@ -5,6 +5,7 @@ export class Grid {
   cellRows: Cell[][] = [];
   inactiveShapes: Shape[] = [];
   activeShape?: Shape;
+  gridMessageJSX: any;
 
   constructor(public width: number, public height: number) {
     this.initCells();

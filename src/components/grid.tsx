@@ -8,7 +8,8 @@ const Grid = React.memo((props: { game: Game }) => {
   const stateData = props.game.setComponentGameStateListener(gameState => {
     return {
       gridWidth: gameState.gridWidth,
-      gridHeight: gameState.gridHeight
+      gridHeight: gameState.gridHeight,
+      gridMessageJSX: gameState.grid.gridMessageJSX
     };
   });
 
@@ -25,6 +26,13 @@ const Grid = React.memo((props: { game: Game }) => {
 
   return (
     <div className="flex-column grid-container inset-shadow">
+
+      <div hidden={!stateData.gridMessageJSX} className="grid-message-overlay flex-column">
+        <div className="m-auto">
+          {stateData.gridMessageJSX}
+        </div>
+      </div>
+
       <div className="glow-border-red"></div>
       {rowCounter.map(rowIndex => buildRow(rowIndex))}
       <div className="glow-border-green"></div>

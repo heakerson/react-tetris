@@ -4,6 +4,7 @@ import { DisplayType } from "../../models/display-type";
 import { GameStatus } from "../../models/game-status";
 import { Shape } from "../../models/shape";
 import { InputType } from "../../models/input-type";
+import React from "react";
 
 const reducer = function(gameState: GameState, action: Action): GameState {
   switch(action.type) {
@@ -27,17 +28,28 @@ const reducer = function(gameState: GameState, action: Action): GameState {
         ...gameState,
         inputType: action.inputType
       };
+
     case ActionType.StartGame:
+      gameState.grid.gridMessageJSX = null;
+
       return {
         ...gameState,
         gameStatus: GameStatus.Playing
       };
+
     case ActionType.SetClearingRowsStatus:
       return {
         ...gameState,
         gameStatus: GameStatus.ClearingRows
       };
+
     case ActionType.PauseGame:
+      gameState.grid.gridMessageJSX = (
+        <div className="grid-message glow-border-blue glow-text-blue">
+          PAUSED
+        </div>
+      )
+
       return {
         ...gameState,
         gameStatus: GameStatus.Paused
@@ -47,11 +59,13 @@ const reducer = function(gameState: GameState, action: Action): GameState {
         ...gameState,
         gameStatus: GameStatus.End
       }
+
     case ActionType.ResetGame:
       gameState.grid.clearAllAnimations();
       gameState.grid.activeShape = undefined;
       gameState.grid.inactiveShapes = [];
       gameState.grid.cellRows.forEach(row => row.forEach(cell => cell.inactiveShape = undefined));
+      gameState.grid.gridMessageJSX = null;
 
       return {
         ...gameState,
@@ -62,16 +76,19 @@ const reducer = function(gameState: GameState, action: Action): GameState {
         rowsCleared: 0,
         score: 0
       }
+
     case ActionType.IncrementLevel:
       return {
         ...gameState,
         currentLevel: gameState.currentLevel+1
       };
+
     case ActionType.IncrementTick:
       return {
         ...gameState,
         tickCount: gameState.tickCount + 1
       };
+
     case ActionType.RotateActiveAndNextShapes:
       const grid = gameState.grid;
 

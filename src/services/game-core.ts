@@ -261,6 +261,7 @@ export class GameCore {
 
   private generateRandomShape(): Shape {
     const shapeType = this.getRandomShapeType();
+    // const shapeType = ShapeType.S;
     const rotation = this.getRandomShapeRotation();
     return new Shape([], shapeType, rotation);
   }

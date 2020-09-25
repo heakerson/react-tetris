@@ -13,7 +13,7 @@ import { InputType } from "../../models/input-type";
 
 export class GameState {
   routes: RouteData[] = [
-    { title: 'GAME', path: '/', component: GameContainer, className: 'nav-link' } as RouteData,
+    { title: 'PLAY', path: '/', component: GameContainer, className: 'nav-link' } as RouteData,
     { title: 'SCORES', path: '/scores', component: Scores, className: 'nav-link' } as RouteData,
     { title: 'HOW TO', path: '/howto', component: HowTo, className: 'nav-link' } as RouteData, 
     { title: 'SETTINGS', path: '/settings', component: Settings, iconComponent: SettingsIcon, className: classNames('nav-link', 'settings-icon') }  as RouteData

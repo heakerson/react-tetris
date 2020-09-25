@@ -32,7 +32,7 @@ function Header(props: { game: Game }) {
         <Typography variant="h5" className={classes.buttonRow}>
           {routes.map((route: RouteData) => (
             displayType === DisplayType.Desktop &&
-            <NavLink key={route.path} exact={true} className={route.className} activeClassName='active-nav' to={route.path}>
+            <NavLink key={route.path} exact={true} className={route.className} activeClassName='active-nav glow-text-white' to={route.path}>
               {getLinkContent(route)}
             </NavLink>
           ))}

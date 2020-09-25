@@ -130,13 +130,13 @@ export class ShapePositionConfig {
       }
     }
 
-    miniGridCopy = this.removeMiniGridLeftEmptyColumns();
+    miniGridCopy = this.removeMiniGridLeftEmptyColumns(miniGridCopy);
 
     return miniGridCopy;
   }
 
-  private removeMiniGridLeftEmptyColumns(): string[][] {
-    let miniGridCopy = _.cloneDeep(this.miniGrid);
+  private removeMiniGridLeftEmptyColumns(miniGrid: string[][]): string[][] {
+    let miniGridCopy = _.cloneDeep(miniGrid);
     let checkFirstColumn = true;
 
     while (checkFirstColumn) {

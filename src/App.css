@@ -174,12 +174,12 @@ body {
   box-shadow:
     0 0 3px #fff,
     0 0 5px #fff,
-    0 0 7px lime,
-    0 0 10px lime,
+    0 0 7px rgb(0, 155, 0),
+    0 0 10px rgb(0, 155, 0),
     inset 0 0 3px #fff,
     inset 0 0 5px #fff,
-    inset 0 0 7px lime,  
-    inset 0 0 10px lime;
+    inset 0 0 7px rgb(0, 155, 0),  
+    inset 0 0 10px rgb(0, 155, 0);
 }
 
 .glow-border-T {
@@ -200,12 +200,12 @@ body {
   box-shadow:
     0 0 3px #fff,
     0 0 5px #fff,
-    0 0 7px orange,
-    0 0 10px orange,
+    0 0 7px rgb(145, 94, 0),
+    0 0 10px rgb(145, 94, 0),
     inset 0 0 3px #fff,
     inset 0 0 5px #fff,
-    inset 0 0 7px orange,  
-    inset 0 0 10px orange;
+    inset 0 0 7px rgb(145, 94, 0),  
+    inset 0 0 10px rgb(145, 94, 0);
 }
 
 .glow-border-ReverseL {
@@ -226,12 +226,12 @@ body {
   box-shadow:
     0 0 3px #fff,
     0 0 5px #fff,
-    0 0 7px yellow,
-    0 0 10px yellow,
+    0 0 7px rgb(100, 100, 0),
+    0 0 10px rgb(100, 100, 0),
     inset 0 0 3px #fff,
     inset 0 0 5px #fff,
-    inset 0 0 7px yellow,  
-    inset 0 0 10px yellow;
+    inset 0 0 7px rgb(100, 100, 0),  
+    inset 0 0 10px rgb(100, 100, 0);
 }
 
 .glow-border-Bar {
@@ -239,12 +239,12 @@ body {
   box-shadow:
     0 0 3px #fff,
     0 0 5px #fff,
-    0 0 7px skyblue,
-    0 0 10px skyblue,
+    0 0 7px rgb(2, 145, 202),
+    0 0 10px rgb(2, 145, 202),
     inset 0 0 3px #fff,
     inset 0 0 5px #fff,
-    inset 0 0 7px skyblue,  
-    inset 0 0 10px skyblue;
+    inset 0 0 7px rgb(2, 145, 202),
+    inset 0 0 10px rgb(2, 145, 202);
 }
 
 .glow-text-white { 

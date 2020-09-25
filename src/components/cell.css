@@ -39,7 +39,7 @@
 .inactive-occupied-cell {
   opacity: .5;
   border: solid 1px white;
-  transition: opacity 2s, box-shadow 2s;
+  transition: opacity 2s, box-shadow 2s, background-color 2s;
 }
 
 .clearing {
@@ -57,6 +57,17 @@
   25% {
     background-color: red;
     opacity: 1;
+
+    border: white 1px solid;
+    box-shadow:
+      0 0 3px #fff,
+      0 0 5px #fff,
+      0 0 7px red,
+      0 0 10px red,
+      inset 0 0 3px #fff,
+      inset 0 0 5px #fff,
+      inset 0 0 7px red,  
+      inset 0 0 10px red; 
   }
   50% {
     background-color: black;

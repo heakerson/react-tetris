@@ -35,7 +35,7 @@ function Cell(props: { game: Game, rowIndex: number, columnIndex: number }) {
 
 const getCellStyling = (containingShape: Shape | null, cellModel: CellModel): string => {
   if (!!containingShape) {
-    return `${containingShape.shapeType} cell active-cell shadow ${cellModel.clearing$ ? 'clearing': ''}`;
+    return `cell active-cell shadow glow-border-${containingShape.shapeType} ${cellModel.clearing$ ? 'clearing': ''}`;
   } else if (!!cellModel.inactiveShape) {
     return `${cellModel.inactiveShape.shapeType} cell inactive-occupied-cell ${cellModel.clearing$ ? 'clearing': ''}`;
   }

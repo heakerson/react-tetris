@@ -43,8 +43,9 @@ export class ShapePositionConfig {
       const rotatedDeltaFromCenter = this.getRotatedDeltaFromCenter(coordinateDeltaFromCenter, rotationDirection);
 
       const isEven = this.miniGrid.length % 2 === 0;
-      const shiftX = rotatedDeltaFromCenter[0] - coordinateDeltaFromCenter[0];
-      const shiftY = rotatedDeltaFromCenter[1] - coordinateDeltaFromCenter[1] - (isEven ? 1 : 0);
+      const isCounterClockWise = rotationDirection === RotationDirection.CounterClockwise;
+      const shiftX = rotatedDeltaFromCenter[0] - coordinateDeltaFromCenter[0] - (isEven && isCounterClockWise ? 1 : 0);
+      const shiftY = rotatedDeltaFromCenter[1] - coordinateDeltaFromCenter[1] - (isEven && !isCounterClockWise ? 1 : 0);
 
       return this.getShiftedCell(i, shape, grid, shiftX, shiftY);
     })

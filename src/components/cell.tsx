@@ -48,6 +48,7 @@ const getCellSizeClass = (gridColumnCount: number, gridRowCount: number): string
   const size2 = 35;
   const size3 = 30;
   const size4 = 25;
+  const size5 = 20;
   const cellHeightThreshhold: number = (window.innerHeight * .7) / gridRowCount;
   const cellWidthThreshhold: number = (window.innerWidth * .5) / gridColumnCount;
   const dimensionThreshhold = Math.min(cellHeightThreshhold, cellWidthThreshhold);
@@ -64,8 +65,11 @@ const getCellSizeClass = (gridColumnCount: number, gridRowCount: number): string
   else if (dimensionThreshhold > size4) {
     return 'cell-size-4';
   }
+  else if (dimensionThreshhold > size5) {
+    return 'cell-size-5';
+  }
 
-  return 'cell-size-5';
+  return 'cell-size-6';
 }
 
 export default Cell;

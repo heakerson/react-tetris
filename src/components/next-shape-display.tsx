@@ -34,7 +34,7 @@ function NextShapeDisplay(props: { game: Game }) {
     <div className="content-container-fill-parent next-shape-display-container glow-border-white flex-column">
       <div className="glow-text-white">NEXT: </div>
       <div className="next-shape-container m-auto flex-column flex-align-center" 
-        style={{ minWidth: `${game.shapeManager.getGreatestShapeWidth()*20 + 40}px`, height: `${game.shapeManager.getGreatestShapeHeight()*20}px`}}>
+        style={{ minWidth: `${game.shapeManager.getGreatestShapeWidth()*20 + 40}px`, height: `${game.shapeManager.getGreatestShapeHeight()*20+10}px`}}>
         {buildRows()}
       </div>
     </div>

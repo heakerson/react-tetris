@@ -17,3 +17,8 @@
 .transparent {
   border: 1px solid transparent;
 }
+
+.ban-icon {
+  border-radius: 50%;
+  color: #ff0084;
+}

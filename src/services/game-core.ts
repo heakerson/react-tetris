@@ -187,7 +187,7 @@ export class GameCore {
   }
 
   private canShiftShape(direction: MoveDirection, grid: Grid): boolean {
-    if (grid.activeShape) {
+    if (grid.activeShape && this.gameState.gameStatus === GameStatus.Playing) {
       const nextMoveCells = grid.activeShape.getNextMoveCells(direction, grid);
       const nextMoveCellsExist = nextMoveCells && nextMoveCells.length > 0 && (nextMoveCells.findIndex(c => !c) === -1);
 

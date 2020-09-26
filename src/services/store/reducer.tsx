@@ -5,6 +5,8 @@ import { GameStatus } from "../../models/game-status";
 import { Shape } from "../../models/shape";
 import { InputType } from "../../models/input-type";
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFrown } from '@fortawesome/free-regular-svg-icons';
 
 const reducer = function(gameState: GameState, action: Action): GameState {
   switch(action.type) {
@@ -55,6 +57,12 @@ const reducer = function(gameState: GameState, action: Action): GameState {
         gameStatus: GameStatus.Paused
       };
     case ActionType.EndGame:
+      gameState.grid.gridMessageJSX = (
+        <div className="grid-message shadow glow-border-fuschia flex-row flex-align-center lose-message">
+          <span>YOU LOST!</span>
+          <FontAwesomeIcon icon={faFrown} size='2x' className='sad-icon' />
+        </div>
+      )
       return {
         ...gameState,
         gameStatus: GameStatus.End

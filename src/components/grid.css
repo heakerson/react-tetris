@@ -8,10 +8,20 @@
   height: 100%;
   width: 100%;
   position: absolute;
+  z-index: 10;
 }
 
 .grid-message {
   padding: 20px;
   font-size: 32px;
   background-color: #282c34;
+}
+
+.sad-icon {
+  border-radius: 50%;
+  margin-left: 16px;
+}
+
+.lose-message {
+  background-color: #ff0084;
 }

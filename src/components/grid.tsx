@@ -3,16 +3,19 @@ import Game from "../services/game";
 import './grid.css';
 import _ from "lodash";
 import Cell from "./cell";
+import { DisplayType } from "../models/display-type";
 
 const Grid = React.memo((props: { game: Game }) => {
   const stateData = props.game.setComponentGameStateListener(gameState => {
     return {
       gridWidth: gameState.gridWidth,
       gridHeight: gameState.gridHeight,
-      gridMessageJSX: gameState.grid.gridMessageJSX
+      gridMessageJSX: gameState.grid.gridMessageJSX,
+      displayMode: gameState.displayType
     };
   });
 
+  const isDesktop = stateData.displayMode === DisplayType.Desktop;
   const columnCounter = _.range(stateData.gridWidth);
   const rowCounter = _.range(stateData.gridHeight).reverse();
 
@@ -25,7 +28,7 @@ const Grid = React.memo((props: { game: Game }) => {
   }
 
   return (
-    <div className="flex-column grid-container inset-shadow">
+    <div className={`flex-column grid-container inset-shadow ${isDesktop ? 'desktop-grid' : 'mobile-grid'}`}>
 
       <div hidden={!stateData.gridMessageJSX} className="grid-message-overlay flex-column">
         <div className="m-auto">

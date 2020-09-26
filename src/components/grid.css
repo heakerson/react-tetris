@@ -1,7 +1,14 @@
 .grid-container {
-  margin-right: 40px;
   background-color: #282c34;
   position: relative;
+}
+
+.desktop-grid {
+  margin-right: 40px;
+}
+
+.mobile-grid {
+  margin-bottom: 10px;
 }
 
 .grid-message-overlay {

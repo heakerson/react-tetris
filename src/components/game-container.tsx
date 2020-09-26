@@ -39,11 +39,11 @@ function GameContainer(props: { game: Game }) {
 }
 
 const getGameContainerClasses = (displayType: DisplayType): string => {
-  const alwaysHas = 'content-container-fill-parent game-container';
+  const alwaysHas = 'content-container-fill-parent';
   if (displayType === DisplayType.Desktop) {
-    return `${alwaysHas} flex-row m-auto`;
+    return `${alwaysHas} flex-row m-auto game-container`;
   } else {
-    return `${alwaysHas} flex-column flex-align-center mb-auto`;
+    return `${alwaysHas} flex-column flex-align-center mb-auto mobile-game-container`;
   }
 }
 

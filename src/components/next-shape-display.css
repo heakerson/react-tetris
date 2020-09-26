@@ -3,6 +3,12 @@
   margin-bottom: 10px;
 }
 
+.next-shape-display-container-mobile {
+  padding: 15px;
+  min-width: 80px;
+  min-height: 90px;
+}
+
 .next-shape-container {
   padding-top: 10px;
   justify-content: center;
@@ -11,6 +17,12 @@
 .next-shape-cell {
   width: 20px;
   height: 20px;
+  border-radius: 4px;
+}
+
+.next-shape-cell-mobile {
+  width: 15px;
+  height: 15px;
   border-radius: 4px;
 }
 

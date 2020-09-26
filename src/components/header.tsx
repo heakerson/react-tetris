@@ -14,6 +14,7 @@ function Header(props: { game: Game }) {
   const history = useHistory();
   const [ anchorEl, setAnchorEl ] = React.useState<null | HTMLElement>(null);
   const routes = game.setComponentGameStateListener(gameState => gameState.routes);
+  const isMobile = displayType === DisplayType.Mobile;
 
   const getLinkContent = (route: RouteData) => {
     return !route.iconComponent ? route.title : (
@@ -25,8 +26,12 @@ function Header(props: { game: Game }) {
 
   return (
     <AppBar position="static">
-      <Toolbar color="primary">
+      <Toolbar color="primary" className={isMobile ? 'mobile-header' : ''}>
         {getHamburgerMenu(displayType, classes, anchorEl, setAnchorEl, history, routes)}
+        {isMobile ? 
+        <Typography variant="h4">
+          <span className='tetris-header-text'>TETRIS</span>
+        </Typography> :
         <Typography variant="h3">
           {/* <span className="glow-text-blue">N</span>
           <span className="glow-text-orange">E</span>
@@ -40,7 +45,7 @@ function Header(props: { game: Game }) {
           <span className="glow-text-white">R</span>
           <span className="glow-text-orange">I</span>
           <span className="glow-text-white">S</span> */}
-        </Typography>
+        </Typography>}
 
         <Typography variant="h5" className={classes.buttonRow}>
           {routes.map((route: RouteData) => (

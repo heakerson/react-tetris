@@ -32,3 +32,15 @@
   opacity: .4;
   cursor: not-allowed;
 }
+
+.mobile-display {
+  font-size: .7em !important;
+  padding: 0px 16px;
+}
+
+.mobile-display-panel-button {
+  font-size: .8em;
+  height: 30%;
+  min-width: 85px;
+  margin: 0 0 20px 0;
+}

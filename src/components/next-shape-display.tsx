@@ -7,12 +7,25 @@ import { ShapeType } from "../models/shape-type";
 import Game from "../services/game";
 import './next-shape-display.css';
 import { faBan } from '@fortawesome/free-solid-svg-icons'
+import { DisplayType } from "../models/display-type";
 
 function NextShapeDisplay(props: { game: Game }) {
   const { game } = props;
-  const nextShape = game.setComponentGameStateListener(state => state.nextShape);
-  const gameStatus = game.setComponentGameStateListener(state => state.gameStatus);
+  const { nextShape, gameStatus, displayType } = game.setComponentGameStateListener(state => {
+    return {
+      nextShape: state.nextShape,
+      gameStatus: state.gameStatus,
+      displayType: state.displayType
+    }
+  });
+
+  const isMobile = displayType === DisplayType.Mobile;
   let buildRows: () => any = () => {};
+
+  const nextShapeContainerDimensions = {
+    minWidth: `${isMobile ? '' : game.shapeManager.getGreatestShapeWidth()*20 + 40}px`,
+    height: `${isMobile ? '' : game.shapeManager.getGreatestShapeHeight()*20+10}px`
+  }
 
   if (nextShape) {
     const { shapeType, rotationPoint } = nextShape;
@@ -25,7 +38,7 @@ function NextShapeDisplay(props: { game: Game }) {
         <div className="flex-row" key={`row-${rowIndex}`}>
           {columnCounter.map(colIndex => {
             const isOccupied = shapeConfig.miniGridOccupiedAt(rowIndex, colIndex);
-            return <div key={`${rowIndex} ${colIndex}`} className={`next-shape-cell ${isOccupied ? `glow-border-${shapeType}` : 'transparent'}`}></div>
+            return <div key={`${rowIndex} ${colIndex}`} className={`${isMobile ? 'next-shape-cell-mobile' : 'next-shape-cell'} ${isOccupied ? `glow-border-${shapeType}` : 'transparent'}`}></div>
           })}
         </div>
       );
@@ -35,11 +48,11 @@ function NextShapeDisplay(props: { game: Game }) {
   }
 
   return (
-    <div className="content-container-fill-parent next-shape-display-container glow-border-white flex-column">
+    <div className={`${isMobile ? 'next-shape-display-container-mobile' : 'next-shape-display-container'} content-container-fill-parent glow-border-white flex-column`}>
       <div className="glow-text-white">NEXT: </div>
       <div className="next-shape-container m-auto flex-column flex-align-center" 
-        style={{ minWidth: `${game.shapeManager.getGreatestShapeWidth()*20 + 40}px`, height: `${game.shapeManager.getGreatestShapeHeight()*20+10}px`}}>
-        {gameStatus === GameStatus.Paused ? <FontAwesomeIcon icon={faBan} size='5x' className='glow-border-fuschia ban-icon' /> : buildRows()}
+        style={nextShapeContainerDimensions}>
+        {gameStatus === GameStatus.Paused ? <FontAwesomeIcon icon={faBan} size={isMobile ? '3x' : '5x'} className='glow-border-fuschia ban-icon' /> : buildRows()}
       </div>
     </div>
   );

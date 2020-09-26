@@ -16,3 +16,8 @@
 .tetris-header-text {
   color: #282c34;
 }
+
+.mobile-header {
+  max-height: 40px;
+  min-height: 40px !important;
+}

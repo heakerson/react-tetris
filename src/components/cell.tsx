@@ -4,6 +4,7 @@ import './cell.css';
 import { Shape } from "../models/shape";
 import { Cell as CellModel } from "../models/cell";
 import { GameStatus } from "../models/game-status";
+import { DisplayType } from "../models/display-type";
 
 function Cell(props: { game: Game, rowIndex: number, columnIndex: number }) {
   const { rowIndex, columnIndex, game } = props;
@@ -18,7 +19,8 @@ function Cell(props: { game: Game, rowIndex: number, columnIndex: number }) {
       containingActiveShape: activeShape && activeShape.containsCellAt(rowIndex, columnIndex) ? activeShape : null,
       clearing$: cell.clearing$,
       gridColumnCount: gameState.gridWidth,
-      gridRowCount: gameState.gridHeight
+      gridRowCount: gameState.gridHeight,
+      displayMode: gameState.displayType
     }
   });
 
@@ -29,7 +31,8 @@ function Cell(props: { game: Game, rowIndex: number, columnIndex: number }) {
     }, 1000);
   }
 
-  const classes = `${getCellStyling(cellData.containingActiveShape, cellData.cell, cellData.gameStatus)} ${getCellSizeClass(cellData.gridColumnCount, cellData.gridRowCount)}`
+  const isMobile = cellData.displayMode === DisplayType.Mobile;
+  const classes = `${getCellStyling(cellData.containingActiveShape, cellData.cell, cellData.gameStatus)} ${getCellSizeClass(cellData.gridColumnCount, cellData.gridRowCount, isMobile)}`;
 
   return (<div className={classes}></div>);
 }
@@ -48,14 +51,14 @@ const getCellStyling = (containingShape: Shape | null, cellModel: CellModel, gam
   return ''
 }
 
-const getCellSizeClass = (gridColumnCount: number, gridRowCount: number): string => {
+const getCellSizeClass = (gridColumnCount: number, gridRowCount: number, isMobile: boolean): string => {
   const size1 = 40;
   const size2 = 35;
   const size3 = 30;
   const size4 = 25;
   const size5 = 20;
-  const cellHeightThreshhold: number = (window.innerHeight * .7) / gridRowCount;
-  const cellWidthThreshhold: number = (window.innerWidth * .5) / gridColumnCount;
+  const cellHeightThreshhold: number = (window.innerHeight * (isMobile ? .7 : .7)) / gridRowCount;
+  const cellWidthThreshhold: number = (window.innerWidth * (isMobile ? .9 : .5)) / gridColumnCount;
   const dimensionThreshhold = Math.min(cellHeightThreshhold, cellWidthThreshhold);
 
   if (dimensionThreshhold > size1) {

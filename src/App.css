@@ -104,6 +104,10 @@ body {
   background-color: lime;
 }
 
+.bg-main-background {
+  background-color: #282c34;
+}
+
 .glow-border-red {
   border: white 1px solid;
   box-shadow:
@@ -302,6 +306,39 @@ body {
     0 0 12px blue,
     0 0 15px blue,
     0 0 17px blue;
+}
+
+.glow-text-red {
+  text-shadow:
+    0 0 3px #fff,
+    0 0 5px #fff,
+    0 0 7px red,
+    0 0 10px red,
+    0 0 12px red,
+    0 0 15px red,
+    0 0 17px red;
+}
+
+.glow-text-yellow {
+  text-shadow:
+    0 0 3px #fff,
+    0 0 5px #fff,
+    0 0 7px yellow,
+    0 0 10px yellow,
+    0 0 12px yellow,
+    0 0 15px yellow,
+    0 0 17px yellow;
+}
+
+.glow-text-orange {
+  text-shadow:
+    0 0 3px #fff,
+    0 0 5px #fff,
+    0 0 7px orange,
+    0 0 10px orange,
+    0 0 12px orange,
+    0 0 15px orange,
+    0 0 17px orange;
 }
 
 .glow-text-green-animation {

@@ -27,7 +27,20 @@ function Header(props: { game: Game }) {
     <AppBar position="static">
       <Toolbar color="primary">
         {getHamburgerMenu(displayType, classes, anchorEl, setAnchorEl, history, routes)}
-        <Typography variant="h3"><span className='tetris-header-text'>TETRIS</span></Typography>
+        <Typography variant="h3">
+          {/* <span className="glow-text-blue">N</span>
+          <span className="glow-text-orange">E</span>
+          <span className="glow-text-white">O</span>
+          <span className="glow-text-green">N</span> */}
+
+          <span className='tetris-header-text'>TETRIS</span>
+          {/* <span className="glow-text-blue">T</span>
+          <span className="glow-text-orange">E</span>
+          <span className="glow-text-green">T</span>
+          <span className="glow-text-white">R</span>
+          <span className="glow-text-orange">I</span>
+          <span className="glow-text-white">S</span> */}
+        </Typography>
 
         <Typography variant="h5" className={classes.buttonRow}>
           {routes.map((route: RouteData) => (

@@ -11,6 +11,7 @@
   padding: 10px;
   z-index: 1000;
   background-color: blue;
+  touch-action: manipulation;
 }
 
 .right-button {

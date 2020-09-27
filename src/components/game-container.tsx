@@ -30,14 +30,14 @@ function GameContainer(props: { game: Game }) {
   return (
     <div className={classes}>
       {touchInput && <Draggable disabled={playing}>
-        <div id='rotateButton' className='mobile-gameplay-button glow-border-blue glow-text-blue flex-column flex-align-center'>
+        <div id='rotateButton' className='right-button mobile-gameplay-button glow-border-blue glow-text-blue flex-column flex-align-center'>
           <FontAwesomeIcon icon={faSyncAlt} size='2x'/>
           {!playing && <div className="drag-text">DRAG ME</div>}
         </div>
       </Draggable>}
 
       {touchInput && <Draggable disabled={playing}>
-        <div id='settleButton' className='mobile-gameplay-button glow-border-blue glow-text-blue flex-column flex-align-center'>
+        <div id='settleButton' className='left-button mobile-gameplay-button glow-border-blue glow-text-blue flex-column flex-align-center'>
           <FontAwesomeIcon icon={faArrowAltCircleDown} size='2x'/>
           {!playing && <div className="drag-text">DRAG ME</div>}
         </div>

@@ -14,6 +14,7 @@ import { InputType } from "../models/input-type";
 import { forkJoin, fromEvent, interval, Subject } from "rxjs";
 import { takeUntil, filter, take } from "rxjs/operators";
 import { RotationDirection } from "../models/rotation-direction";
+import { FromEventTarget } from "rxjs/internal/observable/fromEvent";
 
 export class GameCore {
   private gameState: any;
@@ -364,6 +365,34 @@ export class GameCore {
           }
         });
     } else {
+
+      fromEvent(document.getElementById('rotateButton') as FromEventTarget<Event>, 'touchstart')
+        .pipe(
+          takeUntil(this.takeUserInputUntil$),
+        )
+        .subscribe(e => {
+          e.stopPropagation();
+          
+          if (this.gameState.gameStatus === GameStatus.Playing) {
+            if (this.canRotateShape(RotationDirection.Clockwise, grid)) {
+              this.rotateShape(RotationDirection.Clockwise, grid);
+            }
+          }
+        });
+      
+      fromEvent(document.getElementById('settleButton') as FromEventTarget<Event>, 'touchstart')
+        .pipe(
+          takeUntil(this.takeUserInputUntil$),
+        )
+        .subscribe(e => {
+          e.stopPropagation();
+          
+          if (this.gameState.gameStatus === GameStatus.Playing) {
+            this.moveShapeToBottom(this.gameState.grid);
+          }
+        });
+
+
       fromEvent(window, 'touchstart')
         .pipe(
           takeUntil(this.takeUserInputUntil$),

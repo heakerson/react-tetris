@@ -6,7 +6,7 @@ import { ShapePositionConfig } from "../models/shape-position-config";
 import { ShapeType } from "../models/shape-type";
 import Game from "../services/game";
 import './next-shape-display.css';
-import { faBan } from '@fortawesome/free-solid-svg-icons'
+import { faBan } from '@fortawesome/free-solid-svg-icons';
 import { DisplayType } from "../models/display-type";
 
 function NextShapeDisplay(props: { game: Game }) {

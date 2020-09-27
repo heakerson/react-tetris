@@ -5,6 +5,11 @@ import Grid from "./grid";
 import { DisplayType } from "../models/display-type";
 import { ToggleDisplayType, EndGame, IncrementLevel, ToggleInputType } from "../services/store/actions";
 import DisplayPanel from "./display-panel";
+import Draggable from "react-draggable";
+import { GameStatus } from "../models/game-status";
+import { faSyncAlt, faArrowAltCircleDown } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { InputType } from "../models/input-type";
 
 function GameContainer(props: { game: Game }) {
   const { game } = props;
@@ -14,13 +19,30 @@ function GameContainer(props: { game: Game }) {
       displayType: gameState.displayType,
       inputType: gameState.inputType,
       grid: gameState.grid,
+      gameStatus: gameState.gameStatus,
     };
   });
 
   const classes = getGameContainerClasses(stateData.displayType);
+  const playing = stateData.gameStatus === GameStatus.Playing;
+  const touchInput = stateData.inputType === InputType.Touch;
 
   return (
     <div className={classes}>
+      {touchInput && <Draggable disabled={playing}>
+        <div id='rotateButton' className='mobile-gameplay-button glow-border-blue glow-text-blue flex-column flex-align-center'>
+          <FontAwesomeIcon icon={faSyncAlt} size='2x'/>
+          {!playing && <div className="drag-text">DRAG ME</div>}
+        </div>
+      </Draggable>}
+
+      {touchInput && <Draggable disabled={playing}>
+        <div id='settleButton' className='mobile-gameplay-button glow-border-blue glow-text-blue flex-column flex-align-center'>
+          <FontAwesomeIcon icon={faArrowAltCircleDown} size='2x'/>
+          {!playing && <div className="drag-text">DRAG ME</div>}
+        </div>
+      </Draggable>}
+
       <Grid game={game} />
       <div className="flex-column flex-fill">
         <div>
@@ -39,11 +61,11 @@ function GameContainer(props: { game: Game }) {
 }
 
 const getGameContainerClasses = (displayType: DisplayType): string => {
-  const alwaysHas = 'content-container-fill-parent';
+  const baseClasses = 'content-container-fill-parent';
   if (displayType === DisplayType.Desktop) {
-    return `${alwaysHas} flex-row m-auto game-container`;
+    return `${baseClasses} flex-row m-auto game-container`;
   } else {
-    return `${alwaysHas} flex-column flex-align-center mb-auto mobile-game-container`;
+    return `${baseClasses} flex-column flex-align-center mb-auto mobile-game-container`;
   }
 }
 

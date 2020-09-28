@@ -214,7 +214,7 @@ export class GameCore {
       return JSON.parse(userDataAsString) as UserData;
     } else {
       const newUserData = new UserData();
-      this.setUserData(() => newUserData);
+      window.localStorage.setItem('tetris-user-data', JSON.stringify(newUserData));
       return newUserData;
     }
   }

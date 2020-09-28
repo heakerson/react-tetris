@@ -78,13 +78,13 @@ function DisplayPanel(props: { game: Game }) {
 
       <div className='flex-column'>
         <button onClick={(event: any) => mainButtonClicked(displayData.gameStatus, event)} 
-          disabled={displayData.gameStatus === GameStatus.End} 
+          disabled={displayData.gameStatus === GameStatus.End} id='mainButton'
           className={`glow-border-green display-panel-button hover-cursor bg-green ${isMobile ? 'mobile-display-panel-button' : ''}`}>
             <span className="glow-text-green">{getMainButtonText(displayData.gameStatus)}</span>
         </button>
 
         <button onClick={(event: any) => { event.currentTarget.blur(); props.game.dispatch(new ResetGame())}} 
-          disabled={displayData.gameStatus === GameStatus.Start} 
+          disabled={displayData.gameStatus === GameStatus.Start} id='resetButton'
           className={`glow-border-fuschia display-panel-button hover-cursor bg-fuschia ${isMobile ? 'mobile-display-panel-button' : ''}`}>
             <span className="glow-text-fuschia">RESET</span>
         </button>

@@ -402,13 +402,17 @@ export class GameCore {
           const x = event.touches[0].clientX;
           const isLeft = x < midpoint;
 
-          if (isLeft) {
-            if (this.canShiftShape(MoveDirection.Left, grid)) {
-              this.shiftShape(MoveDirection.Left, grid);
-            }
-          } else {
-            if (this.canShiftShape(MoveDirection.Right, grid)) {
-              this.shiftShape(MoveDirection.Right, grid);
+          const clickedButton = !!event.target.closest('#mainButton') || !!event.target.closest('#resetButton');
+
+          if (!clickedButton) {
+            if (isLeft) {
+              if (this.canShiftShape(MoveDirection.Left, grid)) {
+                this.shiftShape(MoveDirection.Left, grid);
+              }
+            } else {
+              if (this.canShiftShape(MoveDirection.Right, grid)) {
+                this.shiftShape(MoveDirection.Right, grid);
+              }
             }
           }
         });

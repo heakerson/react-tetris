@@ -32,3 +32,17 @@
 .lose-message {
   background-color: #ff0084;
 }
+
+.new-high-message {
+  background-color: lime;
+}
+
+.new-high-data-container {
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.new-high-label {
+  margin-right: 15px;
+  font-weight: bold;
+}

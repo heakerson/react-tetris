@@ -4,6 +4,7 @@ import { IAction } from "./store/actions";
 import { GameEngine } from "./game-engine";
 import { GameCore } from "./game-core";
 import { ShapeConfigManager } from "./shape-config-manager";
+import { UserData } from "../models/user-data";
 
 
 export default class Game {
@@ -18,5 +19,9 @@ export default class Game {
 
   public dispatch(action: IAction): void {
     this.stateManager.dispatch(action);
+  }
+
+  public setUserData(setDataFn: (userData: UserData) => UserData): void {
+    this.gameCore.setUserData(setDataFn);
   }
 }

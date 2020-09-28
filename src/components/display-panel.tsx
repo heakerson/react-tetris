@@ -55,6 +55,15 @@ function DisplayPanel(props: { game: Game }) {
       case GameStatus.Playing:
         props.game.dispatch(new PauseGame());
         break;
+      case GameStatus.Start:
+        props.game.setUserData(userData => {
+          return {
+            ...userData,
+            gamesPlayed: userData.gamesPlayed + 1
+          }
+        })
+        props.game.dispatch(new StartGame());
+        break;
       default:
         props.game.dispatch(new StartGame());
         break;

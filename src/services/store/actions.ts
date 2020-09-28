@@ -65,6 +65,8 @@ class PauseGame implements IAction {
 
 class EndGame implements IAction {
   type = ActionType.EndGame;
+
+  constructor(public newTopScore?: number, public newTopRows?: number, public newTopLevel?: number) {}
 }
 
 class ResetGame implements IAction {
@@ -133,7 +135,7 @@ export type Action =
   | { type: ActionType.StartGame }
   | { type: ActionType.SetClearingRowsStatus }
   | { type: ActionType.PauseGame }
-  | { type: ActionType.EndGame }
+  | { type: ActionType.EndGame, newTopScore?: number, newTopRows?: number, newTopLevel?: number }
   | { type: ActionType.ResetGame }
   | { type: ActionType.IncrementLevel }
   | { type: ActionType.IncrementTick }

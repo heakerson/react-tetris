@@ -57,12 +57,8 @@ const reducer = function(gameState: GameState, action: Action): GameState {
         gameStatus: GameStatus.Paused
       };
     case ActionType.EndGame:
-      gameState.grid.gridMessageJSX = (
-        <div className="grid-message shadow glow-border-fuschia flex-row flex-align-center lose-message">
-          <span>YOU LOST!</span>
-          <FontAwesomeIcon icon={faFrown} size='2x' className='sad-icon' />
-        </div>
-      )
+      gameState.grid.gridMessageJSX = getLoseJSX(action.newTopScore, action.newTopRows, action.newTopLevel);
+
       return {
         ...gameState,
         gameStatus: GameStatus.End
@@ -176,6 +172,43 @@ const reducer = function(gameState: GameState, action: Action): GameState {
     
     default:
       return gameState;
+  }
+}
+
+const getLoseJSX = (newTopScore?: number, newTopRows?: number, newTopLevel?: number) => {
+  if (!newTopScore && !newTopRows && !newTopLevel) {
+    return (
+      <div className="grid-message shadow glow-border-fuschia flex-row flex-align-center lose-message">
+        <span>YOU LOST!</span>
+        <FontAwesomeIcon icon={faFrown} size='2x' className='sad-icon' />
+      </div>
+    );
+  } else {
+    return (
+      <div className="grid-message shadow glow-border-green flex-column flex-align-center new-high-message">
+        <span>HIGH SCORE!</span>
+        <div className='new-high-data-container'>
+          {newTopScore &&
+            <div className='flex-row flex-between'>
+              <div className='new-high-label'>NEW HIGH SCORE:</div>
+              <div className='new-high-data glow-text-white'>{newTopScore}</div>
+            </div>
+          }
+          {newTopRows &&
+            <div className='flex-row flex-between'>
+              <div className='new-high-label'>NEW HIGH ROW COUNT:</div>
+              <div className='new-high-data glow-text-white'>{newTopRows}</div>
+            </div>
+          }
+          {newTopLevel &&
+            <div className='flex-row flex-between'>
+              <div className='new-high-label'>NEW HIGH LEVEL:</div>
+              <div className='new-high-data glow-text-white'>{newTopLevel}</div>
+            </div>
+          }
+        </div>
+      </div>
+    );
   }
 }
 

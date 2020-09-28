@@ -15,6 +15,7 @@ import { forkJoin, fromEvent, interval, Subject } from "rxjs";
 import { takeUntil, filter, take } from "rxjs/operators";
 import { RotationDirection } from "../models/rotation-direction";
 import { FromEventTarget } from "rxjs/internal/observable/fromEvent";
+import { UserData } from "../models/user-data";
 
 export class GameCore {
   private gameState: any;
@@ -30,7 +31,8 @@ export class GameCore {
         keyboardInputKeys: gameState.keyboardInputKeys,
         startLevel: gameState.startLevel,
         rowsCleared: gameState.rowsCleared,
-        currentLevel: gameState.currentLevel
+        currentLevel: gameState.currentLevel,
+        score: gameState.score
       }
     })
     .subscribe(gameState => this.gameState = gameState);
@@ -71,7 +73,7 @@ export class GameCore {
         break;
 
       case TickStep.EndGame:
-        this.stateManager.dispatch(new EndGame());
+        this.checkScoresAndEndGame();
         break;
     }
   }
@@ -171,6 +173,55 @@ export class GameCore {
     else if (newTotalRowsCleared === initialIncrementLineCount) {
       this.stateManager.dispatch(new IncrementLevel());
     }
+  }
+
+  private checkScoresAndEndGame(): void {
+    const userData = this.getUserData();
+
+    const {
+      topLevel: previousTopLevel,
+      topScore: previousTopScore,
+      topRowsCleared: previousTopRows
+    } = userData;
+
+    const {
+      currentLevel,
+      score: currentScore,
+      rowsCleared: currentRowsCleared
+    } = this.gameState;
+
+    const newTopScore = currentScore > previousTopScore ? currentScore : null;
+    const newTopRows = currentRowsCleared > previousTopRows ? currentRowsCleared : null;
+    const newTopLevel = currentLevel > previousTopLevel ? currentLevel : null;
+
+    this.setUserData(userData => {
+      return {
+        ...userData,
+        topLevel: newTopLevel ? newTopLevel : previousTopLevel,
+        topScore: newTopScore ? newTopScore : previousTopScore,
+        topRowsCleared: newTopRows ? newTopRows : previousTopRows,
+        gamesCompleted: userData.gamesCompleted + 1
+      }
+    });
+
+    this.stateManager.dispatch(new EndGame(newTopScore, newTopRows, newTopLevel));
+  }
+
+  public getUserData(): UserData {
+    const userDataAsString = window.localStorage.getItem('tetris-user-data');
+
+    if (userDataAsString) {
+      return JSON.parse(userDataAsString) as UserData;
+    } else {
+      const newUserData = new UserData();
+      this.setUserData(() => newUserData);
+      return newUserData;
+    }
+  }
+
+  public setUserData(setDataFn: (userData: UserData) => UserData): void {
+    const currentData = this.getUserData();
+    window.localStorage.setItem('tetris-user-data', JSON.stringify(setDataFn(currentData)));
   }
 
   private initActiveAndNextShape(grid: Grid): void {

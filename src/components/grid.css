@@ -40,9 +40,13 @@
 .new-high-data-container {
   font-size: 14px;
   margin-top: 10px;
+  font-weight: bold;
+}
+
+.new-high-data {
+  color: #ff0084;
 }
 
 .new-high-label {
   margin-right: 15px;
-  font-weight: bold;
 }

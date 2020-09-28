@@ -191,19 +191,19 @@ const getLoseJSX = (newTopScore?: number, newTopRows?: number, newTopLevel?: num
           {newTopScore &&
             <div className='flex-row flex-between'>
               <div className='new-high-label'>NEW HIGH SCORE:</div>
-              <div className='new-high-data glow-text-white'>{newTopScore}</div>
+              <div className='new-high-data'>{newTopScore}</div>
             </div>
           }
           {newTopRows &&
             <div className='flex-row flex-between'>
               <div className='new-high-label'>NEW HIGH ROW COUNT:</div>
-              <div className='new-high-data glow-text-white'>{newTopRows}</div>
+              <div className='new-high-data'>{newTopRows}</div>
             </div>
           }
           {newTopLevel &&
             <div className='flex-row flex-between'>
               <div className='new-high-label'>NEW HIGH LEVEL:</div>
-              <div className='new-high-data glow-text-white'>{newTopLevel}</div>
+              <div className='new-high-data'>{newTopLevel}</div>
             </div>
           }
         </div>

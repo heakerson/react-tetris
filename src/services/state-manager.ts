@@ -29,28 +29,28 @@ export default class StateManager {
   }
 
   public setComponentGameStateListener<TStateType>(getStateFn: (state: GameState) => TStateType): TStateType {
-    const currentValue = this.getGameStateSnapshot(getStateFn);
-    const [ stateValue, setNewValue ] = useState(currentValue);
+    const startValueSnapshot = this.getGameStateSnapshot(getStateFn);
+    const [ stateValue, setNewValue ] = useState(startValueSnapshot);
     const takeUntil$ = new Subject();
 
     useEffect(() => {
       let changed: boolean = false;
       const sub = this.selectGameState(getStateFn)
         .pipe(takeUntil(takeUntil$))
-        .subscribe((pieceOfState: TStateType) => {
+        .subscribe((updatedStateValue: TStateType) => {
 
-          changed = !_.isEqual(pieceOfState, stateValue);
+          changed = !_.isEqual(updatedStateValue, stateValue);
 
           if (changed) {
             sub.unsubscribe();
-            setNewValue(pieceOfState);
+            setNewValue(updatedStateValue);
           }
         });
 
       return changed ? () => { takeUntil$.next(); takeUntil$.complete(); } : () => {};
     }, [ stateValue ]);
     
-    return currentValue;
+    return startValueSnapshot;
   }
 
   // public updateGameState(setStateFn: (state: GameState) => GameState): void {
